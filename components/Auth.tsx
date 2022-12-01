@@ -4,9 +4,10 @@ import { supabase } from "../lib/supabase";
 import { Button, Input } from "react-native-elements";
 
 export default function Auth() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  console.log("SUPABASE:", supabase);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function signInWithEmail() {
     setLoading(true);
