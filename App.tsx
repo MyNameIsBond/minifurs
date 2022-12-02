@@ -5,7 +5,8 @@ import React, { useState, useEffect } from "react";
 import { Session } from "@supabase/supabase-js";
 import NavTab from "./components/NavTab";
 import Auth from "./screens/Auth";
-
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
@@ -19,7 +20,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!session ? <Auth /> : <NavTab />}
+      {!session ? (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Group>
+            <Stack.Screen name="Auth" component={Auth} />
+          </Stack.Group>
+        </Stack.Navigator>
+      ) : (
+        <NavTab />
+      )}
     </NavigationContainer>
   );
 }
