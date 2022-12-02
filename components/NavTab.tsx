@@ -11,6 +11,10 @@ import Favourite from "../screens/Favourite";
 import Card from "../screens/Card";
 const Tab = createMaterialBottomTabNavigator();
 
+interface IconProps {
+  color: string;
+}
+
 function NavTab() {
   return (
     <Tab.Navigator
@@ -23,14 +27,16 @@ function NavTab() {
         component={Home}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => <HomeIcon color={color} size={20} />,
+          tabBarIcon: ({ color }: IconProps) => (
+            <HomeIcon color={color} size={20} />
+          ),
         }}
       />
       <Tab.Screen
         name="Card"
         component={Card}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color }: IconProps) => (
             <ShoppingBagIcon color={color} size={20} />
           ),
         }}
@@ -39,14 +45,18 @@ function NavTab() {
         name="Favourite"
         component={Favourite}
         options={{
-          tabBarIcon: ({ color }) => <HeartIcon color={color} size={20} />,
+          tabBarIcon: ({ color }: IconProps) => (
+            <HeartIcon color={color} size={20} />
+          ),
         }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({ color }) => <UserIcon color={color} size={20} />,
+          tabBarIcon: ({ color }: IconProps) => (
+            <UserIcon color={color} size={20} />
+          ),
         }}
       />
     </Tab.Navigator>
