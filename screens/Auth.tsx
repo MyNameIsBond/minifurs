@@ -1,12 +1,11 @@
-import { Text, View } from "react-native";
-import React, { Component } from "react";
+import { Text, View, SafeAreaView } from "react-native";
 
-export default class Auth extends Component {
-  render() {
-    return (
+export default function Auth() {
+  return (
+    <SafeAreaView>
       <View>
         <Text>Auth</Text>
       </View>
-    );
-  }
+    </SafeAreaView>
+  );
 }

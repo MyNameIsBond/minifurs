@@ -1,12 +1,10 @@
 import "react-native-url-polyfill/auto";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./screens/Home";
 import { supabase } from "./lib/supabase";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Session } from "@supabase/supabase-js";
-import Profile from "./screens/Profile";
-const Stack = createNativeStackNavigator();
+import NavTab from "./components/NavTab";
+import Auth from "./screens/Auth";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -21,17 +19,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        {session ? (
-          <Stack.Screen name="Profile" component={Profile} props={session} />
-        ) : (
-          <Stack.Screen name="Home" component={Home} />
-        )}
-      </Stack.Navigator>
+      {!session ? <Auth /> : <NavTab />}
     </NavigationContainer>
   );
 }
