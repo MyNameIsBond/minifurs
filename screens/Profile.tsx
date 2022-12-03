@@ -5,11 +5,12 @@ import {
   Image,
   FlatList,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { Link } from "@react-navigation/native";
+import { Link, NavigationContainer } from "@react-navigation/native";
 
 import {
   ChevronRightIcon,
@@ -19,20 +20,21 @@ import {
   PhoneIcon,
   BellIcon,
 } from "react-native-heroicons/outline";
+import MyButton from "../components/reusables/MyButton";
 
-export default function Profile({}: {}): JSX.Element {
+export default function Profile({ navigation }: {}): JSX.Element {
   const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
   }, []);
-  const list: { title: string; icon: Element }[] = [
-    { title: "orders", icon: ShoppingBagIcon },
-    { title: "My Details", icon: NewspaperIcon },
-    { title: "Delivery Address", icon: MapPinIcon },
-    { title: "Notifications", icon: BellIcon },
-    { title: "Contact us", icon: PhoneIcon },
+  const list: { title: string; icon: Element; link: string }[] = [
+    { title: "orders", icon: ShoppingBagIcon, link: "Orders" },
+    { title: "My Details", icon: NewspaperIcon, link: "MyDetails" },
+    { title: "Delivery Address", icon: MapPinIcon, link: "DeliveryAddress" },
+    { title: "Notifications", icon: BellIcon, link: "Notifications" },
+    { title: "Contact us", icon: PhoneIcon, link: "ContactUs" },
   ];
 
   const icon = session?.user?.avatar_url
@@ -54,24 +56,23 @@ export default function Profile({}: {}): JSX.Element {
         </View>
       </View>
       {list.map((item) => (
-        <View
+        <TouchableOpacity
           key={item.title}
           className="px-5 flex-row py-5 space-x-4 items-center border-b border-gray-300"
+          onPress={() => {
+            navigation.navigate(item.title);
+          }}
         >
           <item.icon color="black" className="bg-gray-500" size={20} />
           <View className="flex-1">
-            <Link to={{ screen: "Orders" }}>
-              <Text className="font-semibold">{item.title}</Text>
-            </Link>
+            <Text className="font-semibold">{item.title}</Text>
           </View>
           <ChevronRightIcon color="black" size={20} />
-        </View>
+        </TouchableOpacity>
       ))}
-      <Button
-        title="Sign Out"
-        className="pt-10"
-        onPress={() => supabase.auth.signOut()}
-      />
+      <View className="pt-14 px-10">
+        <MyButton title="Sign Out" onPress={() => supabase.auth.signOut()} />
+      </View>
     </SafeAreaView>
   );
 }
