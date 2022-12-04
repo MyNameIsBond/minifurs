@@ -8,6 +8,11 @@ import Auth from "./screens/Authentication/Auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
+import Notifications from "./screens/Profile/Notifications";
+import ContactUs from "./screens/Profile/ContactUs";
+import Orders from "./screens/Orders";
+import MyDetails from "./screens/Profile/MyDetails";
+import DeliveryAddress from "./screens/Profile/DeliveryAddress";
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -32,7 +37,14 @@ export default function App() {
           </Stack.Group>
         </Stack.Navigator>
       ) : (
-        <NavTab />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={NavTab} />
+          <Stack.Screen name="Notifications" component={Notifications} />
+          <Stack.Screen name="ContactUs" component={ContactUs} />
+          <Stack.Screen name="Orders" component={Orders} />
+          <Stack.Screen name="MyDetails" component={MyDetails} />
+          <Stack.Screen name="DeliveryAddress" component={DeliveryAddress} />
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );
