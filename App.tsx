@@ -38,7 +38,7 @@ export default function App() {
         </Stack.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={NavTab} />
+          <Stack.Screen name="Nav" component={NavTab} />
           <Stack.Screen name="Notifications" component={Notifications} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
           <Stack.Screen name="Orders" component={Orders} />
