@@ -13,18 +13,32 @@ import ContactUs from "./screens/Profile/ContactUs";
 import Orders from "./screens/Orders";
 import MyDetails from "./screens/Profile/MyDetails";
 import DeliveryAddress from "./screens/Profile/DeliveryAddress";
+import { ActivityIndicator, View } from "react-native";
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      setLoading(true);
       setSession(session);
+      setLoading(false);
     });
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      setLoading(true);
       setSession(session);
+      setLoading(false);
     });
   }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
