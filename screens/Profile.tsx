@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { Link, NavigationContainer } from "@react-navigation/native";
 
 import {
   ChevronRightIcon,

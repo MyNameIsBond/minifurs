@@ -1,21 +1,16 @@
-import React from "react";
-import { ImageBackground, SafeAreaView, Text, View } from "react-native";
+import { useState } from "react";
+
+import HomeBody from "../components/home/HomeBody";
+import HomeSceleton from "../components/home/HomeSceleton";
 
 export default function Home({}) {
+  const [search, setSearch] = useState("");
+
   return (
     <>
-      <View className="">
-        <ImageBackground
-          resizeMode="cover"
-          source={require("../assets/homebg.png")}
-          style={{ opacity: 0.2 }}
-        >
-          <SafeAreaView>
-            <Text className="text-2xl">Set up your space easily</Text>
-          </SafeAreaView>
-        </ImageBackground>
-      </View>
-      <Text>from Home</Text>
+      <HomeSceleton search={search} setSearch={setSearch}>
+        <HomeBody />
+      </HomeSceleton>
     </>
   );
 }
