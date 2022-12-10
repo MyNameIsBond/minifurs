@@ -6,29 +6,23 @@ import { supabase } from "../lib/supabase";
 
 export default function Home({}) {
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[] | null>([]);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  const fetchProducts = () => {
-    supabase
+  const fetchProducts = async () => {
+    const { data: product, error } = await supabase
       .from("products")
-      .select("*")
-      .then(({ data, error }) => {
-        if (error) {
-          console.error(error);
-        } else {
-          setProducts(data);
-        }
-      });
+      .select("*");
+    setProducts(product);
   };
 
   return (
     <>
       <HomeSceleton search={search} setSearch={setSearch}>
-        <HomeBody products={[]} />
+        <HomeBody products={products} />
       </HomeSceleton>
     </>
   );
