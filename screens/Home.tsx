@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import HomeBody from "../components/home/HomeBody";
 import HomeSceleton from "../components/home/HomeSceleton";
+import ChairSvg from "../components/home/svg/ChairSvg";
 import { supabase } from "../lib/supabase";
 
 export default function Home({}) {
@@ -22,6 +23,7 @@ export default function Home({}) {
   return (
     <>
       <HomeSceleton search={search} setSearch={setSearch}>
+        <ChairSvg />
         <HomeBody products={products} />
       </HomeSceleton>
     </>
