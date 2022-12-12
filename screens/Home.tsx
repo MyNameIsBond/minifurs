@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CategoriesSlider from "../components/home/CategoriesSlider";
 
 import HomeBody from "../components/home/HomeBody";
 import HomeSceleton from "../components/home/HomeSceleton";
@@ -23,7 +24,7 @@ export default function Home({}) {
   return (
     <>
       <HomeSceleton search={search} setSearch={setSearch}>
-        <ChairSvg />
+        <CategoriesSlider />
         <HomeBody products={products} />
       </HomeSceleton>
     </>

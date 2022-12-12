@@ -52,7 +52,9 @@ export default function HomeSceleton({
           </SafeAreaView>
         </ImageBackground>
       </View>
-      {children}
+      <View className="rounded-t-3xl px-4 pt-10 -mt-5 bg-gray-50">
+        {children}
+      </View>
     </>
   );
 }

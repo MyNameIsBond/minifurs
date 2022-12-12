@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
-import CategoriesSlider from "./CategoriesSlider";
+import { View } from "react-native";
+
 import HomeCard from "./HomeCard";
 
 export default function HomeBody({
@@ -8,8 +8,7 @@ export default function HomeBody({
   products: any[] | null;
 }): JSX.Element {
   return (
-    <View className="rounded-t-3xl px-4 pt-10 -mt-5 bg-gray-50">
-      <CategoriesSlider />
+    <View>
       {products.map((product) => (
         <HomeCard product={product} />
       ))}
