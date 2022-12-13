@@ -1,5 +1,5 @@
 import { View } from "react-native";
-
+import CardDisplaySceleton from "./CardDisplaySceleton";
 import HomeCard from "./HomeCard";
 
 export default function HomeBody({
@@ -8,10 +8,10 @@ export default function HomeBody({
   products: any[] | null;
 }): JSX.Element {
   return (
-    <View>
+    <CardDisplaySceleton title="latest relese">
       {products.map((product) => (
         <HomeCard product={product} />
       ))}
-    </View>
+    </CardDisplaySceleton>
   );
 }
