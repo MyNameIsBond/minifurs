@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import CardDisplaySceleton from "./CardDisplaySceleton";
 import HomeCard from "./HomeCard";
 

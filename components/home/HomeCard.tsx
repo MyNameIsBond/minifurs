@@ -6,23 +6,30 @@ export default function Homeard({
 }: {
   product: any[] | null;
 }): JSX.Element {
-  const { title, price, profile_pic, images } = product;
+  const { title, price, images } = product;
+  const keys = Object.keys(images);
+  const [displayImages] = keys.map((key) => images[key]);
   const { width } = Dimensions.get("window");
   const height = width * 0.3;
+  const mywidth = width * 0.4;
   return (
-    <View className="">
+    <View className="p-4 bg-gray-50 w-32">
       <ScrollView
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        className="w-40 h-40"
+        style={{ width: mywidth, height }}
       >
-        {images.black.map((image) => {
-          return <Image source={{ uri: image }} className="w-40 h-40" />;
-        })}
+        {displayImages.map((image: []) => (
+          <Image
+            source={{ uri: image }}
+            className="rounded-2xl"
+            style={{ width: mywidth, height }}
+          />
+        ))}
       </ScrollView>
-      <Text>{title}</Text>
-      <Text className="text-xl">{JSON.stringify(images.black)}</Text>
+      <Text className="pt-1 text-gray-600 text-base">{title}</Text>
+      <Text className="text-xl font-bold">£{price}</Text>
     </View>
   );
 }

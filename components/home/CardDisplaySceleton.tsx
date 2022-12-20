@@ -2,7 +2,13 @@ import { View, Text } from "react-native";
 import React from "react";
 import { ArrowLongRightIcon } from "react-native-heroicons/outline";
 
-export default function CardDisplaySceleton({ title, children }) {
+export default function CardDisplaySceleton({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <View>
       <View className="flex-row justify-between px-4">
@@ -12,7 +18,7 @@ export default function CardDisplaySceleton({ title, children }) {
           <ArrowLongRightIcon color="#E68314" />
         </View>
       </View>
-      <View>{children}</View>
+      <View className="">{children}</View>
     </View>
   );
 }
