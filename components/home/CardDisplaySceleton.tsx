@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import { ReactNode } from "react";
 import { ArrowLongRightIcon } from "react-native-heroicons/outline";
 
 export default function CardDisplaySceleton({
@@ -7,7 +7,7 @@ export default function CardDisplaySceleton({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <View>
@@ -18,7 +18,7 @@ export default function CardDisplaySceleton({
           <ArrowLongRightIcon color="#E68314" />
         </View>
       </View>
-      <View className="">{children}</View>
+      <View className="grid grid-cols-2">{children}</View>
     </View>
   );
 }
