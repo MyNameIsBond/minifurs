@@ -12,8 +12,9 @@ export default function Homeard({
   const { width } = Dimensions.get("window");
   const height = width * 0.3;
   const mywidth = width * 0.4;
+  const midwidth = width * 0.5;
   return (
-    <View className="p-4 bg-gray-50 w-32">
+    <View className="p-4 bg-gray-50" style={{ width: midwidth }}>
       <ScrollView
         horizontal
         pagingEnabled

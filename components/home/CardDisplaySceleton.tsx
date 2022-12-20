@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { ReactNode } from "react";
 import { ArrowLongRightIcon } from "react-native-heroicons/outline";
 
@@ -18,7 +18,15 @@ export default function CardDisplaySceleton({
           <ArrowLongRightIcon color="#E68314" />
         </View>
       </View>
-      <View className="grid grid-cols-2">{children}</View>
+      <View style={styles.container}>{children}</View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+});
