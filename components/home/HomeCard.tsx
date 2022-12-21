@@ -13,7 +13,7 @@ export default function Homeard({
 }: {
   product: any[] | null;
 }): JSX.Element {
-  const { title, price, images } = product;
+  const { title, price, images, id } = product;
   const keys = Object.keys(images);
   const [displayImages] = keys.map((key) => images[key]);
   const { width } = Dimensions.get("window");
@@ -39,8 +39,7 @@ export default function Homeard({
       </ScrollView>
       <TouchableOpacity
         onPress={(e) => {
-          e.preventDefault();
-          console.log("PRESSED!");
+          console.log(e);
         }}
       >
         <Text

@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import PopularSvg from "./svg/PopularSvg";
 import ChairSvg from "./svg/ChairSvg";
@@ -21,13 +21,15 @@ export default function CategoriesSlider() {
     const Icon = item.icon;
     return (
       <View className="flex-col mr-3 items-center gap-y-2 w-20">
-        <View
-          className={`${
-            item.title === "Popular" ? "bg-accent-orange" : "bg-gray-200"
-          } flex flex-col items-center justify-center origin-center w-14 h-14 rounded-2xl`}
-        >
-          <Icon />
-        </View>
+        <TouchableOpacity>
+          <View
+            className={`${
+              item.title === "Popular" ? "bg-accent-orange" : "bg-gray-200"
+            } flex flex-col items-center justify-center origin-center w-14 h-14 rounded-2xl`}
+          >
+            <Icon />
+          </View>
+        </TouchableOpacity>
         <Text>{item.title}</Text>
       </View>
     );
