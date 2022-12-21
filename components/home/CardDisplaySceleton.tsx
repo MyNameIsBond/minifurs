@@ -10,7 +10,7 @@ export default function CardDisplaySceleton({
   children: ReactNode;
 }) {
   return (
-    <View>
+    <View className="bg-gray-100">
       <View className="flex-row justify-between px-4">
         <Text className="capitalize font-bold text-xl">{title}</Text>
         <View className="flex-row items-center gap-x-2">
@@ -18,7 +18,9 @@ export default function CardDisplaySceleton({
           <ArrowLongRightIcon color="#E68314" />
         </View>
       </View>
-      <View style={styles.container}>{children}</View>
+      <View className="px-3 bg-gray-100" style={styles.container}>
+        {children}
+      </View>
     </View>
   );
 }

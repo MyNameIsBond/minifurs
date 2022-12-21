@@ -1,4 +1,11 @@
-import { View, Text, Image, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 
 export default function Homeard({
@@ -14,7 +21,7 @@ export default function Homeard({
   const mywidth = width * 0.4;
   const midwidth = width * 0.4;
   return (
-    <View className="bg-gray-500 m-4">
+    <View className="bg-gray-50 shadow-xl p-3 my-1 rounded-2xl">
       <ScrollView
         horizontal
         pagingEnabled
@@ -30,13 +37,20 @@ export default function Homeard({
           />
         ))}
       </ScrollView>
-      <Text
-        className="pt-1 text-gray-600 text-base"
-        style={{ width: midwidth }}
+      <TouchableOpacity
+        onPress={(e) => {
+          e.preventDefault();
+          console.log("PRESSED!");
+        }}
       >
-        {title}
-      </Text>
-      <Text className="text-xl font-bold">£{price}</Text>
+        <Text
+          className="pt-1 text-gray-600 text-base"
+          style={{ width: midwidth }}
+        >
+          {title}
+        </Text>
+        <Text className="text-lg font-bold">£{price}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
