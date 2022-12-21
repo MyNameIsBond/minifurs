@@ -1,32 +1,31 @@
-import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
-import CategoriesSlider from "../components/home/CategoriesSlider";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Category from "./Home/Category";
+import HomePage from "./Home/HomePage";
+import Search from "./Home/Search";
 
-import HomeBody from "../components/home/HomeBody";
-import HomeSceleton from "../components/home/HomeSceleton";
-import { supabase } from "../lib/supabase";
-
-export default function Home({}) {
-  const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<any[] | null>([]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    const { data: product, error } = await supabase
-      .from("products")
-      .select("*");
-    setProducts(product);
-  };
-
+const Stack = createNativeStackNavigator();
+export default function Profile() {
   return (
-    <ScrollView>
-      <HomeSceleton search={search} setSearch={setSearch}>
-        <CategoriesSlider />
-        <HomeBody products={products} />
-      </HomeSceleton>
-    </ScrollView>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomePage" component={HomePage} />
+      <Stack.Group screenOptions={{ headerShown: true }}>
+        <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen
+          options={({ route }) => ({
+            headerTitle: "Category",
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+            headerBlurEffect: "systemMaterial",
+            headerIconColor: "red",
+            headerTitleStyle: {
+              color: "#284F49",
+              fontSize: 20,
+            },
+          })}
+          name="Category"
+          component={Category}
+        />
+      </Stack.Group>
+    </Stack.Navigator>
   );
 }

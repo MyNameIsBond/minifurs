@@ -8,12 +8,8 @@ import Auth from "./screens/Authentication/Auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
-import Notifications from "./screens/Profile/Notifications";
-import ContactUs from "./screens/Profile/ContactUs";
-import Orders from "./screens/Orders";
-import MyDetails from "./screens/Profile/MyDetails";
-import DeliveryAddress from "./screens/Profile/DeliveryAddress";
 import { ActivityIndicator, View } from "react-native";
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -54,11 +50,6 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Group screenOptions={{ presentation: "modal" }}>
             <Stack.Screen name="Nav" component={NavTab} />
-            <Stack.Screen name="Orders" component={Orders} />
-            <Stack.Screen name="MyDetails" component={MyDetails} />
-            <Stack.Screen name="DeliveryAddress" component={DeliveryAddress} />
-            <Stack.Screen name="Notifications" component={Notifications} />
-            <Stack.Screen name="ContactUs" component={ContactUs} />
           </Stack.Group>
         </Stack.Navigator>
       )}

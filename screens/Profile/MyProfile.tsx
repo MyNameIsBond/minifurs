@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
-import { Link, NavigationContainer } from "@react-navigation/native";
 
 import {
   ChevronRightIcon,
@@ -23,10 +22,15 @@ import MyButton from "../../components/reusables/MyButton";
 export default function Profile({ navigation }: {}): JSX.Element {
   const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
-  }, []);
+  };
+
   const list: { title: string; icon: Element; link: string }[] = [
     { title: "orders", icon: ShoppingBagIcon, link: "Orders" },
     { title: "My Details", icon: NewspaperIcon, link: "MyDetails" },

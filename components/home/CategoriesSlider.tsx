@@ -6,8 +6,10 @@ import WorkstationSvg from "./svg/WorkstationSvg";
 import OfficeSvg from "./svg/OfficeSvg";
 import SofaSvg from "./svg/SofaSvg";
 import BedSvg from "./svg/BedSvg";
+import { useNavigation } from "@react-navigation/native";
 
-export default function CategoriesSlider() {
+export default function CategoriesSlider({}): JSX.Element {
+  const navigation = useNavigation();
   const categories = [
     { title: "Popular", icon: PopularSvg },
     { title: "Chair", icon: ChairSvg },
@@ -21,7 +23,11 @@ export default function CategoriesSlider() {
     const Icon = item.icon;
     return (
       <View className="flex-col mr-3 items-center gap-y-2 w-20">
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={(e) => {
+            navigation.navigate("Category", { category: item.title });
+          }}
+        >
           <View
             className={`${
               item.title === "Popular" ? "bg-accent-orange" : "bg-gray-200"

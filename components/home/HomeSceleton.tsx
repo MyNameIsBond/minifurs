@@ -37,7 +37,7 @@ export default function HomeSceleton({
                 <TextInput
                   className="border min-w-full py-4 pr-2 pl-10 rounded-xl border-green-900 border-opacity-80 backdrop-blur-lg bg-gray-50"
                   placeholder="search"
-                  onChangeText={(text) => setSearch(text)}
+                  onChangeText={setSearch}
                   value={search}
                 />
                 <View className="absolute left-0 top-0 h-full w-10 flex items-center justify-center">

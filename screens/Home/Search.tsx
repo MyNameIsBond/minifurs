@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function Orders() {
+export default function Search({ route, navigation }: {}): JSX.Element {
   return (
     <View>
-      <Text>Orders</Text>
+      <Text>Search</Text>
     </View>
   );
 }

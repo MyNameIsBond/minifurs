@@ -33,7 +33,7 @@ export default function MyAuth() {
     >
       <TextInput
         className="border py-4 px-2 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={setEmail}
         value={email}
         placeholder="email@address.com"
         autoCapitalize={"none"}
@@ -41,7 +41,7 @@ export default function MyAuth() {
       <View className="relative">
         <TextInput
           className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={setPassword}
           value={password}
           secureTextEntry={showPassword}
           placeholder="password"
