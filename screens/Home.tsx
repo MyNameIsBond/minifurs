@@ -16,7 +16,6 @@ export default function Profile() {
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerBlurEffect: "systemMaterial",
-            headerIconColor: "red",
             headerTitleStyle: {
               color: "#284F49",
               fontSize: 20,
