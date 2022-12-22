@@ -11,7 +11,8 @@ export default function Category({ navigation, route }): JSX.Element {
       const { data: products, error } = await supabase
         .from("products")
         .select("*")
-        .in("categories", [category.toLowerCase(), "living room"]);
+        .in("categories", [category])
+        .cs("array_column", ["array", "contains"]);
       if (products) {
         setProducts(products);
       }
