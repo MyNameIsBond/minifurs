@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Homeard({
   product,
@@ -20,6 +21,7 @@ export default function Homeard({
   const height = width * 0.3;
   const mywidth = width * 0.4;
   const midwidth = width * 0.4;
+  const navigation = useNavigation();
   return (
     <View className="bg-gray-50 shadow-xl p-3 my-1 rounded-2xl">
       <ScrollView
@@ -39,7 +41,7 @@ export default function Homeard({
       </ScrollView>
       <TouchableOpacity
         onPress={(e) => {
-          console.log("HomeCard");
+          navigation.navigate("Product", { id });
         }}
       >
         <Text

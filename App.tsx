@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
 import { ActivityIndicator, View } from "react-native";
+import Product from "./screens/Product/Product";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -48,8 +49,9 @@ export default function App() {
         </Stack.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Group screenOptions={{ presentation: "modal" }}>
+          <Stack.Group>
             <Stack.Screen name="Nav" component={NavTab} />
+            <Stack.Screen name="Product" component={Product} />
           </Stack.Group>
         </Stack.Navigator>
       )}
