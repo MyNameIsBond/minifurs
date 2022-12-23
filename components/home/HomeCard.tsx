@@ -39,7 +39,7 @@ export default function Homeard({
       </ScrollView>
       <TouchableOpacity
         onPress={(e) => {
-          console.log(e);
+          console.log("HomeCard");
         }}
       >
         <Text

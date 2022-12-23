@@ -9,10 +9,23 @@ export default function Profile() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Group screenOptions={{ headerShown: true }}>
-        <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen
+          name="Search"
+          options={({ route }) => ({
+            headerTitle: route.params.search,
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+            headerBlurEffect: "systemMaterial",
+            headerTitleStyle: {
+              color: "#284F49",
+              fontSize: 20,
+            },
+          })}
+          component={Search}
+        />
         <Stack.Screen
           options={({ route }) => ({
-            headerTitle: "Category",
+            headerTitle: route.params.category,
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerBlurEffect: "systemMaterial",

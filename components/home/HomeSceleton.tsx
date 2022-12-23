@@ -7,6 +7,7 @@ import {
   TextInput,
 } from "react-native";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeSceleton({
   children,
@@ -17,6 +18,7 @@ export default function HomeSceleton({
   search: string;
   setSearch: (text: string) => void;
 }): JSX.Element {
+  const navigation = useNavigation();
   return (
     <>
       <View className="bg-accent-green">
@@ -39,6 +41,9 @@ export default function HomeSceleton({
                   placeholder="search"
                   onChangeText={setSearch}
                   value={search}
+                  onSubmitEditing={() =>
+                    navigation.navigate("Search", { search })
+                  }
                 />
                 <View className="absolute left-0 top-0 h-full w-10 flex items-center justify-center">
                   <MagnifyingGlassIcon
