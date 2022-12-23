@@ -13,6 +13,7 @@ import { supabase } from "../../lib/supabase";
 export default function Product({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState<any[] | null>([]);
+  const [displayImages, setDisplayImages] = useState<any[] | null>([]);
   const { id } = route.params;
 
   const { width } = Dimensions.get("window");
@@ -26,6 +27,7 @@ export default function Product({ route }) {
         .eq("id", id);
       const keys = Object.keys(product[0]?.images);
       setProduct({ keys, ...product[0] });
+      setDisplayImages(keys.map((key) => product[0]?.images[key]));
     } catch (error) {
       console.error(error);
     }
@@ -49,7 +51,9 @@ export default function Product({ route }) {
         >
           <ArrowLeftIcon color="white" />
         </TouchableOpacity>
-        {product && <Text>{JSON.stringify(product?.images)}</Text>}
+        {product && (
+          <Text>{JSON.stringify(product?.images[product.keys[0]])}</Text>
+        )}
         {product && <Text>{JSON.stringify(product?.keys)}</Text>}
       </SafeAreaView>
     </View>
