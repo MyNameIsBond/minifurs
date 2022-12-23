@@ -29,7 +29,6 @@ export default function Homeard({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         style={{ width: mywidth, height }}
-        className=""
       >
         {displayImages.map((image: []) => (
           <Image
