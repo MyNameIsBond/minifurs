@@ -1,9 +1,26 @@
-import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
-import React from "react";
+import { View, TouchableOpacity, SafeAreaView, Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
+import { supabase } from "../../lib/supabase";
 export default function Product({ route }) {
+  const [product, setProduct] = useState<any[] | null>([]);
   const navigation = useNavigation();
+  const { id } = route.params;
+  const fetchProduct = async () => {
+    try {
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id);
+      setProduct(product);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchProduct();
+  }, []);
   return (
     <View>
       <SafeAreaView>
@@ -13,8 +30,8 @@ export default function Product({ route }) {
         >
           <ArrowLeftIcon color="white" />
         </TouchableOpacity>
+        {product && <Text>{JSON.stringify(product)}</Text>}
       </SafeAreaView>
-      <Text>{route.params.id}</Text>
     </View>
   );
 }
