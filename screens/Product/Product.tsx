@@ -30,7 +30,7 @@ export default function Product({ route }) {
         >
           <ArrowLeftIcon color="white" />
         </TouchableOpacity>
-        {product && <Text>{JSON.stringify(product)}</Text>}
+        {product && <Text>{product[0]?.title}</Text>}
       </SafeAreaView>
     </View>
   );
