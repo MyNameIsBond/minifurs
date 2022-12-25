@@ -1,10 +1,4 @@
-import {
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  Text,
-  Button,
-} from "react-native";
+import { View, TouchableOpacity, Text, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon, HeartIcon } from "react-native-heroicons/outline";
@@ -89,7 +83,7 @@ export default function Product({ route }) {
             <TouchableOpacity onPress={(e) => setDisplayColour(colour)}>
               <View
                 style={{ backgroundColor: colour }}
-                className={`p-2 h-6 w-6 rounded-full m-1 ${
+                className={`p-2 h-6 w-6 rounded-full shadow m-1 ${
                   colour === displayColour ? "border-4 border-gray-300" : null
                 }`}
               />

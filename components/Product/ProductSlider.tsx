@@ -1,10 +1,4 @@
-import {
-  ScrollView,
-  Dimensions,
-  Image,
-  Text,
-  SafeAreaView,
-} from "react-native";
+import { ScrollView, Dimensions, Image } from "react-native";
 import { useEffect, useState } from "react";
 
 export default function ProductSlider({ images, colours, displayColour }) {
