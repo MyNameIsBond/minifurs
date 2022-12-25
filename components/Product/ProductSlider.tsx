@@ -1,5 +1,4 @@
 import { ScrollView, Dimensions, Image } from "react-native";
-import { useEffect, useState } from "react";
 
 export default function ProductSlider({ images, colours, displayColour }) {
   const { width } = Dimensions.get("window");
@@ -9,11 +8,11 @@ export default function ProductSlider({ images, colours, displayColour }) {
       horizontal={true}
       pagingEnabled
       showsHorizontalScrollIndicator={false}
-      style={{ width: width, height }}
+      style={{ width, height }}
     >
       {images &&
         images[displayColour]?.map((image: string) => (
-          <Image source={{ uri: image }} style={{ width: width, height }} />
+          <Image source={{ uri: image }} style={{ width, height }} />
         ))}
     </ScrollView>
   );

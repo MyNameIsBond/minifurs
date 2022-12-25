@@ -5,6 +5,7 @@ import { ArrowLeftIcon, HeartIcon } from "react-native-heroicons/outline";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { supabase } from "../../lib/supabase";
 import ProductSlider from "../../components/Product/ProductSlider";
+import DescriptionSection from "../../components/Product/DescriptionSection";
 export default function Product({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState<any[] | null>([]);
@@ -90,6 +91,10 @@ export default function Product({ route }) {
             </TouchableOpacity>
           ))}
         </View>
+        <DescriptionSection
+          reviews={product?.reviews}
+          description={product?.description}
+        />
       </View>
     </View>
   );
