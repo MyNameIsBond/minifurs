@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Homeard({
+export default function HomeCard({
   product,
 }: {
   product: any[] | null;
@@ -23,15 +23,16 @@ export default function Homeard({
   const midwidth = width * 0.4;
   const navigation = useNavigation();
   return (
-    <View className="bg-gray-50 shadow-xl p-3 my-1 rounded-2xl">
+    <View className="bg-gray-50 shadow p-2 my-1 rounded-2xl">
       <ScrollView
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         style={{ width: mywidth, height }}
       >
-        {displayImages.map((image: []) => (
+        {displayImages.map((image: string) => (
           <Image
+            key={image}
             source={{ uri: image }}
             className="rounded-2xl"
             style={{ width: mywidth, height }}

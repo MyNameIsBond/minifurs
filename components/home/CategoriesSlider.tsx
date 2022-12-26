@@ -43,7 +43,9 @@ export default function CategoriesSlider({}): JSX.Element {
 
   return (
     <FlatList
+      pagingEnabled
       horizontal
+      showsHorizontalScrollIndicator={false}
       data={categories}
       renderItem={renderItem}
       keyExtractor={(item) => item.title}

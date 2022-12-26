@@ -6,8 +6,8 @@ export default function Reviews({ reviews }: { reviews: any[] | null }) {
   return (
     <View className="p-4">
       {reviews && reviews.length > 0 ? (
-        reviews.map((review) => (
-          <View className="">
+        reviews.map((review, key) => (
+          <View key={key}>
             <View className="flex-row items-center gap-x-3 pb-1">
               <Image
                 className="h-8 w-8 border-2 border-gray-600 rounded-full"

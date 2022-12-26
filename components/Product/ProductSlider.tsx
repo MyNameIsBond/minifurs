@@ -12,7 +12,11 @@ export default function ProductSlider({ images, colours, displayColour }) {
     >
       {images &&
         images[displayColour]?.map((image: string) => (
-          <Image source={{ uri: image }} style={{ width, height }} />
+          <Image
+            key={image}
+            source={{ uri: image }}
+            style={{ width, height }}
+          />
         ))}
     </ScrollView>
   );

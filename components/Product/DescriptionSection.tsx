@@ -9,9 +9,9 @@ export default function DescriptionSection({
   reviews: any[] | null;
   description: any[] | null;
 }) {
-  const [showreview, setShowReview] = useState<boolean>(false);
+  const [showreview, setShowReview] = useState<boolean>(true);
   return (
-    <View>
+    <View className="p-4">
       <View className="flex-row gap-x-3 py-5">
         <TouchableOpacity
           className="p-4 rounded-xl"
@@ -47,7 +47,7 @@ export default function DescriptionSection({
         </TouchableOpacity>
       </View>
       {showreview ? (
-        <Text className="text-gray-600">{description.description}</Text>
+        <Text className="text-gray-600">{description?.description}</Text>
       ) : (
         <Reviews reviews={reviews} />
       )}

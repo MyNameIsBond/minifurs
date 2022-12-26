@@ -33,7 +33,7 @@ function NavTab() {
         }}
       />
       <Tab.Screen
-        name="Card"
+        name="Basket"
         component={Card}
         options={{
           tabBarIcon: ({ color }: IconProps) => (

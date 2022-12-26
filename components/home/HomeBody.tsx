@@ -8,8 +8,8 @@ export default function HomeBody({
 }): JSX.Element {
   return (
     <CardDisplaySceleton title="latest relese">
-      {products.map((product) => (
-        <HomeCard product={product} />
+      {products.slice(0, 4).map((product) => (
+        <HomeCard key={product.id} product={product} />
       ))}
     </CardDisplaySceleton>
   );

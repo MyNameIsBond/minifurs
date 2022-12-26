@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Category from "./Home/Category";
 import HomePage from "./Home/HomePage";
 import Search from "./Home/Search";
+import SeeAll from "./SeeAll";
 
 const Stack = createNativeStackNavigator();
 export default function Profile() {
@@ -36,6 +37,20 @@ export default function Profile() {
           })}
           name="Category"
           component={Category}
+        />
+        <Stack.Screen
+          options={({ route }) => ({
+            headerTitle: route.params.title,
+            headerBackTitleVisible: false,
+            headerTransparent: true,
+            headerBlurEffect: "systemMaterial",
+            headerTitleStyle: {
+              color: "#284F49",
+              fontSize: 20,
+            },
+          })}
+          name="SeeAll"
+          component={SeeAll}
         />
       </Stack.Group>
     </Stack.Navigator>

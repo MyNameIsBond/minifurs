@@ -1,4 +1,11 @@
-import { View, TouchableOpacity, Text, Button } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Button,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon, HeartIcon } from "react-native-heroicons/outline";
@@ -6,6 +13,8 @@ import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { supabase } from "../../lib/supabase";
 import ProductSlider from "../../components/Product/ProductSlider";
 import DescriptionSection from "../../components/Product/DescriptionSection";
+import { ShoppingCartIcon } from "react-native-heroicons/outline";
+
 export default function Product({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState<any[] | null>([]);
@@ -32,70 +41,88 @@ export default function Product({ route }) {
   }, []);
   return (
     <View className="relative">
-      <ProductSlider
-        images={product?.images}
-        colours={product?.colours}
-        displayColour={displayColour}
-      />
-      <TouchableOpacity
-        className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
-        onPress={() => navigation.goBack()}
-      >
-        <ArrowLeftIcon color="white" />
-      </TouchableOpacity>
-      <View className="p-4">
-        <View className="flex-row justify-between items-center">
-          <Text className="text-2xl font-bold capitalize">
-            {product?.title}
-          </Text>
-          <TouchableOpacity
-            onPress={(e) => setIsFavourite(!isFavourite)}
-            className="p-3 bg-gray-200 rounded-full"
-          >
-            {isFavourite ? (
-              <HeartIconSolid color="#ba385c" />
-            ) : (
-              <HeartIcon color="#ba385c" />
-            )}
-          </TouchableOpacity>
+      <ScrollView className="h-full">
+        <ProductSlider
+          images={product?.images}
+          colours={product?.colours}
+          displayColour={displayColour}
+        />
+        <TouchableOpacity
+          className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
+          onPress={() => navigation.goBack()}
+        >
+          <ArrowLeftIcon color="white" />
+        </TouchableOpacity>
+        <View className="">
+          <View className="flex-row justify-between items-center p-4">
+            <Text className="text-2xl font-bold capitalize">
+              {product?.title}
+            </Text>
+            <TouchableOpacity
+              onPress={(e) => setIsFavourite(!isFavourite)}
+              className="p-3 bg-gray-200 rounded-full"
+            >
+              {isFavourite ? (
+                <HeartIconSolid color="#ba385c" />
+              ) : (
+                <HeartIcon color="#ba385c" />
+              )}
+            </TouchableOpacity>
+          </View>
+          <View className="flex-row justify-between px-4">
+            <Text className="text-2xl font-bold text-accent-orange">
+              £{product?.price}
+            </Text>
+            <View className="flex-row items-center">
+              <Button
+                title="-"
+                color={"#ba385c"}
+                disabled={addToBasketNum === 1}
+                onPress={(e) => setAddToBasketNum(addToBasketNum - 1)}
+              />
+              <Text className="px-3">{addToBasketNum}</Text>
+              <Button
+                title="+"
+                color={"#ba385c"}
+                disabled={addToBasketNum === product?.quantity}
+                onPress={(e) => setAddToBasketNum(addToBasketNum + 1)}
+              />
+            </View>
+          </View>
+
+          <View className="flex-row px-4">
+            {colours?.map((colour: string) => (
+              <TouchableOpacity
+                key={colour}
+                onPress={(e) => setDisplayColour(colour)}
+              >
+                <View
+                  style={{ backgroundColor: colour }}
+                  className={`p-2 h-6 w-6 rounded-full shadow m-1 ${
+                    colour === displayColour ? "border-4 border-gray-300" : null
+                  }`}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+          <DescriptionSection
+            reviews={product?.reviews}
+            description={product?.description}
+          />
         </View>
-        <View className="flex-row py-3 justify-between">
-          <Text className="text-2xl font-bold text-accent-orange">
-            £{product?.price}
-          </Text>
-          <View className="flex-row items-center">
-            <Button
-              title="+"
-              color={"#ba385c"}
-              onPress={(e) => setAddToBasketNum(addToBasketNum + 1)}
-            />
-            <Text className="px-3">{addToBasketNum}</Text>
-            <Button
-              title="-"
-              color={"#ba385c"}
-              disabled={addToBasketNum === 1}
-              onPress={(e) => setAddToBasketNum(addToBasketNum - 1)}
-            />
+      </ScrollView>
+      <SafeAreaView className="mb-auto">
+        <View>
+          <View className="px-3 flex-col items-center">
+            <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
+              <ShoppingCartIcon color="white" />
+              <Text className="text-center text-gray-50 py-4 font-bold pl-3">
+                Add to basket
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        <View className="flex-row">
-          {colours?.map((colour: string) => (
-            <TouchableOpacity onPress={(e) => setDisplayColour(colour)}>
-              <View
-                style={{ backgroundColor: colour }}
-                className={`p-2 h-6 w-6 rounded-full shadow m-1 ${
-                  colour === displayColour ? "border-4 border-gray-300" : null
-                }`}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-        <DescriptionSection
-          reviews={product?.reviews}
-          description={product?.description}
-        />
-      </View>
+      </SafeAreaView>
     </View>
   );
 }

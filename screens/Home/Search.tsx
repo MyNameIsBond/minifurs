@@ -26,7 +26,7 @@ export default function Search({ route, navigation }: {}): JSX.Element {
       <ScrollView className="h-screen bg-gray-100">
         <View style={styles.container} className="p-3 bg-gray-100">
           {products?.map((product) => (
-            <HomeCard product={product} />
+            <HomeCard key={product.id} product={product} />
           ))}
         </View>
       </ScrollView>

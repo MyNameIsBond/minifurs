@@ -40,7 +40,7 @@ export default function Category({ navigation, route }): JSX.Element {
         )}
         <View className="p-3 bg-gray-100" style={styles.container}>
           {products.map((product) => (
-            <HomeCard product={product} />
+            <HomeCard key={product.id} product={product} />
           ))}
         </View>
       </ScrollView>
