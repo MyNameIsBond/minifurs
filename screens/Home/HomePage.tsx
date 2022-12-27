@@ -17,7 +17,8 @@ export default function Home({}) {
   const fetchProducts = async () => {
     const { data: product, error } = await supabase
       .from("products")
-      .select("*");
+      .select("*")
+      .limit(4);
     setProducts(product);
   };
 

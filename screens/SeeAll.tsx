@@ -1,10 +1,33 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, SafeAreaView } from "react-native";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import HomeCard from "../components/home/HomeCard";
+import CardDisplaySceleton from "../components/home/CardDisplaySceleton";
 
-export default function SeeAll({ title }: { title: string }) {
+export default function SeeAll({}): JSX.Element {
+  const [products, setProducts] = useState<any[] | null>([]);
+
+  const fetchLatestProducts = async () => {
+    try {
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+      setProducts(product);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestProducts();
+  }, []);
+
   return (
-    <View>
-      <Text>SeeAll</Text>
-    </View>
+    <CardDisplaySceleton>
+      {products.map((product) => (
+        <HomeCard key={product.id} product={product} />
+      ))}
+    </CardDisplaySceleton>
   );
 }
