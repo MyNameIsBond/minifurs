@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { ReactNode } from "react";
 import { ArrowLongRightIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
+import ListCards from "../ListCardsContainer";
 
 export default function CardDisplaySceleton({
   title,
@@ -15,7 +16,7 @@ export default function CardDisplaySceleton({
   return (
     <View className="bg-gray-100">
       {title && (
-        <View className="flex-row justify-between p-4">
+        <View className="flex-row justify-between px-4 pt-4">
           <Text className="capitalize font-bold text-xl">{title}</Text>
           <TouchableOpacity
             onPress={(e) => navigation.navigate("SeeAll", { title: title })}
@@ -27,18 +28,7 @@ export default function CardDisplaySceleton({
           </TouchableOpacity>
         </View>
       )}
-      <View className="px-4 py-1 bg-gray-100" style={styles.container}>
-        {children}
-      </View>
+      <ListCards>{children}</ListCards>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-});

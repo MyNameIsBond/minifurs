@@ -22,7 +22,7 @@ export default function Search({ route }: {}): JSX.Element {
   }, []);
 
   return (
-    <ListCards>
+    <ListCards classNames="h-full">
       {products?.map((product) => (
         <HomeCard key={product.id} product={product} />
       ))}

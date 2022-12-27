@@ -3,13 +3,15 @@ import { ReactNode } from "react";
 
 export default function ListCards({
   children,
+  classNames,
 }: {
   children: ReactNode;
+  classNames?: string;
 }): JSX.Element {
   return (
     <SafeAreaView>
-      <ScrollView className="h-screen bg-gray-100">
-        <View style={styles.container} className="p-3 bg-gray-100">
+      <ScrollView className={`bg-gray-100 ${classNames}`}>
+        <View style={styles.container} className="p-4 bg-gray-100">
           {children}
         </View>
       </ScrollView>
