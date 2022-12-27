@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import HomeCard from "../../components/home/HomeCard";
+import ListCards from "../../components/ListCardsContainer";
 
-export default function Search({ route, navigation }: {}): JSX.Element {
+export default function Search({ route }: {}): JSX.Element {
   const { search } = route.params;
   const [products, setProducts] = useState<any[] | null>([]);
   const searchApi = async () => {
@@ -22,23 +22,10 @@ export default function Search({ route, navigation }: {}): JSX.Element {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView className="h-screen bg-gray-100">
-        <View style={styles.container} className="p-3 bg-gray-100">
-          {products?.map((product) => (
-            <HomeCard key={product.id} product={product} />
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ListCards>
+      {products?.map((product) => (
+        <HomeCard key={product.id} product={product} />
+      ))}
+    </ListCards>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-});

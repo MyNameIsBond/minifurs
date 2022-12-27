@@ -1,8 +1,8 @@
-import { View, Text, SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import HomeCard from "../components/home/HomeCard";
 import CardDisplaySceleton from "../components/home/CardDisplaySceleton";
+import ListCards from "../components/ListCardsContainer";
 
 export default function SeeAll({}): JSX.Element {
   const [products, setProducts] = useState<any[] | null>([]);
@@ -24,10 +24,10 @@ export default function SeeAll({}): JSX.Element {
   }, []);
 
   return (
-    <CardDisplaySceleton>
+    <ListCards>
       {products.map((product) => (
         <HomeCard key={product.id} product={product} />
       ))}
-    </CardDisplaySceleton>
+    </ListCards>
   );
 }
