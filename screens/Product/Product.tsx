@@ -112,7 +112,7 @@ export default function Product({ route }) {
         </View>
       </ScrollView>
       <SafeAreaView className="mb-auto">
-        <View>
+        <View className="border-t py-4 border-gray-300">
           <View className="px-3 flex-col items-center">
             <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
               <ShoppingCartIcon color="white" />
