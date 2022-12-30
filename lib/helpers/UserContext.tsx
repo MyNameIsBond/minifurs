@@ -1,5 +1,5 @@
-import { User } from "@supabase/supabase-js";
-import { createContext, useEffect, useState } from "react";
+import { useUser as useSupaUser, User } from "@supabase/supabase-js";
+import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
 type UserContextType = {
@@ -39,6 +39,11 @@ export const MyUserContextProvider = (props: Props) => {
     }
   }, [user, isLoadingUser]);
 };
-function useSupaUser(): { user: any; accessToken: any; isLoading: any } {
-  throw new Error("Function not implemented.");
-}
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error(`useUser must be used within a MyUserContextProvider.`);
+  }
+  return context;
+};

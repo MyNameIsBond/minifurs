@@ -37,7 +37,11 @@ export default function App() {
     );
   }
 
-  return (
+  return loading ? (
+    <View>
+      <ActivityIndicator />
+    </View>
+  ) : (
     <NavigationContainer>
       {!session ? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
