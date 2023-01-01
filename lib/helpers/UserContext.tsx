@@ -11,24 +11,23 @@ type UserContextType = {
 export interface Props {
   supabaseClient: typeof supabase;
   [propName: string]: any;
+  session: UserContextType;
 }
 
 export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
-  const { supabaseClient: supabase } = props;
-  const { user, accessToken, isLoading: isLoadingUser } = useSupaUser();
+  const { supabaseClient: supabase, session } = props;
+  const { user, accessToken, isLoading: isLoadingUser } = session;
   const [isLoadingData, setIsloadingData] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const getUserDetails = () =>
-    supabase.from<UserDetails>("users").select("*").single();
+  const getUserDetails = () => supabase.from("users").select("*").single();
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
       setIsloadingData(true);
       Promise.allSettled([getUserDetails()]).then((results) => {
         const userDetailsPromise = results[0];
-
         if (userDetailsPromise.status === "fulfilled")
           setUserDetails(userDetailsPromise.value.data);
 

@@ -10,6 +10,7 @@ import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
 import { ActivityIndicator, View } from "react-native";
 import Product from "./screens/Product/Product";
+import { UserContext } from "./lib/helpers/UserContext";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -52,12 +53,14 @@ export default function App() {
           </Stack.Group>
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Group>
-            <Stack.Screen name="Nav" component={NavTab} />
-            <Stack.Screen name="Product" component={Product} />
-          </Stack.Group>
-        </Stack.Navigator>
+        <UserContext value={session}>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Group>
+              <Stack.Screen name="Nav" component={NavTab} />
+              <Stack.Screen name="Product" component={Product} />
+            </Stack.Group>
+          </Stack.Navigator>
+        </UserContext>
       )}
     </NavigationContainer>
   );
