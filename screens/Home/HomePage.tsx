@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import CategoriesSlider from "../../components/home/CategoriesSlider";
-
 import HomeBody from "../../components/home/HomeBody";
 import HomeSceleton from "../../components/home/HomeSceleton";
 import { supabase } from "../../lib/supabase";

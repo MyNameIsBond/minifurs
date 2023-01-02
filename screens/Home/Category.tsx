@@ -29,10 +29,10 @@ export default function Category({ navigation, route }): JSX.Element {
     <SafeAreaView>
       <ScrollView className="h-screen bg-gray-100">
         {products.length === 0 && (
-          <View className="flex-col items-center h-full pt-[30%]">
+          <View className="flex-col px-4 items-center h-full pt-[30%]">
             <ClockIcon color="#284F49" size={30} />
             <Text className="text-lg font-bold pt-4">Coming Soon!</Text>
-            <Text className="text-base text-center">
+            <Text className="text-base text-center max-w-xs">
               Find a bright ideal to suit your taste with our great selection of
               suspension, wall, floor and table lights. breathable Walking
             </Text>

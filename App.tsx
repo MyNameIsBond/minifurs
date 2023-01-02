@@ -10,7 +10,7 @@ import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
 import { ActivityIndicator, View } from "react-native";
 import Product from "./screens/Product/Product";
-import { UserContext } from "./lib/helpers/UserContext";
+import { MyUserContextProvider } from "./lib/helpers/UserContext";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -42,26 +42,26 @@ export default function App() {
     <View>
       <ActivityIndicator />
     </View>
-  ) : (
+  ) : !session ? (
     <NavigationContainer>
-      {!session ? (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Group>
+          <Stack.Screen name="Landing" component={Landing} />
+          <Stack.Screen name="Auth" component={Auth} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+        </Stack.Group>
+      </Stack.Navigator>
+    </NavigationContainer>
+  ) : (
+    <MyUserContextProvider session={session} supabaseClient={supabase}>
+      <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Group>
-            <Stack.Screen name="Landing" component={Landing} />
-            <Stack.Screen name="Auth" component={Auth} />
-            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Nav" component={NavTab} />
+            <Stack.Screen name="Product" component={Product} />
           </Stack.Group>
         </Stack.Navigator>
-      ) : (
-        <UserContext value={session}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Group>
-              <Stack.Screen name="Nav" component={NavTab} />
-              <Stack.Screen name="Product" component={Product} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </UserContext>
-      )}
-    </NavigationContainer>
+      </NavigationContainer>
+    </MyUserContextProvider>
   );
 }

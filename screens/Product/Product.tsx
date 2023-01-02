@@ -14,6 +14,7 @@ import { supabase } from "../../lib/supabase";
 import ProductSlider from "../../components/Product/ProductSlider";
 import DescriptionSection from "../../components/Product/DescriptionSection";
 import { ShoppingCartIcon } from "react-native-heroicons/outline";
+import { useUser } from "../../lib/helpers/UserContext";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
@@ -23,12 +24,14 @@ export default function Product({ route }) {
   const [addToBasketNum, setAddToBasketNum] = useState<number>(1);
   const { colours } = product;
   const { id } = route.params;
+  const { user } = useUser();
   const fetchProduct = async () => {
     try {
       const { data: product, error } = await supabase
         .from("products")
         .select("*")
         .eq("id", id);
+      console.log("product ela");
       setProduct(product[0]);
       setDisplayColour(product[0].colours[0]);
     } catch (error) {
@@ -59,7 +62,9 @@ export default function Product({ route }) {
               {product?.title}
             </Text>
             <TouchableOpacity
-              onPress={(e) => setIsFavourite(!isFavourite)}
+              onPress={(e) => {
+                setIsFavourite(!isFavourite);
+              }}
               className="p-3 bg-gray-200 rounded-full"
             >
               {isFavourite ? (

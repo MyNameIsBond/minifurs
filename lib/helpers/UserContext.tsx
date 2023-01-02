@@ -1,4 +1,4 @@
-import { useUser as useSupaUser, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
@@ -20,8 +20,11 @@ export const MyUserContextProvider = (props: Props) => {
   const { user, accessToken, isLoading: isLoadingUser } = session;
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-
-  const getUserDetails = () => supabase.from("users").select("*").single();
+  const getUserDetails = () => {
+    const e = supabase.from("users").select("*").single();
+    console.log("CONTEXT", e);
+    return e;
+  };
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
@@ -30,13 +33,21 @@ export const MyUserContextProvider = (props: Props) => {
         const userDetailsPromise = results[0];
         if (userDetailsPromise.status === "fulfilled")
           setUserDetails(userDetailsPromise.value.data);
-
         setIsloadingData(false);
       });
     } else if (!user && !isLoadingUser && !isLoadingData) {
       setUserDetails(null);
     }
   }, [user, isLoadingUser]);
+
+  const value = {
+    accessToken,
+    user,
+    userDetails,
+    isLoading: isLoadingUser || isLoadingData,
+  };
+
+  return <UserContext.Provider value={value} {...props} />;
 };
 
 export const useUser = () => {
