@@ -5,15 +5,15 @@ import { useUser } from "../lib/helpers/UserContext";
 
 export default function Favourite({}) {
   const [favourites, setFavourites] = useState<any[] | null>([]);
+  const { user } = useUser();
 
   const fetchFavourites = async () => {
     try {
-      const { user } = useUser();
       const { data, error } = await supabase
         .from("favourites")
         .select("*")
         .eq("user_id", user.id);
-      console.log("DATA:", data);
+      console.log("USER:", favourites);
       setFavourites(data);
     } catch (error) {
       console.error(error);
@@ -25,7 +25,11 @@ export default function Favourite({}) {
   return (
     <SafeAreaView>
       <View>
-        <Text>Favourite</Text>
+        <Text>
+          {favourites.map((f) => (
+            <Text>{JSON.stringify(f)}</Text>
+          ))}
+        </Text>
       </View>
     </SafeAreaView>
   );
