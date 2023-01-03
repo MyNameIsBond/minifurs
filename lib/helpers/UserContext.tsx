@@ -20,11 +20,7 @@ export const MyUserContextProvider = (props: Props) => {
   const { user, accessToken, isLoading: isLoadingUser } = session;
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const getUserDetails = () => {
-    const e = supabase.from("users").select("*").single();
-    console.log("CONTEXT", e);
-    return e;
-  };
+  const getUserDetails = () => supabase.from("users").select("*").single();
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {

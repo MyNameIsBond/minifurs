@@ -27,13 +27,43 @@ export default function Product({ route }) {
   const { user } = useUser();
   const fetchProduct = async () => {
     try {
+      // Get product
       const { data: product, error } = await supabase
         .from("products")
         .select("*")
         .eq("id", id);
-      console.log("product ela");
       setProduct(product[0]);
       setDisplayColour(product[0].colours[0]);
+      // Get favourites
+      const { data: favourites, error: errorFavourites } = await supabase
+        .from("favourites")
+        .select("*")
+        .match({ user_id: user.id, product_id: product[0].id });
+      if (favourites.length > 0) {
+        setIsFavourite(true);
+      } else {
+        setIsFavourite(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const favourite = async () => {
+    try {
+      if (isFavourite) {
+        const { data, error } = await supabase
+          .from("favourites")
+          .delete()
+          .match({ user_id: user.id, product_id: product.id });
+        setIsFavourite(false);
+      } else {
+        const { data, error } = await supabase
+          .from("favourites")
+          .insert({ user_id: user.id, product_id: product.id });
+        if (error) console.error(error);
+        setIsFavourite(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +93,7 @@ export default function Product({ route }) {
             </Text>
             <TouchableOpacity
               onPress={(e) => {
-                setIsFavourite(!isFavourite);
+                favourite();
               }}
               className="p-3 bg-gray-200 rounded-full"
             >
