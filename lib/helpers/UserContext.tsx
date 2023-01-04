@@ -21,7 +21,7 @@ export const MyUserContextProvider = (props: Props) => {
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const getUserDetails = () => supabase.from("users").select("*").single();
-
+  console.log("From Context");
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
       setIsloadingData(true);
