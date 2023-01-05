@@ -8,19 +8,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { ArrowLeftIcon, HeartIcon } from "react-native-heroicons/outline";
-import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
+import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
 import ProductSlider from "../../components/Product/ProductSlider";
 import DescriptionSection from "../../components/Product/DescriptionSection";
 import { ShoppingCartIcon } from "react-native-heroicons/outline";
 import { useUser } from "../../lib/helpers/UserContext";
+import FavButton from "../../components/favourites/FavButton";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState<any[] | null>([]);
   const [displayColour, setDisplayColour] = useState<string>("");
-  const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [addToBasketNum, setAddToBasketNum] = useState<number>(1);
   const { colours } = product;
   const { id } = route.params;
@@ -35,35 +34,6 @@ export default function Product({ route }) {
       setProduct(product[0]);
       setDisplayColour(product[0].colours[0]);
       // Get favourites
-      const { data: favourites, error: errorFavourites } = await supabase
-        .from("favourites")
-        .select("*")
-        .match({ user_id: user.id, product_id: product[0].id });
-      if (favourites.length > 0) {
-        setIsFavourite(true);
-      } else {
-        setIsFavourite(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const favourite = async () => {
-    try {
-      if (isFavourite) {
-        const { data, error } = await supabase
-          .from("favourites")
-          .delete()
-          .match({ user_id: user.id, product_id: product.id });
-        setIsFavourite(false);
-      } else {
-        const { data, error } = await supabase
-          .from("favourites")
-          .insert({ user_id: user.id, product_id: product.id });
-        if (error) console.error(error);
-        setIsFavourite(true);
-      }
     } catch (error) {
       console.error(error);
     }
@@ -91,18 +61,7 @@ export default function Product({ route }) {
             <Text className="text-2xl font-bold capitalize">
               {product?.title}
             </Text>
-            <TouchableOpacity
-              onPress={(e) => {
-                favourite();
-              }}
-              className="p-3 bg-gray-200 rounded-full"
-            >
-              {isFavourite ? (
-                <HeartIconSolid color="#ba385c" />
-              ) : (
-                <HeartIcon color="#ba385c" />
-              )}
-            </TouchableOpacity>
+            <FavButton product={product.id} user={user.id} />
           </View>
           <View className="flex-row justify-between px-4">
             <Text className="text-2xl font-bold text-accent-orange">
