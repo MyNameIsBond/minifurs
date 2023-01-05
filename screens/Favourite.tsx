@@ -71,7 +71,9 @@ export default function Favourite({}) {
   return (
     <ListCards classNames="h-full">
       {favourites?.map((favourite) => (
-        <HomeCard key={favourite.id} product={favourite.products} />
+        <View key={favourite.id}>
+          <HomeCard product={favourite.products} />
+        </View>
       ))}
     </ListCards>
   );
