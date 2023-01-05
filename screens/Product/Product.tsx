@@ -61,7 +61,7 @@ export default function Product({ route }) {
             <Text className="text-2xl font-bold capitalize">
               {product?.title}
             </Text>
-            <FavButton product={product.id} user={user.id} />
+            <FavButton product={product?.id} user={user?.id} />
           </View>
           <View className="flex-row justify-between px-4">
             <Text className="text-2xl font-bold text-accent-orange">

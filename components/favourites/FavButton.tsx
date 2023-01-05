@@ -7,10 +7,11 @@ export default function FavButton({
   user,
   product,
 }: {
-  user: string;
-  product: string;
+  user: string | undefined;
+  product: string | undefined;
 }): JSX.Element {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  console.log("PRODUCT ID:", product);
   const favourite = async () => {
     try {
       if (isFavourite) {
@@ -37,7 +38,7 @@ export default function FavButton({
         .from("favourites")
         .select("*")
         .match({ user_id: user, product_id: product });
-      if (favourites.length > 0) {
+      if (favourites && favourites.length > 0) {
         setIsFavourite(true);
       } else {
         setIsFavourite(false);
@@ -53,9 +54,7 @@ export default function FavButton({
 
   return (
     <TouchableOpacity
-      onPress={(e) => {
-        favourite();
-      }}
+      onPress={favourite}
       className="p-3 bg-gray-200 rounded-full"
     >
       {isFavourite ? (
