@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
@@ -12,7 +12,7 @@ export default function FavButton({
 }): JSX.Element {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   console.log("PRODUCT ID:", product);
-  const favourite = async () => {
+  const favourite = useCallback(async () => {
     try {
       if (isFavourite) {
         const { data, error } = await supabase
@@ -30,7 +30,7 @@ export default function FavButton({
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [isFavourite, user, product]);
 
   const favcheck = async () => {
     try {

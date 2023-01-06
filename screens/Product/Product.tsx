@@ -6,7 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
@@ -37,6 +37,14 @@ export default function Product({ route }) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const addToBasket = () => {
+    setAddToBasketNum(addToBasketNum + 1);
+  };
+
+  const removeFromBasket = () => {
+    setAddToBasketNum(addToBasketNum - 1);
   };
 
   useEffect(() => {
@@ -72,14 +80,14 @@ export default function Product({ route }) {
                 title="-"
                 color={"#ba385c"}
                 disabled={addToBasketNum === 1}
-                onPress={(e) => setAddToBasketNum(addToBasketNum - 1)}
+                onPress={removeFromBasket}
               />
               <Text className="px-3">{addToBasketNum}</Text>
               <Button
                 title="+"
                 color={"#ba385c"}
                 disabled={addToBasketNum === product?.quantity}
-                onPress={(e) => setAddToBasketNum(addToBasketNum + 1)}
+                onPress={addToBasket}
               />
             </View>
           </View>
