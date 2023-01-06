@@ -24,7 +24,6 @@ export default function Favourite({}) {
         )
         .match({ user_id: user.id });
 
-      console.log("USER:ELA", favourites);
       setFavourites(data);
     } catch (error) {
       console.error(error);

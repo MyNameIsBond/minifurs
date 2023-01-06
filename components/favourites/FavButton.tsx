@@ -11,7 +11,6 @@ export default function FavButton({
   product: string | undefined;
 }): JSX.Element {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
-  console.log("PRODUCT ID:", product);
   const favourite = useCallback(async () => {
     try {
       if (isFavourite) {
@@ -31,10 +30,10 @@ export default function FavButton({
       console.error(error);
     }
   }, [isFavourite, user, product]);
-
+  console.log("FAV BUTTON RENDERED");
   const favcheck = async () => {
     try {
-      const { data: favourites, error: errorFavourites } = await supabase
+      const { data: favourites } = await supabase
         .from("favourites")
         .select("*")
         .match({ user_id: user, product_id: product });
@@ -43,8 +42,8 @@ export default function FavButton({
       } else {
         setIsFavourite(false);
       }
-    } catch (errorFavourites) {
-      console.error(errorFavourites);
+    } catch (error) {
+      console.error(error);
     }
   };
 

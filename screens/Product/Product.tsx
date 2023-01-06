@@ -2,11 +2,10 @@ import {
   View,
   TouchableOpacity,
   Text,
-  Button,
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
@@ -15,6 +14,7 @@ import DescriptionSection from "../../components/Product/DescriptionSection";
 import { ShoppingCartIcon } from "react-native-heroicons/outline";
 import { useUser } from "../../lib/helpers/UserContext";
 import FavButton from "../../components/favourites/FavButton";
+import AmountBtn from "./AmountBtn";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
@@ -26,25 +26,15 @@ export default function Product({ route }) {
   const { user } = useUser();
   const fetchProduct = async () => {
     try {
-      // Get product
       const { data: product, error } = await supabase
         .from("products")
         .select("*")
-        .eq("id", id);
+        .match({ id: id });
       setProduct(product[0]);
       setDisplayColour(product[0].colours[0]);
-      // Get favourites
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const addToBasket = () => {
-    setAddToBasketNum(addToBasketNum + 1);
-  };
-
-  const removeFromBasket = () => {
-    setAddToBasketNum(addToBasketNum - 1);
   };
 
   useEffect(() => {
@@ -64,54 +54,42 @@ export default function Product({ route }) {
         >
           <ArrowLeftIcon color="white" />
         </TouchableOpacity>
-        <View className="">
-          <View className="flex-row justify-between items-center p-4">
-            <Text className="text-2xl font-bold capitalize">
-              {product?.title}
-            </Text>
-            <FavButton product={product?.id} user={user?.id} />
-          </View>
-          <View className="flex-row justify-between px-4">
-            <Text className="text-2xl font-bold text-accent-orange">
-              £{product?.price}
-            </Text>
-            <View className="flex-row items-center">
-              <Button
-                title="-"
-                color={"#ba385c"}
-                disabled={addToBasketNum === 1}
-                onPress={removeFromBasket}
-              />
-              <Text className="px-3">{addToBasketNum}</Text>
-              <Button
-                title="+"
-                color={"#ba385c"}
-                disabled={addToBasketNum === product?.quantity}
-                onPress={addToBasket}
-              />
-            </View>
-          </View>
-
-          <View className="flex-row px-4">
-            {colours?.map((colour: string) => (
-              <TouchableOpacity
-                key={colour}
-                onPress={(e) => setDisplayColour(colour)}
-              >
-                <View
-                  style={{ backgroundColor: colour }}
-                  className={`p-2 h-6 w-6 rounded-full shadow m-1 ${
-                    colour === displayColour ? "border-4 border-gray-300" : null
-                  }`}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-          <DescriptionSection
-            reviews={product?.reviews}
-            description={product?.description}
+        <View className="flex-row justify-between items-center p-4">
+          <Text className="text-2xl font-bold capitalize">
+            {product?.title}
+          </Text>
+          <FavButton product={product?.id} user={user?.id} />
+        </View>
+        <View className="flex-row justify-between px-4">
+          <Text className="text-2xl font-bold text-accent-orange">
+            £{product?.price}
+          </Text>
+          <AmountBtn
+            addToBasketNum={addToBasketNum}
+            setAddToBasketNum={setAddToBasketNum}
+            quantity={product?.quantity}
           />
         </View>
+
+        <View className="flex-row px-4">
+          {colours?.map((colour: string) => (
+            <TouchableOpacity
+              key={colour}
+              onPress={(e) => setDisplayColour(colour)}
+            >
+              <View
+                style={{ backgroundColor: colour }}
+                className={`p-2 h-6 w-6 rounded-full shadow m-1 ${
+                  colour === displayColour ? "border-4 border-gray-300" : null
+                }`}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+        <DescriptionSection
+          reviews={product?.reviews}
+          description={product?.description}
+        />
       </ScrollView>
       <SafeAreaView className="mb-auto">
         <View className="border-t py-4 border-gray-300">
