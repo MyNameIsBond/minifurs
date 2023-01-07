@@ -15,23 +15,41 @@ import { ShoppingCartIcon } from "react-native-heroicons/outline";
 import { useUser } from "../../lib/helpers/UserContext";
 import FavButton from "../../components/favourites/FavButton";
 import AmountBtn from "./AmountBtn";
+import AddToBasket from "./AddToBasket";
+import LoadingView from "../../components/LoadingView";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState<any[] | null>([]);
   const [displayColour, setDisplayColour] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const [addToBasketNum, setAddToBasketNum] = useState<number>(1);
   const { colours } = product;
   const { id } = route.params;
   const { user } = useUser();
+
   const fetchProduct = async () => {
     try {
+      setLoading(true);
       const { data: product, error } = await supabase
         .from("products")
         .select("*")
         .match({ id: id });
       setProduct(product[0]);
       setDisplayColour(product[0].colours[0]);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const addToBasket = async () => {
+    try {
+      const { data, error } = await supabase.from("basket").insert({
+        user_id: user?.id,
+        product_id: product?.id,
+        quantity: addToBasketNum,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -40,6 +58,11 @@ export default function Product({ route }) {
   useEffect(() => {
     fetchProduct();
   }, []);
+
+  if (loading) {
+    return <LoadingView />;
+  }
+
   return (
     <View className="relative">
       <ScrollView className="h-full">
@@ -93,14 +116,12 @@ export default function Product({ route }) {
       </ScrollView>
       <SafeAreaView className="mb-auto">
         <View className="border-t py-4 border-gray-300">
-          <View className="px-3 flex-col items-center">
-            <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
-              <ShoppingCartIcon color="white" />
-              <Text className="text-center text-gray-50 py-4 font-bold pl-3">
-                Add to basket
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <AddToBasket
+            user_id={user?.id}
+            product_id={product?.id}
+            quantity={addToBasketNum}
+            colour={displayColour}
+          />
         </View>
       </SafeAreaView>
     </View>

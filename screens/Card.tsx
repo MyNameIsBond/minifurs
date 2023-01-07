@@ -1,31 +1,35 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
-import HomeCard from "../components/home/HomeCard";
 import { HeartIcon } from "react-native-heroicons/outline";
+import BasketCard from "../components/BasketCard";
+import LoadingView from "../components/LoadingView";
 
-export default function Favourite({}) {
+export default function Card({}) {
   const [basket, setbasket] = useState<any[] | null>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const { user } = useUser();
 
   const fetchbasket = async () => {
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from("basket")
         .select(
           `
+          id,
         product_id,
         products (
           *
         )
       `
         )
-        .match({ user_id: user.id });
-
-      console.log("USER:ELA", basket);
+        .match({ user_id: user?.id });
       setbasket(data);
+      setLoading(false);
+      console.log(data[0].id);
     } catch (error) {
       console.error(error);
     }
@@ -50,10 +54,15 @@ export default function Favourite({}) {
       )
       .subscribe();
   };
+
   useEffect(() => {
     fetchbasket();
     realtimeTable();
   }, []);
+
+  if (loading) {
+    return <LoadingView />;
+  }
 
   if (basket?.length === 0) {
     return (
@@ -70,8 +79,13 @@ export default function Favourite({}) {
 
   return (
     <ListCards classNames="h-full">
-      {basket?.map((favourite) => (
-        <HomeCard key={favourite.id} product={favourite.products} />
+      {basket?.map((product) => (
+        <BasketCard
+          key={product.id}
+          product={product.products}
+          basketid={product.id}
+          user_id={user?.id}
+        />
       ))}
     </ListCards>
   );

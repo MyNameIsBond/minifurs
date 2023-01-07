@@ -11,11 +11,12 @@ import Landing from "./screens/Authentication/Landing";
 import { ActivityIndicator, View } from "react-native";
 import Product from "./screens/Product/Product";
 import { MyUserContextProvider } from "./lib/helpers/UserContext";
+import LoadingView from "./components/LoadingView";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setLoading(true);
@@ -31,18 +32,10 @@ export default function App() {
   }, []);
 
   if (loading) {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
+    return <LoadingView />;
   }
 
-  return loading ? (
-    <View>
-      <ActivityIndicator />
-    </View>
-  ) : !session ? (
+  return !session ? (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Group>

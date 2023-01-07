@@ -30,7 +30,7 @@ export default function FavButton({
       console.error(error);
     }
   }, [isFavourite, user, product]);
-  console.log("FAV BUTTON RENDERED");
+
   const favcheck = async () => {
     try {
       const { data: favourites } = await supabase

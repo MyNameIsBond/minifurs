@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 import HomeCard from "../../components/home/HomeCard";
 import { ClockIcon } from "react-native-heroicons/outline";
 
-export default function Category({ navigation, route }): JSX.Element {
+export default function Category({ route }): JSX.Element {
   const [products, setProducts] = useState<any>([]);
   const category = route.params.category.toLowerCase();
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Alert, View, TextInput, Text, TouchableOpacity } from "react-native";
 import { supabase } from "../../lib/supabase";
-
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
 import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";

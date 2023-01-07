@@ -26,7 +26,7 @@ export default function SeeAll({}): JSX.Element {
 
   return (
     <ListCards classNames="h-full">
-      {products.map((product) => (
+      {products?.map((product) => (
         <HomeCard key={product.id} product={product} />
       ))}
     </ListCards>
