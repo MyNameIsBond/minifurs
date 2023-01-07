@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
-import { HeartIcon } from "react-native-heroicons/outline";
+import { ShoppingBagIcon } from "react-native-heroicons/outline";
 import BasketCard from "../components/BasketCard";
 import LoadingView from "../components/LoadingView";
 
@@ -29,7 +29,6 @@ export default function Card({}) {
         .match({ user_id: user?.id });
       setbasket(data);
       setLoading(false);
-      console.log(data[0].id);
     } catch (error) {
       console.error(error);
     }
@@ -67,11 +66,10 @@ export default function Card({}) {
   if (basket?.length === 0) {
     return (
       <View className="flex-col px-4 items-center h-full pt-[30%]">
-        <HeartIcon color="#284F49" size={30} />
-        <Text className="text-lg font-bold pt-4">Add Favourites!</Text>
+        <ShoppingBagIcon color="#284F49" size={30} />
+        <Text className="text-lg font-bold pt-4">Add Item to you basket!</Text>
         <Text className="text-base text-center max-w-xs">
-          create your own collection of favourite products. You can add products
-          to your favourites by clicking the heart icon on the product page.
+          You can add items to your basket by clicking the add to basket button
         </Text>
       </View>
     );

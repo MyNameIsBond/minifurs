@@ -1,18 +1,21 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { XMarkIcon } from "react-native-heroicons/solid";
+import { supabase } from "../lib/supabase";
 export default function BasketCard({
   product,
   basketid,
+  user_id,
 }: {
   product: any;
   basketid: string;
+  user_id: string;
 }): JSX.Element {
   const deleteItem = async () => {
     try {
       const { data, error } = await supabase
         .from("basket")
         .delete()
-        .match({ id: basketid, user_id: user?.id });
+        .match({ id: basketid, user_id: user_id });
     } catch (error) {
       console.error(error);
     }

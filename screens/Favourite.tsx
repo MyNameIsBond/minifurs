@@ -19,6 +19,7 @@ export default function Favourite({}) {
         .from("favourites")
         .select(
           `
+          id,
         product_id,
         products (
           *

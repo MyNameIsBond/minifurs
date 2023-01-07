@@ -3,19 +3,23 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import HomeCard from "../../components/home/HomeCard";
 import { ClockIcon } from "react-native-heroicons/outline";
+import LoadingView from "../../components/LoadingView";
 
 export default function Category({ route }): JSX.Element {
   const [products, setProducts] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const category = route.params.category.toLowerCase();
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const { data: products, error } = await supabase
         .from("products")
         .select("*")
         .contains("categories", { [category]: true });
       if (products) {
         setProducts(products);
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -24,6 +28,10 @@ export default function Category({ route }): JSX.Element {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  if (loading) {
+    return <LoadingView />;
+  }
 
   return (
     <SafeAreaView>
