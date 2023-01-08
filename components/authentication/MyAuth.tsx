@@ -1,28 +1,47 @@
-import React, { useState } from "react";
+import { useReducer, useState } from "react";
 import { Alert, View, TextInput, Text, TouchableOpacity } from "react-native";
 import { supabase } from "../../lib/supabase";
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
 import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";
 import MyButton from "../reusables/MyButton";
+import reducerSignUp, {
+  ACTION,
+  initialState,
+} from "../../lib/dispachers/reducerSignUp";
 
 export default function MyAuth() {
+  const [state, dispacher] = useReducer(reducerSignUp, initialState);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
 
+  const handleChangeEmail = (e: string) => {
+    dispacher({
+      type: ACTION.CHANGE_INPUT,
+      payload: { name: "email", value: e },
+    });
+  };
+
+  const handleChangePassword = (e: string) => {
+    dispacher({
+      type: ACTION.CHANGE_INPUT,
+      payload: { name: "password", value: e },
+    });
+  };
+
   async function signInWithEmail() {
-    setLoading(true);
+    dispacher({ type: ACTION.LOADING, payload: { loading: true } });
     const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email: state.email,
+      password: state.password,
     });
 
     if (error) {
       Alert.alert(error.message);
     }
-    setLoading(false);
+    dispacher({ type: ACTION.LOADING, payload: { loading: false } });
   }
 
   return (
@@ -32,25 +51,29 @@ export default function MyAuth() {
     >
       <TextInput
         className="border py-4 px-2 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-        onChangeText={setEmail}
-        value={email}
+        onChangeText={handleChangeEmail}
+        value={state.email}
         placeholder="email@address.com"
         autoCapitalize={"none"}
       />
       <View className="relative">
         <TextInput
           className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={showPassword}
+          onChangeText={handleChangePassword}
+          value={state.password}
+          secureTextEntry={state.showPassword}
           placeholder="password"
           autoCapitalize={"none"}
         />
         <TouchableOpacity
           className="absolute right-0 top-0 h-full w-10 flex items-center justify-center"
-          onPress={() => setShowPassword(!showPassword)}
+          onPress={() =>
+            dispacher({
+              type: ACTION.SHOWPASSWORD,
+            })
+          }
         >
-          {showPassword ? (
+          {state.showPassword ? (
             <EyeIcon color="black" className="bg-gray-500" size={20} />
           ) : (
             <EyeSlashIcon color="black" className="bg-gray-500" size={20} />
