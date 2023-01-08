@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { Alert, View, TextInput, Text, TouchableOpacity } from "react-native";
 import { supabase } from "../../lib/supabase";
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
@@ -12,22 +12,12 @@ import reducerSignUp, {
 
 export default function MyAuth() {
   const [state, dispacher] = useReducer(reducerSignUp, initialState);
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
 
-  const handleChangeEmail = (e: string) => {
+  const handleChange = (text: string, name: string) => {
+    console.log(text, name);
     dispacher({
       type: ACTION.CHANGE_INPUT,
-      payload: { name: "email", value: e },
-    });
-  };
-
-  const handleChangePassword = (e: string) => {
-    dispacher({
-      type: ACTION.CHANGE_INPUT,
-      payload: { name: "password", value: e },
+      payload: { name: name, value: text },
     });
   };
 
@@ -51,7 +41,7 @@ export default function MyAuth() {
     >
       <TextInput
         className="border py-4 px-2 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-        onChangeText={handleChangeEmail}
+        onChangeText={(text) => handleChange(text, "email")}
         value={state.email}
         placeholder="email@address.com"
         autoCapitalize={"none"}
@@ -59,7 +49,7 @@ export default function MyAuth() {
       <View className="relative">
         <TextInput
           className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={handleChangePassword}
+          onChangeText={(text) => handleChange(text, "password")}
           value={state.password}
           secureTextEntry={state.showPassword}
           placeholder="password"
@@ -68,10 +58,12 @@ export default function MyAuth() {
         <TouchableOpacity
           className="absolute right-0 top-0 h-full w-10 flex items-center justify-center"
           onPress={() => {
-            console.log("serio nova");
+            console.log("1", state.showPassword);
             dispacher({
               type: ACTION.SHOWPASSWORD,
+              payload: { showPassword: !state.showPassword },
             });
+            console.log("2", state.showPassword);
           }}
         >
           {state.showPassword ? (

@@ -27,7 +27,7 @@ export default reducerSignUp = (state, action) => {
     case ACTION.SHOWPASSWORD:
       return {
         ...state,
-        showPassword: !state.showpassword,
+        showPassword: action.payload.showPassword,
       };
     default:
       break;
