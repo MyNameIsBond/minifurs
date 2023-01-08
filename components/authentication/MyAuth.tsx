@@ -67,11 +67,12 @@ export default function MyAuth() {
         />
         <TouchableOpacity
           className="absolute right-0 top-0 h-full w-10 flex items-center justify-center"
-          onPress={() =>
+          onPress={() => {
+            console.log("serio nova");
             dispacher({
               type: ACTION.SHOWPASSWORD,
-            })
-          }
+            });
+          }}
         >
           {state.showPassword ? (
             <EyeIcon color="black" className="bg-gray-500" size={20} />
