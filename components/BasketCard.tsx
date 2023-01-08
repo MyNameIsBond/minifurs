@@ -34,7 +34,7 @@ export default function BasketCard({
         <Text className="text-gray-500">amount: {quantity}</Text>
       </View>
       <Text className="ml-auto pr-6 text-accent-orange text-lg font-bold">
-        £ {product.price}
+        £ {product.price * quantity}
       </Text>
       <View className="mb-auto bg-gray-100 p-1">
         <TouchableOpacity onPress={() => deleteItem()}>
