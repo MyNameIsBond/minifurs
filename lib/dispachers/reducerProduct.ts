@@ -1,4 +1,4 @@
-export let initialState = {
+export const initialState = {
   product: [],
   error: false,
   loading: true,

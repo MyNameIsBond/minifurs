@@ -69,7 +69,13 @@ export default function Product({ route }) {
           <Text className="text-2xl font-bold capitalize">
             {state.product?.title}
           </Text>
-          <FavButton product={state.product?.id} user={user?.id} />
+          <FavButton
+            favValue={state.favourite}
+            unfav={() => dispatch({ type: ACTION.UNFAVOURITE_PRODUCT })}
+            fav={() => dispatch({ type: ACTION.FAVOURITE_PRODUCT })}
+            product={state.product?.id}
+            user={user?.id}
+          />
         </View>
         <View className="flex-row justify-between px-4">
           <Text className="text-2xl font-bold text-accent-orange">

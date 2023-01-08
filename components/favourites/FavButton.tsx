@@ -1,35 +1,41 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
+
 export default function FavButton({
   user,
   product,
+  favValue,
+  fav,
+  unfav,
 }: {
   user: string | undefined;
   product: string | undefined;
+  favValue: boolean;
+  fav: () => void;
+  unfav: () => void;
 }): JSX.Element {
-  const [isFavourite, setIsFavourite] = useState<boolean>(false);
-  const favourite = useCallback(async () => {
+  const favourite = async () => {
     try {
-      if (isFavourite) {
+      if (favValue) {
         const { data, error } = await supabase
           .from("favourites")
           .delete()
           .match({ user_id: user, product_id: product });
-        setIsFavourite(false);
+        unfav();
       } else {
         const { data, error } = await supabase
           .from("favourites")
           .insert({ user_id: user, product_id: product });
         if (error) console.error(error);
-        setIsFavourite(true);
+        fav();
       }
     } catch (error) {
       console.error(error);
     }
-  }, [isFavourite, user, product]);
+  };
 
   const favcheck = async () => {
     try {
@@ -38,9 +44,9 @@ export default function FavButton({
         .select("*")
         .match({ user_id: user, product_id: product });
       if (favourites && favourites.length > 0) {
-        setIsFavourite(true);
+        fav();
       } else {
-        setIsFavourite(false);
+        unfav();
       }
     } catch (error) {
       console.error(error);
@@ -49,14 +55,14 @@ export default function FavButton({
 
   useEffect(() => {
     favcheck();
-  });
+  }, []);
 
   return (
     <TouchableOpacity
       onPress={favourite}
       className="p-3 bg-gray-200 rounded-full"
     >
-      {isFavourite ? (
+      {favValue ? (
         <HeartIconSolid color="#ba385c" />
       ) : (
         <HeartIcon color="#ba385c" />
