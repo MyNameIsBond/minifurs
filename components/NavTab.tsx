@@ -11,15 +11,11 @@ import Favourite from "../screens/Favourite";
 import Card from "../screens/Card";
 const Tab = createMaterialBottomTabNavigator();
 
-import reducer from "../lib/dispacher";
-import { useReducer } from "react";
-
 interface IconProps {
   color: string;
 }
 
 function NavTab() {
-  const [state, dispatch] = useReducer(reducer, notification, initialstate);
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -41,7 +37,6 @@ function NavTab() {
         component={Card}
         options={{
           tabBarBadge: true,
-          tabBarBadgeStyle: { backgroundColor: "blue" },
           tabBarIcon: ({ color }: IconProps) => (
             <ShoppingBagIcon color={color} size={20} />
           ),
