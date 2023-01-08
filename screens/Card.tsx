@@ -52,6 +52,13 @@ export default function Card({}) {
           fetchbasket();
         }
       )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "basket" },
+        (payload) => {
+          fetchbasket();
+        }
+      )
       .subscribe();
   };
 
