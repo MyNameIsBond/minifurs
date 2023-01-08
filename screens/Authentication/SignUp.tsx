@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { Alert, View, TextInput, Text, TouchableOpacity } from "react-native";
 import { supabase } from "../../lib/supabase";
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
@@ -22,18 +22,22 @@ export default function MyAuth({ navigation }: { navigation: any }) {
 
   async function signUp() {
     dispacher({ type: ACTION.LOADING, payload: { loading: true } });
-    const { error } = await supabase.auth.signUp({
-      email: state.email,
-      password: state.password,
-    });
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: state.email,
+        password: state.password,
+      });
 
-    if (error) {
-      Alert.alert(error.message);
-    } else {
-      Alert.alert("Now you can sign in");
-      navigation.navigate("Auth");
+      if (error) {
+        Alert.alert(error.message);
+      } else {
+        Alert.alert("Now you can sign in");
+        navigation.navigate("Auth");
+      }
+      dispacher({ type: ACTION.LOADING, payload: { loading: false } });
+    } catch (error) {
+      console.error(error);
     }
-    dispacher({ type: ACTION.LOADING, payload: { loading: false } });
   }
 
   return (

@@ -21,6 +21,7 @@ export default function Card({}) {
           `
           id,
         product_id,
+        quantity,
         products (
           *
         )
@@ -82,6 +83,7 @@ export default function Card({}) {
           key={product.id}
           product={product.products}
           basketid={product.id}
+          quantity={product.quantity}
           user_id={user?.id}
         />
       ))}

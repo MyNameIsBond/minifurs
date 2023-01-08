@@ -5,10 +5,12 @@ export default function BasketCard({
   product,
   basketid,
   user_id,
+  quantity,
 }: {
   product: any;
   basketid: string;
   user_id: string;
+  quantity: number;
 }): JSX.Element {
   const deleteItem = async () => {
     try {
@@ -28,8 +30,8 @@ export default function BasketCard({
       />
       <View className="pl-2 flex-col space-y-1">
         <Text className="text-lg font-bold">{product.title}</Text>
-        <Text className="text-gray-500">EST Time: </Text>
-        <Text className="text-gray-500">amount: </Text>
+        <Text className="text-gray-500">EST Time: 1 days</Text>
+        <Text className="text-gray-500">amount: {quantity}</Text>
       </View>
       <Text className="ml-auto pr-6 text-accent-orange text-lg font-bold">
         £ {product.price}

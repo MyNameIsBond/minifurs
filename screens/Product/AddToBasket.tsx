@@ -16,12 +16,34 @@ export default function AddToBasket({
 }) {
   const addToBasket = async () => {
     try {
-      const { data, error } = await supabase.from("basket").insert({
-        user_id: user_id,
-        product_id: product_id,
-        quantity: quantity,
-        colour: colour,
-      });
+      const { data: exist, error: errorr } = await supabase
+        .from("basket")
+        .select("id")
+        .match({
+          user_id: user_id,
+          product_id: product_id,
+          quantity: quantity,
+          colour: colour,
+        });
+
+      if (exist) {
+        const { data, error } = await supabase
+          .from("basket")
+          .update({ quantity: quantity + 1 })
+          .match({
+            user_id: user_id,
+            product_id: product_id,
+            quantity: quantity,
+            colour: colour,
+          });
+      } else {
+        const { data, error } = await supabase.from("basket").insert({
+          user_id: user_id,
+          product_id: product_id,
+          quantity: quantity,
+          colour: colour,
+        });
+      }
     } catch (error) {
       console.error(error);
     }

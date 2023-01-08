@@ -14,7 +14,6 @@ export default function MyAuth() {
   const [state, dispacher] = useReducer(reducerSignUp, initialState);
 
   const handleChange = (text: string, name: string) => {
-    console.log(text, name);
     dispacher({
       type: ACTION.CHANGE_INPUT,
       payload: { name: name, value: text },
@@ -23,15 +22,19 @@ export default function MyAuth() {
 
   async function signInWithEmail() {
     dispacher({ type: ACTION.LOADING, payload: { loading: true } });
-    const { error } = await supabase.auth.signInWithPassword({
-      email: state.email,
-      password: state.password,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: state.email,
+        password: state.password,
+      });
 
-    if (error) {
-      Alert.alert(error.message);
+      dispacher({ type: ACTION.LOADING, payload: { loading: false } });
+      if (error) {
+        Alert.alert(error.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
-    dispacher({ type: ACTION.LOADING, payload: { loading: false } });
   }
 
   return (
