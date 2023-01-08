@@ -5,6 +5,7 @@ export let initialState = {
   displayColour: "",
   colours: [],
   quantity: 1,
+  favourite: false,
 };
 
 export const ACTION = {
@@ -14,6 +15,8 @@ export const ACTION = {
   CHANGE_DISPLAY_COLOUR: "CHANGE_DISPLAY_COLOUR",
   INCREMENT_QUANTITY: "INCREMENT_QUANTITY",
   DECREMENT_QUANTITY: "DECREMENT_QUANTITY",
+  FAVOURITE_PRODUCT: "FAVOURITE_PRODUCT",
+  UNFAVOURITE_PRODUCT: "UNFAVOURITE_PRODUCT",
 };
 
 export default function reducerProduct(state, action) {
@@ -50,6 +53,16 @@ export default function reducerProduct(state, action) {
       return {
         ...state,
         quantity: state.quantity - 1,
+      };
+    case ACTION.FAVOURITE_PRODUCT:
+      return {
+        ...state,
+        favourite: true,
+      };
+    case ACTION.UNFAVOURITE_PRODUCT:
+      return {
+        ...state,
+        favourite: false,
       };
     default:
       return state;
