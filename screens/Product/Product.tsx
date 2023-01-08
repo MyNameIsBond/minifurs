@@ -76,9 +76,10 @@ export default function Product({ route }) {
             £{state.product?.price}
           </Text>
           <AmountBtn
-            addToBasketNum={addToBasketNum}
-            setAddToBasketNum={setAddToBasketNum}
-            quantity={state.product?.quantity}
+            productAmount={state.product?.quantity}
+            increment={() => dispatch({ type: ACTION.INCREMENT_QUANTITY })}
+            decrement={() => dispatch({ type: ACTION.DECREMENT_QUANTITY })}
+            addToBasketNum={state.quantity}
           />
         </View>
 
