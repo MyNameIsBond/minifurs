@@ -58,12 +58,10 @@ export default function MyAuth() {
         <TouchableOpacity
           className="absolute right-0 top-0 h-full w-10 flex items-center justify-center"
           onPress={() => {
-            console.log("1", state.showPassword);
             dispacher({
               type: ACTION.SHOWPASSWORD,
               payload: { showPassword: !state.showPassword },
             });
-            console.log("2", state.showPassword);
           }}
         >
           {state.showPassword ? (
@@ -74,7 +72,11 @@ export default function MyAuth() {
         </TouchableOpacity>
       </View>
       <View className="rounded-md mt-6 bg-accent-green">
-        <MyButton title="Sign In" onPress={signInWithEmail} />
+        <MyButton
+          title="Sign In"
+          loading={state.loading}
+          onPress={signInWithEmail}
+        />
       </View>
       <View className="flex-row px-4 mx-auto mt-5 text-center">
         <Text className="text-gray-600 font-light">Don't have an account?</Text>

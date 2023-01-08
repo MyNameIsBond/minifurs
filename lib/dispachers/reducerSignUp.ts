@@ -2,7 +2,7 @@ export const initialState = {
   email: "",
   password: "",
   loading: false,
-  showPassword: false,
+  showPassword: true,
 };
 
 export const ACTION = {
