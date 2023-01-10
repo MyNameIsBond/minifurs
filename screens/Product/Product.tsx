@@ -5,7 +5,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
@@ -23,7 +23,6 @@ export default function Product({ route }) {
   const navigation = useNavigation();
 
   const [state, dispatch] = useReducer(reducerProduct, initialState);
-  const [addToBasketNum, setAddToBasketNum] = useState<number>(1);
   const { id } = route.params;
   const { user } = useUser();
 
@@ -121,7 +120,7 @@ export default function Product({ route }) {
           <AddToBasket
             user_id={user?.id}
             product_id={state.product?.id}
-            quantity={addToBasketNum}
+            quantity={state.quantity}
             colour={state.displayColour}
           />
         </View>

@@ -8,7 +8,6 @@ import Auth from "./screens/Authentication/Auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUp from "./screens/Authentication/SignUp";
 import Landing from "./screens/Authentication/Landing";
-import { ActivityIndicator, View } from "react-native";
 import Product from "./screens/Product/Product";
 import { MyUserContextProvider } from "./lib/helpers/UserContext";
 import LoadingView from "./components/LoadingView";

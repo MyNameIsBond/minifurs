@@ -63,6 +63,7 @@ export default function Card({}) {
   };
 
   useEffect(() => {
+    console.log("basket", basket[0].quantity);
     fetchbasket();
     realtimeTable();
   }, []);

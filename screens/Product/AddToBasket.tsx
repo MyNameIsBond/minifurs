@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
 import { supabase } from "../../lib/supabase";
 import { ShoppingCartIcon } from "react-native-heroicons/outline";
 
@@ -18,21 +17,20 @@ export default function AddToBasket({
     try {
       const { data: exist, error: errorr } = await supabase
         .from("basket")
-        .select("id")
+        .select("id, quantity")
         .match({
           user_id: user_id,
           product_id: product_id,
           colour: colour,
         });
       if (exist?.length >= 1) {
-        console.log("exist", exist);
         const { data, error } = await supabase
           .from("basket")
-          .update({ quantity: quantity + 1 })
+          .update({ quantity: quantity })
           .match({
             user_id: user_id,
             product_id: product_id,
-            quantity: quantity,
+            quantity: quantity + exist[0].quantity,
             colour: colour,
           });
       } else {
