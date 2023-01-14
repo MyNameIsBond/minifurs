@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
@@ -63,7 +63,6 @@ export default function Card({}) {
   };
 
   useEffect(() => {
-    console.log("basket", basket[0].quantity);
     fetchbasket();
     realtimeTable();
   }, []);
@@ -86,15 +85,36 @@ export default function Card({}) {
 
   return (
     <ListCards classNames="h-full">
-      {basket?.map((product) => (
-        <BasketCard
-          key={product.id}
-          product={product.products}
-          basketid={product.id}
-          quantity={product.quantity}
-          user_id={user?.id}
-        />
-      ))}
+      <>
+        {basket?.map((product) => (
+          <BasketCard
+            key={product.id}
+            product={product.products}
+            basketid={product.id}
+            quantity={product.quantity}
+            user_id={user?.id}
+          />
+        ))}
+        <View className="flex-row justify-between py-5 w-full">
+          <View className="flex-col items-start">
+            <View className="flex-row items-end">
+              <Text className="text-gray-600 text-base">Total: </Text>
+              <Text className="text-center text-lg text-accent-orange font-bold">
+                £
+                {basket?.reduce((a, b) => a + b.products.price * b.quantity, 0)}
+              </Text>
+            </View>
+            <Text className="text-xs text-gray-600">DELIVERY EXCLUSIVE</Text>
+          </View>
+          <View className="">
+            <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
+              <Text className="text-center text-gray-50 py-4 font-bold pl-3">
+                Checkout
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </>
     </ListCards>
   );
 }

@@ -26,11 +26,10 @@ export default function AddToBasket({
       if (exist?.length >= 1) {
         const { data, error } = await supabase
           .from("basket")
-          .update({ quantity: quantity })
+          .update({ quantity: quantity + exist[0].quantity })
           .match({
             user_id: user_id,
             product_id: product_id,
-            quantity: quantity + exist[0].quantity,
             colour: colour,
           });
       } else {
