@@ -4,7 +4,7 @@ import React from "react";
 export default function MyDetails() {
   return (
     <View>
-      <Text>MyDetails</Text>
+      <Text>My Details</Text>
     </View>
   );
 }
