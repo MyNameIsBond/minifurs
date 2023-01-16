@@ -106,7 +106,7 @@ export default function Card({}) {
             </View>
             <Text className="text-xs text-gray-600">DELIVERY EXCLUSIVE</Text>
           </View>
-          <View className="">
+          <View>
             <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
               <Text className="text-center text-gray-50 py-4 font-bold pl-3">
                 Checkout
@@ -118,3 +118,5 @@ export default function Card({}) {
     </ListCards>
   );
 }
+
+// I am a failure.
