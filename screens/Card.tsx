@@ -118,5 +118,3 @@ export default function Card({}) {
     </ListCards>
   );
 }
-
-// I am a failure.
