@@ -13,7 +13,7 @@ export default function Profile() {
         <Stack.Screen
           name="Search"
           options={({ route }) => ({
-            headerTitle: route.params.search,
+            headerTitle: route.params?.search,
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerBlurEffect: "systemMaterial",
@@ -26,7 +26,7 @@ export default function Profile() {
         />
         <Stack.Screen
           options={({ route }) => ({
-            headerTitle: route.params.category,
+            headerTitle: route.params?.category,
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerBlurEffect: "systemMaterial",
@@ -40,7 +40,7 @@ export default function Profile() {
         />
         <Stack.Screen
           options={({ route }) => ({
-            headerTitle: route.params.title,
+            headerTitle: route.params?.title,
             headerBackTitleVisible: false,
             headerTransparent: true,
             headerBlurEffect: "systemMaterial",
