@@ -4,7 +4,7 @@ import React from "react";
 export default function Checkout() {
   return (
     <View>
-      <Text>Checkout</Text>
+      <Text>This is the checkout screen!</Text>
     </View>
   );
 }
