@@ -19,6 +19,7 @@ import LoadingView from "../../components/LoadingView";
 import reducerProduct from "../../lib/dispachers/reducerProduct";
 import { initialState } from "../../lib/dispachers/reducerProduct";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
+
 export default function Product({ route }) {
   const navigation = useNavigation();
 
@@ -128,3 +129,5 @@ export default function Product({ route }) {
     </View>
   );
 }
+
+// one of the worst days in my life.
