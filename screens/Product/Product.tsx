@@ -129,5 +129,3 @@ export default function Product({ route }) {
     </View>
   );
 }
-
-// one of the worst days in my life.

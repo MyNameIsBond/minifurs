@@ -5,7 +5,7 @@ import Search from "./Home/Search";
 import SeeAll from "./SeeAll";
 
 const Stack = createNativeStackNavigator();
-export default function Profile() {
+export default function Profile({}) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomePage" component={HomePage} />
