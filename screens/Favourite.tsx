@@ -26,7 +26,7 @@ export default function Favourite({}) {
         )
       `
         )
-        .match({ user_id: user.id });
+        .match({ user_id: user?.id });
       setFavourites(data);
       setLoading(false);
     } catch (error) {

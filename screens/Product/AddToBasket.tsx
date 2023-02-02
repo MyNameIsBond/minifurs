@@ -15,7 +15,7 @@ export default function AddToBasket({
 }) {
   const addToBasket = async () => {
     try {
-      const { data: exist, error: errorr } = await supabase
+      const { data: exist, error } = await supabase
         .from("basket")
         .select("id, quantity")
         .match({

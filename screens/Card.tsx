@@ -7,7 +7,7 @@ import { ShoppingBagIcon } from "react-native-heroicons/outline";
 import BasketCard from "../components/BasketCard";
 import LoadingView from "../components/LoadingView";
 
-export default function Card({}) {
+export default function Card({ navigation }: { navigation: any }) {
   const [basket, setbasket] = useState<any[] | null>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { user } = useUser();
@@ -107,7 +107,12 @@ export default function Card({}) {
             <Text className="text-xs text-gray-600">DELIVERY EXCLUSIVE</Text>
           </View>
           <View>
-            <TouchableOpacity className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green">
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Checkout");
+              }}
+              className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green"
+            >
               <Text className="text-center text-gray-50 py-4 font-bold pl-3">
                 Checkout
               </Text>
