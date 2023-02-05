@@ -1,3 +1,13 @@
+interface initialStateType {
+  product: [];
+  error: false;
+  loading: true;
+  displayColour: string;
+  colours: [];
+  quantity: number;
+  favourite: false;
+}
+
 export const initialState = {
   product: [],
   error: false,
@@ -19,7 +29,7 @@ export const ACTION = {
   UNFAVOURITE_PRODUCT: "UNFAVOURITE_PRODUCT",
 };
 
-export default function reducerProduct(state, action) {
+export default function reducerProduct(state: initialStateType, action: any) {
   switch (action.type) {
     case ACTION.FETCH_PRODUCT_START:
       return {
