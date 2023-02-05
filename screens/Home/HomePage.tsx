@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import CategoriesSlider from "../../components/home/CategoriesSlider";
 import HomeBody from "../../components/home/HomeBody";
 import HomeSceleton from "../../components/home/HomeSceleton";
@@ -22,11 +22,13 @@ export default function Home({}) {
   };
 
   return (
-    <ScrollView>
-      <HomeSceleton search={search} setSearch={setSearch}>
-        <CategoriesSlider />
-        <HomeBody products={products} />
-      </HomeSceleton>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView>
+        <HomeSceleton search={search} setSearch={setSearch}>
+          <CategoriesSlider />
+          <HomeBody products={products} />
+        </HomeSceleton>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

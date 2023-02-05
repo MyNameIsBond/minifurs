@@ -29,7 +29,6 @@ export const MyUserContextProvider = (props: Props) => {
         const userDetailsPromise = results[0];
         if (userDetailsPromise.status === "fulfilled")
           setUserDetails(userDetailsPromise.value.data);
-        console.log("this is cool");
         setIsloadingData(false);
       });
     } else if (!user && !isLoadingUser && !isLoadingData) {

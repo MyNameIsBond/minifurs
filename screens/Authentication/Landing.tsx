@@ -34,7 +34,7 @@ export default function Landing({
           />
           <View className="flex-col space-y-2 mb-12">
             <Text className="text-2xl text-center font-bold text-gray-500">
-              Optimize your space using tech and creativity in africa
+              Optimize your space using tech and creativity
             </Text>
             <Text className="text-center text-gray-500 font-medium">
               Fitting your furnitures in your space before buying{" "}
