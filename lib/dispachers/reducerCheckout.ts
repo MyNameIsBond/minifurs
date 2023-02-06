@@ -8,11 +8,13 @@ export const initialState = {
   town: "",
   postcode: "",
   country: "",
+  user_exist: false,
 };
 
 export const ACTION = {
   SET_USER: "SET_USER",
   CHANGE_INPUT: "CHANGE_INPUT",
+  USER_EXIST: "USER_EXIST",
 };
 
 export default function reducerCheckout(state: any, action: any) {
@@ -26,6 +28,11 @@ export default function reducerCheckout(state: any, action: any) {
       return {
         ...state,
         user: action.payload.user,
+      };
+    case ACTION.USER_EXIST:
+      return {
+        ...state,
+        user_exist: action.payload.user_exist,
       };
     default:
       return state;
