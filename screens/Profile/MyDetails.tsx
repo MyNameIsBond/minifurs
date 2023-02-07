@@ -118,8 +118,6 @@ export default function MyDetails() {
     <View>
       {state.user_exist ? (
         <>
-          <Text>{JSON.stringify(state)}</Text>
-          <Text>{state.username}</Text>
           <Text>{state.username}</Text>
         </>
       ) : (
