@@ -105,7 +105,6 @@ export default function MyDetails() {
       )
       .subscribe();
   };
-  // this is rubish
 
   useEffect(() => {
     if (user) {
