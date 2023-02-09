@@ -8,6 +8,7 @@ import reducerCheckout, {
 import { supabase } from "../../lib/supabase";
 import { useUser } from "../../lib/helpers/UserContext";
 
+// This is cool!
 export default function MyDetails() {
   const { user } = useUser();
 
