@@ -10,7 +10,6 @@ import { useUser } from "../../lib/helpers/UserContext";
 
 export default function MyDetails() {
   const { user } = useUser();
-
   const [state, dispacher] = useReducer(reducerCheckout, initialState);
 
   const doesUserExist = async (): Promise<boolean> => {
@@ -118,7 +117,7 @@ export default function MyDetails() {
     <View>
       {state.user_exist ? (
         <>
-          <Text>{state.username}</Text>
+          <Text>{JSON.stringify(state.user.email)}</Text>
         </>
       ) : (
         <View className="flex gap-y-4 p-3">
@@ -147,7 +146,7 @@ export default function MyDetails() {
           <MyButton title="Save" onPress={() => saveUserDetails()} />
         </View>
       )}
-      <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
+      {/* <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
         <Text>Address</Text>
         <TextInput
           className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
@@ -177,8 +176,8 @@ export default function MyDetails() {
           placeholder="Post code"
           autoCapitalize={"none"}
         />
-        <MyButton title="Save" onPress={() => console.log("")} />
-      </View>
+        <MyButton title="Save" onPress={() => saveUserDetails()} />
+      </View> */}
     </View>
   );
 }
