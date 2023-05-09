@@ -12,6 +12,8 @@ import Product from "./screens/Product/Product";
 import { MyUserContextProvider } from "./lib/helpers/UserContext";
 import LoadingView from "./components/LoadingView";
 import Checkout from "./screens/Checkout";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -47,29 +49,31 @@ export default function App() {
     </NavigationContainer>
   ) : (
     <MyUserContextProvider session={session} supabaseClient={supabase}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Group>
-            <Stack.Screen name="Nav" component={NavTab} />
-            <Stack.Screen name="Product" component={Product} />
-            <Stack.Screen
-              name="Checkout"
-              component={Checkout}
-              options={({ route }) => ({
-                headerShown: true,
-                headerTitle: "Checkout",
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerBlurEffect: "systemMaterial",
-                headerTitleStyle: {
-                  color: "#284F49",
-                  fontSize: 20,
-                },
-              })}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Group>
+              <Stack.Screen name="Nav" component={NavTab} />
+              <Stack.Screen name="Product" component={Product} />
+              <Stack.Screen
+                name="Checkout"
+                component={Checkout}
+                options={() => ({
+                  headerShown: true,
+                  headerTitle: "Checkout",
+                  headerBackTitleVisible: false,
+                  headerTransparent: true,
+                  headerBlurEffect: "systemMaterial",
+                  headerTitleStyle: {
+                    color: "#284F49",
+                    fontSize: 20,
+                  },
+                })}
+              />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </MyUserContextProvider>
   );
 }
