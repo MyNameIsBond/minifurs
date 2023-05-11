@@ -1,7 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase";
-
+import { useGetUserQuery } from "../../app/services/user";
 type UserContextType = {
   accessToken: string | null;
   user: User | null;
@@ -18,11 +18,12 @@ export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
   const { supabaseClient: supabase, session } = props;
   const { user, accessToken, isLoading: isLoadingUser } = session;
+
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const getUserDetails = () =>
-    supabase.from("users").select("*").match({ user_id: user?.id }).single();
-
+    supabase.from("users").select("*").match({ id: user?.id }).single();
+  const { data, error, isLoading } = useGetUserQuery(user?.id);
   useEffect(() => {
     if (user && !isLoadingData && !userDetails) {
       setIsloadingData(true);

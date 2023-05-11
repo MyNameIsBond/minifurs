@@ -48,8 +48,8 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   ) : (
-    <MyUserContextProvider session={session} supabaseClient={supabase}>
-      <Provider store={store}>
+    <Provider store={store}>
+      <MyUserContextProvider session={session} supabaseClient={supabase}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Group>
@@ -73,7 +73,7 @@ export default function App() {
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
-      </Provider>
-    </MyUserContextProvider>
+      </MyUserContextProvider>
+    </Provider>
   );
 }
