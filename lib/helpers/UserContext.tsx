@@ -1,6 +1,5 @@
 import { User } from "@supabase/supabase-js";
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../supabase";
+import { createContext, useContext } from "react";
 import { useGetUserQuery } from "../../app/services/user";
 type UserContextType = {
   accessToken: string | null;
@@ -17,11 +16,8 @@ export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
   const { session } = props;
   const { user, accessToken, isLoading: isLoadingUser } = session;
-  const {
-    data: userDetails,
-    error,
-    isLoading: isLoadingUserDetails,
-  } = useGetUserQuery(user?.id as string);
+  const { data: userDetails, isLoading: isLoadingUserDetails } =
+    useGetUserQuery(user?.id as string);
 
   const value = {
     accessToken,
