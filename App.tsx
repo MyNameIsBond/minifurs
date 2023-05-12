@@ -49,7 +49,7 @@ export default function App() {
     </NavigationContainer>
   ) : (
     <Provider store={store}>
-      <MyUserContextProvider session={session} supabaseClient={supabase}>
+      <MyUserContextProvider session={session}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Group>

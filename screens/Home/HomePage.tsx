@@ -10,16 +10,14 @@ export default function Home({}) {
   const [products, setProducts] = useState<any[] | null>([]);
 
   useEffect(() => {
-    fetchProducts();
+    (async () => {
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("*")
+        .limit(4);
+      setProducts(product);
+    })();
   }, []);
-
-  const fetchProducts = async () => {
-    const { data: product, error } = await supabase
-      .from("products")
-      .select("*")
-      .limit(4);
-    setProducts(product);
-  };
 
   return (
     <SafeAreaView>

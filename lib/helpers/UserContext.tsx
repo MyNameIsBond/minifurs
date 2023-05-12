@@ -9,14 +9,13 @@ type UserContextType = {
 };
 
 export interface Props {
-  supabaseClient: typeof supabase;
   [propName: string]: any;
   session: UserContextType;
 }
 
 export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
-  const { supabaseClient: supabase, session } = props;
+  const { session } = props;
   const { user, accessToken, isLoading: isLoadingUser } = session;
   const {
     data: userDetails,
