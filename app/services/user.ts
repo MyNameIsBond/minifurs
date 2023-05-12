@@ -31,7 +31,6 @@ export const userApi = createApi({
             .select("*")
             .match({ id: id })
             .single();
-          console.log("ELA RE:", data);
           return { data };
         } catch (error) {
           return { error };

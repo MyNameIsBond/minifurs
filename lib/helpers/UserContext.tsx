@@ -18,31 +18,17 @@ export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
   const { supabaseClient: supabase, session } = props;
   const { user, accessToken, isLoading: isLoadingUser } = session;
-
-  const [isLoadingData, setIsloadingData] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
-  const getUserDetails = () =>
-    supabase.from("users").select("*").match({ id: user?.id }).single();
-  const { data, error, isLoading } = useGetUserQuery(user?.id);
-  useEffect(() => {
-    if (user && !isLoadingData && !userDetails) {
-      setIsloadingData(true);
-      Promise.allSettled([getUserDetails()]).then((results) => {
-        const userDetailsPromise = results[0];
-        if (userDetailsPromise.status === "fulfilled")
-          setUserDetails(userDetailsPromise.value.data);
-        setIsloadingData(false);
-      });
-    } else if (!user && !isLoadingUser && !isLoadingData) {
-      setUserDetails(null);
-    }
-  }, [user, isLoadingUser]);
+  const {
+    data: userDetails,
+    error,
+    isLoading: isLoadingUserDetails,
+  } = useGetUserQuery(user?.id as string);
 
   const value = {
     accessToken,
     user,
     userDetails,
-    isLoading: isLoadingUser || isLoadingData,
+    isLoading: isLoadingUser || isLoadingUserDetails,
   };
 
   return <UserContext.Provider value={value} {...props} />;
