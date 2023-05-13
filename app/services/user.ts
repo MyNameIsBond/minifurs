@@ -1,5 +1,6 @@
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { supabase } from "../../lib/supabase";
+import { UserContextType } from "../../lib/helpers/UserContext";
 
 interface User {
   status: string;
@@ -37,7 +38,18 @@ export const userApi = createApi({
         }
       },
     }),
+    getSession: builder.query<UserContextType, void>({
+      queryFn: async () => {
+        try {
+          const { data } = await supabase.auth.getSession();
+          console.log("data", data);
+          return data;
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useGetSessionQuery } = userApi;

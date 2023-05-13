@@ -14,19 +14,14 @@ import LoadingView from "./components/LoadingView";
 import Checkout from "./screens/Checkout";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { useGetSessionQuery } from "./app/services/user";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  console.log("hello from app");
+  const { data } = useGetSessionQuery();
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setLoading(true);
-      setSession(session);
-      setLoading(false);
-    });
-
     supabase.auth.onAuthStateChange((_event, session) => {
       setLoading(true);
       setSession(session);

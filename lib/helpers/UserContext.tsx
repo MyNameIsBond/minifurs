@@ -1,7 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import { createContext, useContext } from "react";
 import { useGetUserQuery } from "../../app/services/user";
-type UserContextType = {
+export type UserContextType = {
   accessToken: string | null;
   user: User | null;
   isLoading: boolean;
