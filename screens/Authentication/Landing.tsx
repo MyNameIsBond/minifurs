@@ -15,12 +15,12 @@ export default function Landing({
   navigation: any;
 }): JSX.Element {
   return (
-    <ImageBackground
-      imageStyle={{ opacity: 0.09 }}
-      source={require("../../assets/loginbg.png")}
-      resizeMode="cover"
-    >
-      <SafeAreaView>
+    <SafeAreaView>
+      <ImageBackground
+        imageStyle={{ opacity: 0.09 }}
+        source={require("../../assets/loginbg.png")}
+        resizeMode="cover"
+      >
         <View className="h-screen px-4">
           <Image
             source={require("../../assets/mainimage.png")}
@@ -66,7 +66,7 @@ export default function Landing({
             </Text>
           </View>
         </View>
-      </SafeAreaView>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }

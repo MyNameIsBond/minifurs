@@ -14,15 +14,19 @@ import LoadingView from "./components/LoadingView";
 import Checkout from "./screens/Checkout";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import { useGetSessionQuery } from "./app/services/user";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { data } = useGetSessionQuery();
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
+      setLoading(true);
+      setSession(session);
+      setLoading(false);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setLoading(true);
       setSession(session);
       setLoading(false);
@@ -33,43 +37,47 @@ export default function App() {
     return <LoadingView />;
   }
 
-  return !session ? (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Group>
-          <Stack.Screen name="Landing" component={Landing} />
-          <Stack.Screen name="Auth" component={Auth} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
-  ) : (
-    <Provider store={store}>
-      <MyUserContextProvider session={session}>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Group>
-              <Stack.Screen name="Nav" component={NavTab} />
-              <Stack.Screen name="Product" component={Product} />
-              <Stack.Screen
-                name="Checkout"
-                component={Checkout}
-                options={() => ({
-                  headerShown: true,
-                  headerTitle: "Checkout",
-                  headerBackTitleVisible: false,
-                  headerTransparent: true,
-                  headerBlurEffect: "systemMaterial",
-                  headerTitleStyle: {
-                    color: "#284F49",
-                    fontSize: 20,
-                  },
-                })}
-              />
-            </Stack.Group>
-          </Stack.Navigator>
-        </NavigationContainer>
-      </MyUserContextProvider>
-    </Provider>
+  return (
+    <>
+      <Provider store={store}>
+        {!session ? (
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Group>
+                <Stack.Screen name="Landing" component={Landing} />
+                <Stack.Screen name="Auth" component={Auth} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+              </Stack.Group>
+            </Stack.Navigator>
+          </NavigationContainer>
+        ) : (
+          <MyUserContextProvider session={session}>
+            <NavigationContainer>
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Group>
+                  <Stack.Screen name="Nav" component={NavTab} />
+                  <Stack.Screen name="Product" component={Product} />
+                  <Stack.Screen
+                    name="Checkout"
+                    component={Checkout}
+                    options={() => ({
+                      headerShown: true,
+                      headerTitle: "Checkout",
+                      headerBackTitleVisible: false,
+                      headerTransparent: true,
+                      headerBlurEffect: "systemMaterial",
+                      headerTitleStyle: {
+                        color: "#284F49",
+                        fontSize: 20,
+                      },
+                    })}
+                  />
+                </Stack.Group>
+              </Stack.Navigator>
+            </NavigationContainer>
+          </MyUserContextProvider>
+        )}
+      </Provider>
+    </>
   );
 }
