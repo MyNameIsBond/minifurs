@@ -6,3 +6,4 @@ export const counterSlice = createSlice({
   },
   reducers: {},
 });
+//TODO: make a reducer for user
