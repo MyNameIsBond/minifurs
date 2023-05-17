@@ -8,3 +8,5 @@ export const counterSlice = createSlice({
   },
   reducers: {},
 });
+
+// TODO: make reducers for inputs and try to use those reducers for every input change.
