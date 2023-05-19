@@ -20,11 +20,11 @@ export const authSlice = createSlice({
     },
     changeInput: (
       state,
-      action: PayloadAction<{ name: string; value: string }>
+      action: PayloadAction<{ name: string; text: string }>
     ) => {
       return {
         ...state,
-        [action.payload.name]: action.payload.value,
+        [action.payload.name]: action.payload.text,
       };
     },
   },

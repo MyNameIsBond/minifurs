@@ -1,6 +1,6 @@
 import { api } from "./api";
 import { supabase } from "../../lib/supabase";
-import { User } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,6 +12,29 @@ export const userApi = api.injectEndpoints({
             .select("*")
             .match({ id: id })
             .single();
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
+    loginUser: builder.query<
+      | {
+          user: User | null;
+          session: Session | null;
+        }
+      | {
+          user: null;
+          session: null;
+        },
+      { email: string; password: string }
+    >({
+      queryFn: async ({ email, password }) => {
+        try {
+          const { data } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+          });
           return { data };
         } catch (error) {
           return { error };
