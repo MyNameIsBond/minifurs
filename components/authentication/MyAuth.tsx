@@ -13,6 +13,7 @@ import reducerSignUp, {
 } from "../../lib/dispachers/reducerSignUp";
 import { RootState } from "../../app/store";
 import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
+import { useLoginUserQuery } from "../../app/services/user";
 
 export default function MyAuth() {
   const { email, password, showPassword } = useSelector(
@@ -29,10 +30,12 @@ export default function MyAuth() {
   async function signInWithEmail() {
     dispacher({ type: ACTION.LOADING, payload: { loading: true } });
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
+      const { error, isLoading } = useLoginUserQuery({ email, password });
+
+      // const { error } = await supabase.auth.signInWithPassword({
+      //   email: email,
+      //   password: password,
+      // });
 
       dispacher({ type: ACTION.LOADING, payload: { loading: false } });
       if (error) {

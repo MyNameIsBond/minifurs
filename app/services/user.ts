@@ -19,29 +19,22 @@ export const userApi = api.injectEndpoints({
       },
     }),
     loginUser: builder.query<
-      | {
-          user: User | null;
-          session: Session | null;
-        }
-      | {
-          user: null;
-          session: null;
-        },
+      {
+        user: User | null;
+        session: Session | null;
+      },
       { email: string; password: string }
     >({
       queryFn: async ({ email, password }) => {
-        try {
-          const { data } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-          });
-          return { data };
-        } catch (error) {
-          return { error };
-        }
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+        if (error) return error;
+        return { data };
       },
     }),
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useLoginUserQuery } = userApi;
