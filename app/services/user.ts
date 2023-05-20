@@ -26,12 +26,16 @@ export const userApi = api.injectEndpoints({
       { email: string; password: string }
     >({
       queryFn: async ({ email, password }) => {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: password,
-        });
-        if (error) return error;
-        return { data };
+        try {
+          console.log("ela re");
+          const { data } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+          });
+          return { data };
+        } catch (error) {
+          return { error };
+        }
       },
     }),
   }),

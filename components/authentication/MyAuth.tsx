@@ -27,24 +27,26 @@ export default function MyAuth() {
     dispatch(changeInput({ name, text }));
   };
 
-  async function signInWithEmail() {
-    dispacher({ type: ACTION.LOADING, payload: { loading: true } });
-    try {
-      const { error, isLoading } = useLoginUserQuery({ email, password });
-
-      // const { error } = await supabase.auth.signInWithPassword({
-      //   email: email,
-      //   password: password,
-      // });
-
-      dispacher({ type: ACTION.LOADING, payload: { loading: false } });
-      if (error) {
-        Alert.alert(error.message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const signInWithEmail = async () => {
+    // dispacher({ type: ACTION.LOADING, payload: { loading: true } });
+    const { data, error, isLoading } = useLoginUserQuery({
+      email,
+      password,
+    });
+    console.log("ela re paidia", { data, error, isLoading });
+    // try {
+    //   const { error } = await supabase.auth.signInWithPassword({
+    //     email: email,
+    //     password: password,
+    //   });
+    //   dispacher({ type: ACTION.LOADING, payload: { loading: false } });
+    //   if (error) {
+    //     Alert.alert(error.message);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
 
   return (
     <AuthSceleton
