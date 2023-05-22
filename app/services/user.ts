@@ -36,7 +36,6 @@ export const userApi = api.injectEndpoints({
           }
           return { data };
         } catch (error) {
-          console.log("ERROR FROM USERS", error);
           return { error };
         }
       },
