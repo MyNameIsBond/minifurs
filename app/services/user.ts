@@ -18,7 +18,7 @@ export const userApi = api.injectEndpoints({
         }
       },
     }),
-    loginUser: builder.query<
+    loginUser: builder.mutation<
       {
         user: User | null;
         session: Session | null;
@@ -28,7 +28,7 @@ export const userApi = api.injectEndpoints({
       queryFn: async ({ email, password }) => {
         try {
           console.log("ela re");
-          const { data } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
             password: password,
           });
@@ -41,4 +41,4 @@ export const userApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetUserQuery, useLoginUserQuery } = userApi;
+export const { useGetUserQuery, useLoginUserMutation } = userApi;

@@ -6,46 +6,28 @@ import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";
 import MyButton from "../reusables/MyButton";
 import { useSelector, useDispatch } from "react-redux";
-
-import reducerSignUp, {
-  ACTION,
-  initialState,
-} from "../../lib/dispachers/reducerSignUp";
 import { RootState } from "../../app/store";
 import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
-import { useLoginUserQuery } from "../../app/services/user";
+import { useLoginUserMutation } from "../../app/services/user";
 
 export default function MyAuth() {
+  const [login, { data, error, isLoading }] = useLoginUserMutation();
   const { email, password, showPassword } = useSelector(
     (state: RootState) => state.auth
   );
   const dispatch = useDispatch();
-
-  const [state, dispacher] = useReducer(reducerSignUp, initialState);
 
   const handleChange = (text: string, name: string) => {
     dispatch(changeInput({ name, text }));
   };
 
   const signInWithEmail = async () => {
-    // dispacher({ type: ACTION.LOADING, payload: { loading: true } });
-    const { data, error, isLoading } = useLoginUserQuery({
+    login({
       email,
       password,
     });
     console.log("ela re paidia", { data, error, isLoading });
-    // try {
-    //   const { error } = await supabase.auth.signInWithPassword({
-    //     email: email,
-    //     password: password,
-    //   });
-    //   dispacher({ type: ACTION.LOADING, payload: { loading: false } });
-    //   if (error) {
-    //     Alert.alert(error.message);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    // Alert.alert(error.message);
   };
 
   return (
@@ -85,7 +67,7 @@ export default function MyAuth() {
       <View className="rounded-md mt-6 bg-accent-green">
         <MyButton
           title="Sign In"
-          loading={state.loading}
+          loading={isLoading}
           onPress={signInWithEmail}
         />
       </View>
