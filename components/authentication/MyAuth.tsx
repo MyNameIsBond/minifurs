@@ -1,6 +1,4 @@
-import { useReducer } from "react";
 import { Alert, View, TextInput, Text, TouchableOpacity } from "react-native";
-import { supabase } from "../../lib/supabase";
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
 import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";
@@ -9,14 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
 import { useLoginUserMutation } from "../../app/services/user";
+import { useEffect } from "react";
 
 export default function MyAuth() {
-  const [login, { data, error, isLoading }] = useLoginUserMutation();
+  const [login, { error, isLoading }] = useLoginUserMutation();
   const { email, password, showPassword } = useSelector(
     (state: RootState) => state.auth
   );
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (error) {
+      Alert.alert(error as string);
+    }
+  }, [error]);
   const handleChange = (text: string, name: string) => {
     dispatch(changeInput({ name, text }));
   };
@@ -26,8 +29,6 @@ export default function MyAuth() {
       email,
       password,
     });
-    console.log("ela re paidia", { data, error, isLoading });
-    // Alert.alert(error.message);
   };
 
   return (
