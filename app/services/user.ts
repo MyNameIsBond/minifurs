@@ -40,7 +40,30 @@ export const userApi = api.injectEndpoints({
         }
       },
     }),
+    signUpUser: builder.mutation<
+      {
+        user: User | null;
+        session: Session | null;
+      },
+      { email: string; password: string }
+    >({
+      queryFn: async ({ email, password }) => {
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+          });
+          if (error) {
+            throw error.message;
+          }
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery, useLoginUserMutation } = userApi;
+export const { useGetUserQuery, useLoginUserMutation, useSignUpUserMutation } =
+  userApi;

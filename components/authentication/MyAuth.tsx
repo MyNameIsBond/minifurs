@@ -15,16 +15,18 @@ export default function MyAuth() {
     (state: RootState) => state.auth
   );
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (error) {
       Alert.alert(error as string);
     }
   }, [error]);
+
   const handleChange = (text: string, name: string) => {
     dispatch(changeInput({ name, text }));
   };
 
-  const signInWithEmail = async () => {
+  const signInWithEmail = () => {
     login({
       email,
       password,
@@ -59,9 +61,9 @@ export default function MyAuth() {
           }}
         >
           {showPassword ? (
-            <EyeIcon color="black" className="bg-gray-500" size={20} />
-          ) : (
             <EyeSlashIcon color="black" className="bg-gray-500" size={20} />
+          ) : (
+            <EyeIcon color="black" className="bg-gray-500" size={20} />
           )}
         </TouchableOpacity>
       </View>

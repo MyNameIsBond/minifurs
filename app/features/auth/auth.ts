@@ -8,7 +8,7 @@ interface AuthState {
 const initialState: AuthState = {
   email: "",
   password: "",
-  showPassword: false,
+  showPassword: true,
 };
 
 export const authSlice = createSlice({
