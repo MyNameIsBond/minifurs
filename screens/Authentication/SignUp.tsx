@@ -22,6 +22,7 @@ export default function MyAuth() {
   };
   useEffect(() => {
     if (data) {
+      console.log(data);
       Alert.alert("Check your email for validation email");
     }
     if (error) {
