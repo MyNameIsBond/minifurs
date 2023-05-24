@@ -19,12 +19,18 @@ import LoadingView from "../../components/LoadingView";
 import reducerProduct from "../../lib/dispachers/reducerProduct";
 import { initialState } from "../../lib/dispachers/reducerProduct";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
+import { useGetProductQuery } from "../../app/services/product";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-
+  const { loading, password, showPassword } = useSelector(
+    (state: RootState) => state.auth
+  );
   const [state, dispatch] = useReducer(reducerProduct, initialState);
   const { id } = route.params;
+  const { error, isLoading, data } = useGetProductQuery(id);
   const { user } = useUser();
 
   const fetchProduct = async () => {
