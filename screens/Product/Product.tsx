@@ -25,14 +25,11 @@ import { RootState } from "../../app/store";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const { loading, password, showPassword } = useSelector(
-    (state: RootState) => state.auth
-  );
-  const [state, dispatch] = useReducer(reducerProduct, initialState);
+  const { product } = useSelector((state: RootState) => state.auth);
   const { id } = route.params;
   const { error, isLoading, data } = useGetProductQuery(id);
   const { user } = useUser();
-
+  console.log("MY USER:", user);
   const fetchProduct = async () => {
     try {
       dispatch({ type: ACTION.FETCH_PRODUCT_START });

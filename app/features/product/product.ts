@@ -22,7 +22,7 @@ const initialState: initialStateType = {
   favourite: false,
 };
 
-const productSlice = createSlice({
+export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
