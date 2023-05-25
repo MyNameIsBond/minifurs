@@ -42,8 +42,8 @@ export const productSlice = createSlice({
       state.favourite = false;
     },
   },
-  extraReducers(builder) {
-    builder.addCase(
+  extraReducers: (builder) => {
+    builder.addMatcher(
       getProduct.matchFulfilled,
       (state, action: PayloadAction<ProductInterface>) => {
         state.product = action.payload;
@@ -52,10 +52,10 @@ export const productSlice = createSlice({
         state.loading = false;
       }
     );
-    builder.addCase(getProduct.matchPending, (state) => {
+    builder.addMatcher(getProduct.matchPending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getProduct.matchRejected, (state, action) => {
+    builder.addMatcher(getProduct.matchRejected, (state, action) => {
       state.loading = false;
       state.error = action.error;
     });
