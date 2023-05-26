@@ -25,7 +25,7 @@ import { RootState } from "../../app/store";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const pr = useSelector((state: RootState) => state.product);
+  const { product } = useSelector((state: RootState) => state.product);
   const { id } = route.params;
   const [state, dispatcher] = useReducer(reducerProduct, initialState);
   const { error, isLoading, data } = useGetProductQuery(id);
@@ -66,7 +66,7 @@ export default function Product({ route }) {
           colours={state.product?.colours}
           displayColour={state.displayColour}
         />
-        <Text>{JSON.stringify(pr)}</Text>
+        <Text>{JSON.stringify(product)}</Text>
         <TouchableOpacity
           className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
           onPress={() => navigation.goBack()}
