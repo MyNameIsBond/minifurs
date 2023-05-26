@@ -20,36 +20,39 @@ import reducerProduct from "../../lib/dispachers/reducerProduct";
 import { initialState } from "../../lib/dispachers/reducerProduct";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
 import { useGetProductQuery } from "../../app/services/product";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const { product } = useSelector((state: RootState) => state.auth);
-  const [state, dispatch] = useReducer(reducerProduct, initialState);
+  const pr = useSelector((state: RootState) => state.product);
   const { id } = route.params;
+  const [state, dispatcher] = useReducer(reducerProduct, initialState);
   const { error, isLoading, data } = useGetProductQuery(id);
-  const { user } = useUser();
-  console.log("MY USER:", user);
+  if (error) {
+    console.error({ error });
+  }
+  const dispatch = useDispatch();
+  const user = useUser();
   const fetchProduct = async () => {
     try {
-      dispatch({ type: ACTION.FETCH_PRODUCT_START });
+      dispatcher({ type: ACTION.FETCH_PRODUCT_START });
       const { data: product } = await supabase
         .from("products")
         .select("*")
         .match({ id: id });
-      dispatch({
+      dispatcher({
         type: ACTION.FETCH_PRODUCT_SUCCESS,
         payload: product[0],
       });
     } catch (error) {
-      dispatch({ type: ACTION.FETCH_PRODUCT_ERROR, payload: error });
+      dispatcher({ type: ACTION.FETCH_PRODUCT_ERROR, payload: error });
     }
   };
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [dispatch, id]);
 
   if (state.loading) {
     return <LoadingView />;
@@ -63,6 +66,7 @@ export default function Product({ route }) {
           colours={state.product?.colours}
           displayColour={state.displayColour}
         />
+        <Text>{JSON.stringify(pr)}</Text>
         <TouchableOpacity
           className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
           onPress={() => navigation.goBack()}
@@ -75,8 +79,8 @@ export default function Product({ route }) {
           </Text>
           <FavButton
             favValue={state.favourite}
-            unfav={() => dispatch({ type: ACTION.UNFAVOURITE_PRODUCT })}
-            fav={() => dispatch({ type: ACTION.FAVOURITE_PRODUCT })}
+            unfav={() => dispatcher({ type: ACTION.UNFAVOURITE_PRODUCT })}
+            fav={() => dispatcher({ type: ACTION.FAVOURITE_PRODUCT })}
             product={state.product?.id}
             user={user?.id}
           />
@@ -87,8 +91,8 @@ export default function Product({ route }) {
           </Text>
           <AmountBtn
             productAmount={state.product?.quantity}
-            increment={() => dispatch({ type: ACTION.INCREMENT_QUANTITY })}
-            decrement={() => dispatch({ type: ACTION.DECREMENT_QUANTITY })}
+            increment={() => dispatcher({ type: ACTION.INCREMENT_QUANTITY })}
+            decrement={() => dispatcher({ type: ACTION.DECREMENT_QUANTITY })}
             addToBasketNum={state.quantity}
           />
         </View>
@@ -98,7 +102,7 @@ export default function Product({ route }) {
             <TouchableOpacity
               key={colour}
               onPress={(e) =>
-                dispatch({
+                dispatcher({
                   type: ACTION.CHANGE_DISPLAY_COLOUR,
                   payload: colour,
                 })

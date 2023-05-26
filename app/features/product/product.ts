@@ -15,7 +15,7 @@ interface initialStateType {
 const initialState: initialStateType = {
   product: [],
   error: "",
-  loading: true,
+  loading: false,
   displayColour: "",
   colours: [],
   quantity: 1,
@@ -47,15 +47,20 @@ export const productSlice = createSlice({
       getProduct.matchFulfilled,
       (state, action: PayloadAction<ProductInterface>) => {
         state.product = action.payload;
-        state.displayColour = action.payload.colours[0];
         state.colours = action.payload.colours;
         state.loading = false;
+        console.log("PRODUCT:", state);
+        if (!state.displayColour) {
+          state.displayColour = action.payload.colours[0];
+        }
       }
     );
     builder.addMatcher(getProduct.matchPending, (state) => {
+      console.log("still!");
       state.loading = true;
     });
     builder.addMatcher(getProduct.matchRejected, (state, action) => {
+      console.log("rejected!");
       state.loading = false;
       state.error = action.error;
     });
