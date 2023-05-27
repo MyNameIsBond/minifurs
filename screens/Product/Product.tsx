@@ -52,7 +52,7 @@ export default function Product({ route }) {
 
   useEffect(() => {
     fetchProduct();
-  }, [dispatch, id]);
+  }, [id]);
 
   if (state.loading) {
     return <LoadingView />;

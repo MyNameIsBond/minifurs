@@ -3,7 +3,7 @@ import { getProduct } from "../../services/product";
 import type { ProductInterface } from "../../services/product";
 
 interface initialStateType {
-  product: ProductInterface | never[];
+  product: ProductInterface | [];
   error: string;
   loading: boolean;
   displayColour: string;
@@ -43,22 +43,21 @@ export const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addMatcher(getProduct.matchPending, (state) => {
+      console.log("still!");
+      state.loading = true;
+    });
     builder.addMatcher(
       getProduct.matchFulfilled,
       (state, action: PayloadAction<ProductInterface>) => {
         state.product = action.payload;
         state.colours = action.payload.colours;
         state.loading = false;
-        console.log("PRODUCT:", state);
-        if (!state.displayColour) {
-          state.displayColour = action.payload.colours[0];
-        }
+        // if (!state.displayColour) {
+        //   state.displayColour = action.payload.colours[0];
+        // }
       }
     );
-    builder.addMatcher(getProduct.matchPending, (state) => {
-      console.log("still!");
-      state.loading = true;
-    });
     builder.addMatcher(getProduct.matchRejected, (state, action) => {
       console.log("rejected!");
       state.loading = false;
