@@ -33,6 +33,7 @@ export interface ProductInterface {
 }
 
 export const product = api.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getProduct: builder.query<ProductInterface[], string>({
       queryFn: async (id) => {
@@ -49,6 +50,7 @@ export const product = api.injectEndpoints({
           return { error };
         }
       },
+      providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
   }),
 });
