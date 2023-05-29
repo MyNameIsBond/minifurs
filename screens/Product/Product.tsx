@@ -22,13 +22,14 @@ import { ACTION } from "../../lib/dispachers/reducerProduct";
 import { useGetProductQuery } from "../../app/services/product";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import { api } from "../../app/services/api";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const { product } = useSelector((state: RootState) => state.product);
+  const newState = useSelector((state: RootState) => state);
   const { id } = route.params;
   const [state, dispatcher] = useReducer(reducerProduct, initialState);
-  const { error, isLoading, data } = useGetProductQuery(id);
+  const { error, isLoading, data, refetch } = useGetProductQuery(id);
   if (error) {
     console.error({ error });
   }
@@ -52,6 +53,8 @@ export default function Product({ route }) {
 
   useEffect(() => {
     fetchProduct();
+    refetch();
+    dispatch(api.endpoints.getProduct(id));
   }, [id]);
 
   if (state.loading) {
@@ -66,7 +69,7 @@ export default function Product({ route }) {
           colours={state.product?.colours}
           displayColour={state.displayColour}
         />
-        <Text>{JSON.stringify(product)}</Text>
+        <Text>{JSON.stringify(newState.product)}</Text>
         <TouchableOpacity
           className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
           onPress={() => navigation.goBack()}
