@@ -19,17 +19,21 @@ import LoadingView from "../../components/LoadingView";
 import reducerProduct from "../../lib/dispachers/reducerProduct";
 import { initialState } from "../../lib/dispachers/reducerProduct";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
-import { useGetProductQuery } from "../../app/services/product";
+import {
+  ProductInterface,
+  useGetProductQuery,
+} from "../../app/services/product";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { api } from "../../app/services/api";
+import { setProduct } from "../../app/features/product/product";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
   const newState = useSelector((state: RootState) => state);
   const { id } = route.params;
   const [state, dispatcher] = useReducer(reducerProduct, initialState);
-  const { error, isLoading, data, refetch } = useGetProductQuery(id);
+  const { error, isLoading, data } = useGetProductQuery(id);
   if (error) {
     console.error({ error });
   }
@@ -53,8 +57,7 @@ export default function Product({ route }) {
 
   useEffect(() => {
     fetchProduct();
-    refetch();
-    dispatch(api.endpoints.getProduct(id));
+    dispatch(setProduct(data as ProductInterface));
   }, [id]);
 
   if (state.loading) {

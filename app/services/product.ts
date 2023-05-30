@@ -35,7 +35,7 @@ export interface ProductInterface {
 export const product = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getProduct: builder.query<ProductInterface[], string>({
+    getProduct: builder.query<ProductInterface, string>({
       queryFn: async (id) => {
         try {
           const { data, error } = await supabase
@@ -51,6 +51,10 @@ export const product = api.injectEndpoints({
         }
       },
       providesTags: (result, error, id) => [{ type: "Product", id }],
+      transformResponse: (response: ProductInterface) => {
+        console.log("to mounaki ", response);
+        return response;
+      },
     }),
   }),
 });

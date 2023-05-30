@@ -41,6 +41,15 @@ export const productSlice = createSlice({
     unFavouriteProduct: (state) => {
       state.favourite = false;
     },
+    setProduct: (state, action: PayloadAction<ProductInterface>) => {
+      state.product = action.payload;
+      // state.colours = action.payload.colours;
+      console.log("elare ", action.payload);
+      state.loading = false;
+      // if (!state.displayColour) {
+      //   state.displayColour = action.payload.colours[0];
+      // }
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(getProduct.matchPending, (state) => {
@@ -66,5 +75,10 @@ export const productSlice = createSlice({
   },
 });
 
-export const { increment, decrement, changeDisplayColour, favouriteProduct } =
-  productSlice.actions;
+export const {
+  increment,
+  decrement,
+  changeDisplayColour,
+  favouriteProduct,
+  setProduct,
+} = productSlice.actions;
