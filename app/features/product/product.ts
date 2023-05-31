@@ -26,6 +26,9 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
     increment: (state) => {
       state.quantity++;
     },
@@ -50,14 +53,12 @@ export const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(getProduct.matchPending, (state) => {
-      console.log("still!");
       state.loading = true;
     });
     builder.addMatcher(
       getProduct.matchFulfilled,
       (state, action: PayloadAction<ProductInterface[]>) => {
         const [{ colours }] = action.payload;
-        console.log("to mounak ", colours);
         state.product = action.payload[0];
         state.colours = colours;
         state.loading = false;
@@ -65,7 +66,6 @@ export const productSlice = createSlice({
       }
     );
     builder.addMatcher(getProduct.matchRejected, (state, action) => {
-      console.log("rejected!");
       state.loading = false;
       state.error = action.error;
     });
@@ -78,4 +78,5 @@ export const {
   changeDisplayColour,
   favouriteProduct,
   setProduct,
+  setLoading,
 } = productSlice.actions;
