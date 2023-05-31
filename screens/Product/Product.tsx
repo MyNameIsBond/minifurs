@@ -30,9 +30,9 @@ import { setProduct } from "../../app/features/product/product";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const newState = useSelector((state: RootState) => state);
+  const state = useSelector((state: RootState) => state);
   const { id } = route.params;
-  const [state, dispatcher] = useReducer(reducerProduct, initialState);
+  const [newState, dispatcher] = useReducer(reducerProduct, initialState);
   const { error, isLoading, data } = useGetProductQuery(id);
   if (error) {
     console.error({ error });
@@ -57,8 +57,8 @@ export default function Product({ route }) {
 
   useEffect(() => {
     fetchProduct();
-    dispatch(setProduct(data as ProductInterface));
-  }, [id]);
+    dispatch(setProduct(data));
+  }, [id, data]);
 
   if (state.loading) {
     return <LoadingView />;
@@ -72,7 +72,7 @@ export default function Product({ route }) {
           colours={state.product?.colours}
           displayColour={state.displayColour}
         />
-        <Text>{JSON.stringify(newState.product)}</Text>
+        <Text>{JSON.stringify(state.product?.colours)}</Text>
         <TouchableOpacity
           className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
           onPress={() => navigation.goBack()}

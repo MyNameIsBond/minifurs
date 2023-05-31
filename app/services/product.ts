@@ -51,10 +51,6 @@ export const product = api.injectEndpoints({
         }
       },
       providesTags: (result, error, id) => [{ type: "Product", id }],
-      transformResponse: (response: ProductInterface) => {
-        console.log("to mounaki ", response);
-        return response;
-      },
     }),
   }),
 });

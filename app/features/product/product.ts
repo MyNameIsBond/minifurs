@@ -41,14 +41,14 @@ export const productSlice = createSlice({
     unFavouriteProduct: (state) => {
       state.favourite = false;
     },
-    setProduct: (state, action: PayloadAction<ProductInterface>) => {
-      state.product = action.payload;
-      // state.colours = action.payload.colours;
-      console.log("elare ", action.payload);
-      state.loading = false;
-      // if (!state.displayColour) {
-      //   state.displayColour = action.payload.colours[0];
-      // }
+    setProduct: (state, action: PayloadAction<ProductInterface[]>) => {
+      if (action.payload !== undefined) {
+        const [{ colours }] = action.payload;
+        state.product = action.payload[0];
+        state.colours = colours;
+        state.loading = false;
+        state.displayColour = colours[0];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -58,13 +58,13 @@ export const productSlice = createSlice({
     });
     builder.addMatcher(
       getProduct.matchFulfilled,
-      (state, action: PayloadAction<ProductInterface>) => {
-        state.product = action.payload;
-        state.colours = action.payload.colours;
+      (state, action: PayloadAction<ProductInterface[]>) => {
+        const [{ colours }] = action.payload;
+        console.log("to mounak ", colours);
+        state.product = action.payload[0];
+        state.colours = colours;
         state.loading = false;
-        // if (!state.displayColour) {
-        //   state.displayColour = action.payload.colours[0];
-        // }
+        state.displayColour = colours[0];
       }
     );
     builder.addMatcher(getProduct.matchRejected, (state, action) => {
