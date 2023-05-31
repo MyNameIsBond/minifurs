@@ -30,7 +30,7 @@ import { setProduct } from "../../app/features/product/product";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const state = useSelector((state: RootState) => state);
+  const state = useSelector((state: RootState) => state.product);
   const { id } = route.params;
   const [newState, dispatcher] = useReducer(reducerProduct, initialState);
   const { error, isLoading, data } = useGetProductQuery(id);

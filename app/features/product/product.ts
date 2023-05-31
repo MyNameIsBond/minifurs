@@ -35,11 +35,8 @@ export const productSlice = createSlice({
     changeDisplayColour: (state, action: PayloadAction<string>) => {
       state.displayColour = action.payload;
     },
-    favouriteProduct: (state) => {
-      state.favourite = true;
-    },
-    unFavouriteProduct: (state) => {
-      state.favourite = false;
+    favouriteProduct: (state, action: PayloadAction<boolean>) => {
+      state.favourite = action.payload;
     },
     setProduct: (state, action: PayloadAction<ProductInterface[]>) => {
       if (action.payload !== undefined) {
