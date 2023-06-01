@@ -54,6 +54,7 @@ export default function Favourite({}) {
       .subscribe();
   };
   useEffect(() => {
+    console.log(favourites);
     fetchFavourites();
     realtimeTable();
   }, []);

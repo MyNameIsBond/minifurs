@@ -3,13 +3,17 @@ import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { favouriteProduct } from "../../app/features/product/product";
+import {
+  useDeleteFavProductMutation,
+  useGetFavProductQuery,
+  useInsertFavProductMutation,
+} from "../../app/services/product";
 export default function FavButton({
   user,
   product,
-  favValue,
-  fav,
-  unfav,
 }: {
   user: string | undefined;
   product: string | undefined;
@@ -17,44 +21,32 @@ export default function FavButton({
   fav: () => void;
   unfav: () => void;
 }): JSX.Element {
-  const favourite = async () => {
-    try {
-      if (favValue) {
-        const { data, error } = await supabase
-          .from("favourites")
-          .delete()
-          .match({ user_id: user, product_id: product });
-        unfav();
-      } else {
-        const { data, error } = await supabase
-          .from("favourites")
-          .insert({ user_id: user, product_id: product });
-        if (error) console.error(error);
-        fav();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const state = useSelector((state: RootState) => state.product);
+  const dispatch = useDispatch();
+  const { data, refetch } = useGetFavProductQuery({
+    product_id: state.product.id,
+    user_id: user,
+  });
+  const [deleteFav] = useDeleteFavProductMutation();
+  const [insert] = useInsertFavProductMutation();
 
-  const favcheck = async () => {
-    try {
-      const { data: favourites } = await supabase
-        .from("favourites")
-        .select("*")
-        .match({ user_id: user, product_id: product });
-      if (favourites && favourites.length > 0) {
-        fav();
-      } else {
-        unfav();
-      }
-    } catch (error) {
-      console.error(error);
+  const favourite = async () => {
+    if (state.favourite) {
+      console.log("deleteFav(true)", data);
+      deleteFav({ product_id: state.product.id, user_id: user });
+    } else {
+      console.log("insert(false)", data);
+      insert({ product_id: state.product.id, user_id: user });
     }
   };
 
   useEffect(() => {
-    favcheck();
+    refetch();
+    // if (data && data.length > 0) {
+    //   dispatch(favouriteProduct(true));
+    // } else {
+    //   dispatch(favouriteProduct(false));
+    // }
   }, []);
 
   return (
@@ -62,7 +54,7 @@ export default function FavButton({
       onPress={favourite}
       className="p-3 bg-gray-200 rounded-full"
     >
-      {favValue ? (
+      {state.favourite ? (
         <HeartIconSolid color="#ba385c" />
       ) : (
         <HeartIcon color="#ba385c" />
