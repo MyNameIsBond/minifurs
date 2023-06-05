@@ -33,7 +33,7 @@ export default function Favourite({}) {
       console.error(error);
     }
   };
-
+  // test
   const realtimeTable = () => {
     supabase
       .channel("public:favourites")
