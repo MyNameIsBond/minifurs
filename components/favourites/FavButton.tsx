@@ -31,10 +31,8 @@ export default function FavButton({
 
   const favourite = async () => {
     if (state.favourite) {
-      console.log("deleteFav(true)", data);
       deleteFav({ product_id: state.product.id, user_id: user });
     } else {
-      console.log("insert(false)", data);
       insert({ product_id: state.product.id, user_id: user });
     }
   };
@@ -42,10 +40,8 @@ export default function FavButton({
   useEffect(() => {
     refetch();
     if (data && data.length > 0) {
-      console.log("USEEFFECT: deleteFav(true)", data);
       dispatch(favouriteProduct(true));
     } else {
-      console.log("USEEFFECT: insert(false)", data);
       dispatch(favouriteProduct(false));
     }
   }, [data]);
