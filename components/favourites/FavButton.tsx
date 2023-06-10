@@ -10,7 +10,7 @@ import {
   useDeleteFavProductMutation,
   useGetFavProductQuery,
   useInsertFavProductMutation,
-} from "../../app/services/product";
+} from "../../app/services/favourites";
 export default function FavButton({
   user,
   product,
@@ -42,12 +42,7 @@ export default function FavButton({
 
   useEffect(() => {
     refetch();
-    // if (data && data.length > 0) {
-    //   dispatch(favouriteProduct(true));
-    // } else {
-    //   dispatch(favouriteProduct(false));
-    // }
-  }, []);
+  }, [product]);
 
   return (
     <TouchableOpacity
