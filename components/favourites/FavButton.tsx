@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
-import { supabase } from "../../lib/supabase";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -42,7 +41,14 @@ export default function FavButton({
 
   useEffect(() => {
     refetch();
-  }, [product]);
+    if (data && data.length > 0) {
+      console.log("USEEFFECT: deleteFav(true)", data);
+      dispatch(favouriteProduct(true));
+    } else {
+      console.log("USEEFFECT: insert(false)", data);
+      dispatch(favouriteProduct(false));
+    }
+  }, [data]);
 
   return (
     <TouchableOpacity
