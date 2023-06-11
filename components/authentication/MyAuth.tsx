@@ -3,18 +3,19 @@ import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline";
 import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";
 import MyButton from "../reusables/MyButton";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
 import { useLoginUserMutation } from "../../app/services/user";
 import { useEffect } from "react";
+import { useAppDispatch } from "../../app/hooks";
 
 export default function MyAuth() {
   const [login, { error, isLoading }] = useLoginUserMutation();
   const { email, password, showPassword } = useSelector(
     (state: RootState) => state.auth
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (error) {
