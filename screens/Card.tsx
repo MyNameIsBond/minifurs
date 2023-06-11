@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
@@ -10,7 +10,6 @@ import { useFetchCardQuery } from "../app/services/basket";
 
 export default function Card({ navigation }: { navigation: any }) {
   const { id } = useUser();
-  console.log("USER", id);
   const { data, isLoading, refetch } = useFetchCardQuery({
     user_id: id,
   });
