@@ -6,34 +6,14 @@ import ListCards from "../components/ListCardsContainer";
 import { ShoppingBagIcon } from "react-native-heroicons/outline";
 import BasketCard from "../components/BasketCard";
 import LoadingView from "../components/LoadingView";
+import { useFetchCardQuery } from "../app/services/basket";
 
 export default function Card({ navigation }: { navigation: any }) {
-  const [basket, setbasket] = useState<any[] | null>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const { user } = useUser();
-
-  const fetchbasket = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("basket")
-        .select(
-          `
-          id,
-        product_id,
-        quantity,
-        products (
-          *
-        )
-      `
-        )
-        .match({ user_id: user?.id });
-      setbasket(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { id } = useUser();
+  console.log("USER", id);
+  const { data, isLoading, refetch } = useFetchCardQuery({
+    user_id: id,
+  });
 
   const realtimeTable = () => {
     supabase
@@ -41,37 +21,36 @@ export default function Card({ navigation }: { navigation: any }) {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "basket" },
-        (payload) => {
-          fetchbasket();
+        () => {
+          refetch();
         }
       )
       .on(
         "postgres_changes",
         { event: "DELETE", schema: "public", table: "basket" },
-        (payload) => {
-          fetchbasket();
+        () => {
+          refetch();
         }
       )
       .on(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "basket" },
-        (payload) => {
-          fetchbasket();
+        () => {
+          refetch();
         }
       )
       .subscribe();
   };
 
   useEffect(() => {
-    fetchbasket();
     realtimeTable();
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingView />;
   }
 
-  if (basket?.length === 0) {
+  if (data?.length === 0) {
     return (
       <View className="flex-col px-4 items-center h-full pt-[30%]">
         <ShoppingBagIcon color="#284F49" size={30} />
@@ -86,13 +65,13 @@ export default function Card({ navigation }: { navigation: any }) {
   return (
     <ListCards classNames="h-full">
       <>
-        {basket?.map((product) => (
+        {data?.map((product) => (
           <BasketCard
             key={product.id}
             product={product.products}
             basketid={product.id}
             quantity={product.quantity}
-            user_id={user?.id}
+            user_id={id}
           />
         ))}
         <View className="flex-row justify-between py-5 w-full">
@@ -100,8 +79,7 @@ export default function Card({ navigation }: { navigation: any }) {
             <View className="flex-row items-end">
               <Text className="text-gray-600 text-base">Total: </Text>
               <Text className="text-center text-lg text-accent-orange font-bold">
-                £
-                {basket?.reduce((a, b) => a + b.products.price * b.quantity, 0)}
+                £{data?.reduce((a, b) => a + b.products.price * b.quantity, 0)}
               </Text>
             </View>
             <Text className="text-xs text-gray-600">DELIVERY EXCLUSIVE</Text>

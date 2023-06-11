@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { XMarkIcon } from "react-native-heroicons/solid";
-import { supabase } from "../lib/supabase";
+import { useDeleteCardFromBasketMutation } from "../app/services/basket";
 export default function BasketCard({
   product,
   basketid,
@@ -12,16 +12,7 @@ export default function BasketCard({
   user_id: string;
   quantity: number;
 }): JSX.Element {
-  const deleteItem = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("basket")
-        .delete()
-        .match({ id: basketid, user_id: user_id });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [deleteCard] = useDeleteCardFromBasketMutation();
   return (
     <View className="flex-row items-center rounded-md w-full m-1 px-2 py-3 bg-gray-50">
       <Image
@@ -37,7 +28,9 @@ export default function BasketCard({
         £ {product.price * quantity}
       </Text>
       <View className="mb-auto bg-gray-100 p-1">
-        <TouchableOpacity onPress={() => deleteItem()}>
+        <TouchableOpacity
+          onPress={() => deleteCard({ user_id: user_id, basket_id: basketid })}
+        >
           <XMarkIcon color="darkgray" size={20} />
         </TouchableOpacity>
       </View>
