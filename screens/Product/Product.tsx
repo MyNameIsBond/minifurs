@@ -20,7 +20,10 @@ import { ACTION } from "../../lib/dispachers/reducerProduct";
 import { useGetProductQuery } from "../../app/services/product";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { setProduct } from "../../app/features/product/product";
+import {
+  changeDisplayColour,
+  setProduct,
+} from "../../app/features/product/product";
 import { useAppDispatch } from "../../app/hooks";
 
 export default function Product({ route }) {
@@ -77,12 +80,7 @@ export default function Product({ route }) {
           {state.colours?.map((colour: string) => (
             <TouchableOpacity
               key={colour}
-              onPress={(e) =>
-                dispatcher({
-                  type: ACTION.CHANGE_DISPLAY_COLOUR,
-                  payload: colour,
-                })
-              }
+              onPress={() => dispatch(changeDisplayColour(colour))}
             >
               <View
                 style={{ backgroundColor: colour }}
