@@ -10,15 +10,11 @@ import {
   useGetFavProductQuery,
   useInsertFavProductMutation,
 } from "../../app/services/favourites";
+
 export default function FavButton({
   user,
-  product,
 }: {
   user: string | undefined;
-  product: string | undefined;
-  favValue: boolean;
-  fav: () => void;
-  unfav: () => void;
 }): JSX.Element {
   const state = useSelector((state: RootState) => state.product);
   const dispatch = useDispatch();

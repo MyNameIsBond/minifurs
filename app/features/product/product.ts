@@ -30,9 +30,11 @@ export const productSlice = createSlice({
       state.loading = action.payload;
     },
     increment: (state) => {
+      console.log("ELAR E");
       state.quantity++;
     },
     decrement: (state) => {
+      console.log("ante more");
       state.quantity--;
     },
     changeDisplayColour: (state, action: PayloadAction<string>) => {
@@ -48,6 +50,7 @@ export const productSlice = createSlice({
         state.colours = colours;
         state.loading = false;
         state.displayColour = colours[0];
+        state.quantity = 1;
       }
     },
   },

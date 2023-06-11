@@ -5,7 +5,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import { supabase } from "../../lib/supabase";
@@ -16,51 +16,29 @@ import FavButton from "../../components/favourites/FavButton";
 import AmountBtn from "./AmountBtn";
 import AddToBasket from "./AddToBasket";
 import LoadingView from "../../components/LoadingView";
-import reducerProduct from "../../lib/dispachers/reducerProduct";
-import { initialState } from "../../lib/dispachers/reducerProduct";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
-import {
-  ProductInterface,
-  useGetProductQuery,
-} from "../../app/services/product";
-import { useDispatch, useSelector } from "react-redux";
+import { useGetProductQuery } from "../../app/services/product";
+import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { api } from "../../app/services/api";
 import { setProduct } from "../../app/features/product/product";
+import { useAppDispatch } from "../../app/hooks";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
   const state = useSelector((state: RootState) => state.product);
   const { id } = route.params;
-  const [newState, dispatcher] = useReducer(reducerProduct, initialState);
   const { error, isLoading, data } = useGetProductQuery(id);
   if (error) {
     console.error({ error });
   }
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const user = useUser();
-  const fetchProduct = async () => {
-    try {
-      dispatcher({ type: ACTION.FETCH_PRODUCT_START });
-      const { data: product } = await supabase
-        .from("products")
-        .select("*")
-        .match({ id: id });
-      dispatcher({
-        type: ACTION.FETCH_PRODUCT_SUCCESS,
-        payload: product[0],
-      });
-    } catch (error) {
-      dispatcher({ type: ACTION.FETCH_PRODUCT_ERROR, payload: error });
-    }
-  };
 
   useEffect(() => {
-    fetchProduct();
     dispatch(setProduct(data));
   }, [id, data]);
 
-  if (state.loading) {
+  if (state.loading || isLoading) {
     return <LoadingView />;
   }
 
@@ -83,13 +61,7 @@ export default function Product({ route }) {
           <Text className="text-2xl font-bold capitalize">
             {state.product?.title}
           </Text>
-          <FavButton
-            favValue={state.favourite}
-            unfav={() => dispatcher({ type: ACTION.UNFAVOURITE_PRODUCT })}
-            fav={() => dispatcher({ type: ACTION.FAVOURITE_PRODUCT })}
-            product={state.product?.id}
-            user={user?.id}
-          />
+          <FavButton user={user?.id} />
         </View>
         <View className="flex-row justify-between px-4">
           <Text className="text-2xl font-bold text-accent-orange">
@@ -97,8 +69,6 @@ export default function Product({ route }) {
           </Text>
           <AmountBtn
             productAmount={state.product?.quantity}
-            increment={() => dispatcher({ type: ACTION.INCREMENT_QUANTITY })}
-            decrement={() => dispatcher({ type: ACTION.DECREMENT_QUANTITY })}
             addToBasketNum={state.quantity}
           />
         </View>
