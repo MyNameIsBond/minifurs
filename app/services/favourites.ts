@@ -6,6 +6,30 @@ import { ProductInterface } from "./product";
 export const product = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    getAllFavProduct: builder.query<ProductInterface[], { user_id: string }>({
+      queryFn: async (cred, dis) => {
+        const { user_id } = cred;
+        try {
+          const { data, error } = await supabase
+            .from("favourites")
+            .select(
+              `
+            id,
+          product_id,
+          products (
+            *
+          )
+        `
+            )
+            .match({ user_id: user_id });
+          console.log("DATA:", data);
+          if (error) throw error;
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
     getFavProduct: builder.query<
       ProductInterface[],
       { product_id: string; user_id: string }
@@ -87,4 +111,5 @@ export const {
   useGetFavProductQuery,
   useInsertFavProductMutation,
   useDeleteFavProductMutation,
+  useGetAllFavProductQuery,
 } = product;

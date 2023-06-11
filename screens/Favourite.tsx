@@ -1,39 +1,20 @@
-import { View, Text, SafeAreaView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
+import React, { useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
 import HomeCard from "../components/home/HomeCard";
 import { HeartIcon } from "react-native-heroicons/outline";
 import LoadingView from "../components/LoadingView";
+import { useGetAllFavProductQuery } from "../app/services/favourites";
 
 export default function Favourite({}) {
-  const [favourites, setFavourites] = useState<any[] | null>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const { user } = useUser();
+  const { id } = useUser();
 
-  const fetchFavourites = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("favourites")
-        .select(
-          `
-          id,
-        product_id,
-        products (
-          *
-        )
-      `
-        )
-        .match({ user_id: user?.id });
-      setFavourites(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  // test
+  const { isLoading, data, refetch } = useGetAllFavProductQuery({
+    user_id: id,
+  });
+
   const realtimeTable = () => {
     supabase
       .channel("public:favourites")
@@ -41,29 +22,27 @@ export default function Favourite({}) {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "favourites" },
         () => {
-          fetchFavourites();
+          refetch();
         }
       )
       .on(
         "postgres_changes",
         { event: "DELETE", schema: "public", table: "favourites" },
         () => {
-          fetchFavourites();
+          refetch();
         }
       )
       .subscribe();
   };
   useEffect(() => {
-    console.log(favourites);
-    fetchFavourites();
     realtimeTable();
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingView />;
   }
 
-  if (favourites?.length === 0) {
+  if (data?.length === 0) {
     return (
       <View className="flex-col px-4 items-center h-full pt-[30%]">
         <HeartIcon color="#284F49" size={30} />
@@ -78,7 +57,7 @@ export default function Favourite({}) {
 
   return (
     <ListCards classNames="h-full">
-      {favourites?.map((favourite) => (
+      {data?.map((favourite) => (
         <HomeCard key={favourite.id} product={favourite.products} />
       ))}
     </ListCards>
