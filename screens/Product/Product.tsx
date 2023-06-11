@@ -8,7 +8,6 @@ import {
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
-import { supabase } from "../../lib/supabase";
 import ProductSlider from "../../components/Product/ProductSlider";
 import DescriptionSection from "../../components/Product/DescriptionSection";
 import { useUser } from "../../lib/helpers/UserContext";
@@ -16,7 +15,6 @@ import FavButton from "../../components/favourites/FavButton";
 import AmountBtn from "./AmountBtn";
 import AddToBasket from "./AddToBasket";
 import LoadingView from "../../components/LoadingView";
-import { ACTION } from "../../lib/dispachers/reducerProduct";
 import { useGetProductQuery } from "../../app/services/product";
 import { RootState } from "../../app/store";
 import {
