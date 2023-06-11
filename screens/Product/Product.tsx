@@ -18,17 +18,16 @@ import AddToBasket from "./AddToBasket";
 import LoadingView from "../../components/LoadingView";
 import { ACTION } from "../../lib/dispachers/reducerProduct";
 import { useGetProductQuery } from "../../app/services/product";
-import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import {
   changeDisplayColour,
   setProduct,
 } from "../../app/features/product/product";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
-  const state = useSelector((state: RootState) => state.product);
+  const state = useAppSelector((state: RootState) => state.product);
   const { id } = route.params;
   const { error, isLoading, data } = useGetProductQuery(id);
   if (error) {

@@ -5,16 +5,15 @@ import { Link } from "@react-navigation/native";
 import AuthSceleton from "../../components/authentication/AuthSceleton";
 import MyButton from "../../components/reusables/MyButton";
 import { useSignUpUserMutation } from "../../app/services/user";
-import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function MyAuth() {
   const [signUpMutation, { data, error, isLoading }] = useSignUpUserMutation();
   const dispatch = useAppDispatch();
 
-  const { email, password, showPassword } = useSelector(
+  const { email, password, showPassword } = useAppSelector(
     (state: RootState) => state.auth
   );
 

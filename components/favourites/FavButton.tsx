@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
-import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { favouriteProduct } from "../../app/features/product/product";
 import {
@@ -10,14 +9,14 @@ import {
   useGetFavProductQuery,
   useInsertFavProductMutation,
 } from "../../app/services/favourites";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function FavButton({
   user,
 }: {
   user: string | undefined;
 }): JSX.Element {
-  const state = useSelector((state: RootState) => state.product);
+  const state = useAppSelector((state: RootState) => state.product);
   const dispatch = useAppDispatch();
   const { data, refetch } = useGetFavProductQuery({
     product_id: state.product.id,
