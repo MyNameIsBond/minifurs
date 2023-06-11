@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { supabase } from "../../lib/supabase";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { ShoppingCartIcon } from "react-native-heroicons/outline";
+import { useAddTobasketMutation } from "../../app/services/addToBasket";
 
 export default function AddToBasket({
   user_id,
@@ -13,44 +13,22 @@ export default function AddToBasket({
   quantity: number;
   colour: string;
 }) {
-  const addToBasket = async () => {
-    try {
-      const { data: exist, error } = await supabase
-        .from("basket")
-        .select("id, quantity")
-        .match({
-          user_id: user_id,
-          product_id: product_id,
-          colour: colour,
-        });
-      if (exist?.length >= 1) {
-        const { data, error } = await supabase
-          .from("basket")
-          .update({ quantity: quantity + exist[0].quantity })
-          .match({
-            user_id: user_id,
-            product_id: product_id,
-            colour: colour,
-          });
-      } else {
-        const { data, error } = await supabase.from("basket").insert({
-          user_id: user_id,
-          product_id: product_id,
-          quantity: quantity,
-          colour: colour,
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [addToBasket, { isLoading }] = useAddTobasketMutation();
+
   return (
     <View className="px-3 flex-col items-center">
       <TouchableOpacity
-        onPress={() => addToBasket()}
+        onPress={() =>
+          addToBasket({
+            user_id: user_id,
+            product_id: product_id,
+            quantity: quantity,
+            colour: colour,
+          })
+        }
         className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green"
       >
-        <ShoppingCartIcon color="white" />
+        {isLoading ? <ActivityIndicator /> : <ShoppingCartIcon color="white" />}
         <Text className="text-center text-gray-50 py-4 font-bold pl-3">
           Add to basket
         </Text>

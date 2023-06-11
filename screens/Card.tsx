@@ -14,7 +14,6 @@ export default function Card({ navigation }: { navigation: any }) {
 
   const fetchbasket = async () => {
     try {
-      setLoading(true);
       const { data, error } = await supabase
         .from("basket")
         .select(
@@ -29,9 +28,10 @@ export default function Card({ navigation }: { navigation: any }) {
         )
         .match({ user_id: user?.id });
       setbasket(data);
-      setLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
