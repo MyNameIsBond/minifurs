@@ -9,6 +9,8 @@ import {
 } from "react-native-heroicons/outline";
 import Favourite from "../screens/Favourite";
 import Card from "../screens/Card";
+import { useAppSelector } from "../app/hooks";
+import { RootState } from "../app/store";
 const Tab = createMaterialBottomTabNavigator();
 
 interface IconProps {
@@ -16,6 +18,9 @@ interface IconProps {
 }
 
 function NavTab() {
+  const basket = useAppSelector((state: RootState) => state.basket);
+  const { numberOfBasketItems, numberOfFavItems } = basket;
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -36,7 +41,7 @@ function NavTab() {
         name="Basket"
         component={Card}
         options={{
-          tabBarBadge: true,
+          tabBarBadge: numberOfBasketItems === 0 ? false : numberOfBasketItems,
           tabBarIcon: ({ color }: IconProps) => (
             <ShoppingBagIcon color={color} size={20} />
           ),
@@ -46,6 +51,7 @@ function NavTab() {
         name="Favourite"
         component={Favourite}
         options={{
+          tabBarBadge: numberOfFavItems === 0 ? false : numberOfFavItems,
           tabBarIcon: ({ color }: IconProps) => (
             <HeartIcon color={color} size={20} />
           ),

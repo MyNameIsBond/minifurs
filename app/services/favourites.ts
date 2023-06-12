@@ -106,6 +106,8 @@ export const product = api.injectEndpoints({
   }),
 });
 
+export const { getAllFavProduct } = product.endpoints;
+
 export const {
   useGetFavProductQuery,
   useInsertFavProductMutation,

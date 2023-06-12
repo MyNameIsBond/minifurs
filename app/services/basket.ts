@@ -62,4 +62,6 @@ export const card = api.injectEndpoints({
   }),
 });
 
+export const { fetchCard } = card.endpoints;
+
 export const { useFetchCardQuery, useDeleteCardFromBasketMutation } = card;

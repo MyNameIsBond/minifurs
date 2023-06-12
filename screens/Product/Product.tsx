@@ -28,9 +28,11 @@ export default function Product({ route }) {
   const state = useAppSelector((state: RootState) => state.product);
   const { id } = route.params;
   const { error, isLoading, data } = useGetProductQuery(id);
+
   if (error) {
     console.error({ error });
   }
+
   const dispatch = useAppDispatch();
   const user = useUser();
 
