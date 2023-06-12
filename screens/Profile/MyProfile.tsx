@@ -18,8 +18,11 @@ import {
   BellIcon,
 } from "react-native-heroicons/outline";
 import MyButton from "../../components/reusables/MyButton";
+import { useUser } from "../../lib/helpers/UserContext";
 
 export default function Profile({ navigation }: {}): JSX.Element {
+  const user = useUser();
+  const { username, email } = useUser();
   const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
     fetchProfile();
@@ -39,14 +42,11 @@ export default function Profile({ navigation }: {}): JSX.Element {
     { title: "Contact us", icon: PhoneIcon, link: "ContactUs" },
   ];
 
-  const icon = session?.user?.avatar_url
-    ? { uri: session?.user?.avatar_url }
-    : require("../../assets/user-pic.png");
   return (
     <SafeAreaView>
       <View className="px-5 max-w-xs flex flex-row space-x-5 items-center py-16">
         <Image
-          source={icon}
+          source={require("../../assets/user-pic.png")}
           className="rounded-full"
           style={{ width: 60, height: 60 }}
         />
