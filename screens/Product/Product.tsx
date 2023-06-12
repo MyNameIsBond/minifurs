@@ -50,7 +50,6 @@ export default function Product({ route }) {
           colours={state.product?.colours}
           displayColour={state.displayColour}
         />
-        <Text>{JSON.stringify(state.product?.colours)}</Text>
         <TouchableOpacity
           className="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-xl m-1 absolute top-16 left-5"
           onPress={() => navigation.goBack()}
