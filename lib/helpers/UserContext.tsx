@@ -18,9 +18,11 @@ export const MyUserContextProvider = (props: Props) => {
   const { user, isLoading: isLoadingUser } = session;
   const { data: userDetails, isLoading: isLoadingUserDetails } =
     useGetUserQuery(user?.id as string);
+
   const value = {
     ...user,
     ...userDetails,
+    email: user?.email,
     isLoading: isLoadingUser || isLoadingUserDetails,
   };
 

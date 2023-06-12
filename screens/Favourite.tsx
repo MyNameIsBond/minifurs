@@ -34,6 +34,7 @@ export default function Favourite({}) {
       )
       .subscribe();
   };
+
   useEffect(() => {
     realtimeTable();
   }, []);

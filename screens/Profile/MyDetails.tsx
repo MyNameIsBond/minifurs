@@ -9,7 +9,7 @@ import { supabase } from "../../lib/supabase";
 import { useUser } from "../../lib/helpers/UserContext";
 
 export default function MyDetails() {
-  const { user } = useUser();
+  const user = useUser();
   const [state, dispacher] = useReducer(reducerCheckout, initialState);
 
   const doesUserExist = async (): Promise<boolean> => {
