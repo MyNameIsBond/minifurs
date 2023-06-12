@@ -8,7 +8,7 @@ import LoadingView from "../../components/LoadingView";
 
 export default function Home({}) {
   const [search, setSearch] = useState("");
-  const { data: products, isLoading } = useGetProductsByLimitQuery(4);
+  const { data, isLoading } = useGetProductsByLimitQuery(4);
 
   if (isLoading) {
     return <LoadingView />;
@@ -19,7 +19,7 @@ export default function Home({}) {
       <ScrollView>
         <HomeSceleton search={search} setSearch={setSearch}>
           <CategoriesSlider />
-          <HomeBody products={products || []} />
+          <HomeBody products={data || []} />
         </HomeSceleton>
       </ScrollView>
     </SafeAreaView>

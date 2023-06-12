@@ -13,7 +13,6 @@ export const search = api.injectEndpoints({
             .select("*")
             .ilike("title", `%${search}%`);
           if (error) throw error;
-          console.log(data);
           return { data };
         } catch (error) {
           console.error(error);
