@@ -5,8 +5,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { Session } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
 
 import {
@@ -21,18 +19,7 @@ import MyButton from "../../components/reusables/MyButton";
 import { useUser } from "../../lib/helpers/UserContext";
 
 export default function Profile({ navigation }: {}): JSX.Element {
-  const user = useUser();
   const { username, email } = useUser();
-  const [session, setSession] = useState<Session | null>(null);
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = () => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-  };
 
   const list: { title: string; icon: Element; link: string }[] = [
     { title: "orders", icon: ShoppingBagIcon, link: "Orders" },
@@ -51,10 +38,10 @@ export default function Profile({ navigation }: {}): JSX.Element {
           style={{ width: 60, height: 60 }}
         />
         <View className="flex space-y-2">
-          <Text className="capitalize">
-            {session?.user?.username ? session?.user?.username : "username"}
+          <Text className="capitalize">{username ? username : "username"}</Text>
+          <Text className="text-gray-600">
+            {email ? email : "email@example.com"}
           </Text>
-          <Text className="text-gray-600">{session?.user?.email}</Text>
         </View>
       </View>
       {list.map((item) => (
