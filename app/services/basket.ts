@@ -14,7 +14,6 @@ export const card = api.injectEndpoints({
       queryFn: async (cred, dis) => {
         try {
           const { user_id } = cred;
-          console.log("ELARE:", user_id);
           const { data, error } = await supabase
             .from("basket")
             .select(
@@ -30,10 +29,9 @@ export const card = api.injectEndpoints({
             .match({ user_id: user_id });
 
           if (error) throw error;
-          console.log("this is DATA:", data);
           return { data };
         } catch (error) {
-          console.log(error);
+          console.error(error);
           return { error };
         }
       },
@@ -56,7 +54,7 @@ export const card = api.injectEndpoints({
           if (error) throw error;
           return { data };
         } catch (error) {
-          console.log(error);
+          console.error(error);
           return { error };
         }
       },

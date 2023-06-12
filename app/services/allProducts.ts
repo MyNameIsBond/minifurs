@@ -15,7 +15,7 @@ export const allProducts = api.injectEndpoints({
           if (error) throw error;
           return { data };
         } catch (error) {
-          console.log(error);
+          console.error(error);
           return { error };
         }
       },

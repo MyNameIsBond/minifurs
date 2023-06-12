@@ -22,7 +22,6 @@ export const product = api.injectEndpoints({
         `
             )
             .match({ user_id: user_id });
-          console.log("DATA:", data);
           if (error) throw error;
           return { data };
         } catch (error) {
