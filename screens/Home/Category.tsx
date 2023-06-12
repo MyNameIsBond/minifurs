@@ -1,42 +1,21 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
-import { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
 import HomeCard from "../../components/home/HomeCard";
 import { ClockIcon } from "react-native-heroicons/outline";
 import LoadingView from "../../components/LoadingView";
+import { useGetProductsByCategoryQuery } from "../../app/services/categories";
 
 export default function Category({ route }): JSX.Element {
-  const [products, setProducts] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const category = route.params.category.toLowerCase();
+  const { data, isLoading } = useGetProductsByCategoryQuery(category);
 
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const { data: products, error } = await supabase
-        .from("products")
-        .select("*")
-        .contains("categories", { [category]: true });
-      if (products) {
-        setProducts(products);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <LoadingView />;
   }
 
   return (
     <SafeAreaView>
       <ScrollView className="h-screen bg-gray-100">
-        {products.length === 0 && (
+        {data.length === 0 && (
           <View className="flex-col px-4 items-center h-full pt-[30%]">
             <ClockIcon color="#284F49" size={30} />
             <Text className="text-lg font-bold pt-4">Coming Soon!</Text>
@@ -47,7 +26,7 @@ export default function Category({ route }): JSX.Element {
           </View>
         )}
         <View className="p-3 bg-gray-100" style={styles.container}>
-          {products.map((product) => (
+          {data.map((product) => (
             <HomeCard key={product.id} product={product} />
           ))}
         </View>

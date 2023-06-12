@@ -1,29 +1,19 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabase";
 import HomeCard from "../../components/home/HomeCard";
 import ListCards from "../../components/ListCardsContainer";
+import { useSearchProductsQuery } from "../../app/services/search";
+import LoadingView from "../../components/LoadingView";
 
 export default function Search({ route }: {}): JSX.Element {
   const { search } = route.params;
-  const [products, setProducts] = useState<any[] | null>([]);
-  const searchApi = async () => {
-    try {
-      const { data: products, error } = await supabase
-        .from("products")
-        .select("*")
-        .ilike("title", `%${search}%`);
-      setProducts(products);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    searchApi();
-  }, []);
+  const { data, isLoading } = useSearchProductsQuery(search);
+
+  if (isLoading) {
+    return <LoadingView />;
+  }
 
   return (
     <ListCards classNames="h-full">
-      {products?.map((product) => (
+      {data?.map((product) => (
         <HomeCard key={product.id} product={product} />
       ))}
     </ListCards>

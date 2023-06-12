@@ -20,7 +20,20 @@ export const allProducts = api.injectEndpoints({
         }
       },
     }),
+    getProductsByLimit: builder.query<ProductInterface[], number>({
+      queryFn: async (limit) => {
+        try {
+          const { data, error } = await supabase
+            .from("products")
+            .select("*")
+            .limit(limit);
+          if (error) throw error;
+          return { data };
+        } catch (error) {}
+      },
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery } = allProducts;
+export const { useGetAllProductsQuery, useGetProductsByLimitQuery } =
+  allProducts;

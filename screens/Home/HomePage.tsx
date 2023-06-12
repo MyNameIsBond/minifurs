@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import CategoriesSlider from "../../components/home/CategoriesSlider";
 import HomeBody from "../../components/home/HomeBody";
 import HomeSceleton from "../../components/home/HomeSceleton";
-import { supabase } from "../../lib/supabase";
+import { useGetProductsByLimitQuery } from "../../app/services/allProducts";
+import LoadingView from "../../components/LoadingView";
 
 export default function Home({}) {
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<any[] | null>([]);
+  const { data: products, isLoading } = useGetProductsByLimitQuery(4);
 
-  useEffect(() => {
-    (async () => {
-      const { data: product, error } = await supabase
-        .from("products")
-        .select("*")
-        .limit(4);
-      setProducts(product);
-    })();
-  }, []);
+  if (isLoading) {
+    return <LoadingView />;
+  }
 
   return (
     <SafeAreaView>
       <ScrollView>
         <HomeSceleton search={search} setSearch={setSearch}>
           <CategoriesSlider />
-          <HomeBody products={products} />
+          <HomeBody products={products || []} />
         </HomeSceleton>
       </ScrollView>
     </SafeAreaView>
