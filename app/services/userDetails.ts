@@ -14,14 +14,30 @@ export const userDetails = api.injectEndpoints({
         try {
           const { data, error } = await supabase
             .from("users")
-            .update({
+            .select("*")
+            .match({ id: user_id });
+          if (error) throw error;
+          if (data && data.length > 0) {
+            const { data, error } = await supabase
+              .from("users")
+              .update({
+                username: name,
+                email: email,
+                phone_number: phone_number,
+              })
+              .match({ id: user_id });
+            if (error) throw error;
+            return { data };
+          } else {
+            const { data, error } = await supabase.from("users").insert({
+              id: user_id,
               username: name,
               email: email,
               phone_number: phone_number,
-            })
-            .match({ id: user_id });
-          if (error) throw error;
-          return { data };
+            });
+            if (error) throw error;
+            return { data };
+          }
         } catch (error) {
           console.error(error);
           return { error };
