@@ -44,6 +44,53 @@ export const userDetails = api.injectEndpoints({
         }
       },
     }),
+    setUserAddress: builder.mutation<
+      ProductInterface[],
+      {
+        user_id: string;
+        road: string;
+        town: string;
+        county: string;
+        postCode: string;
+      }
+    >({
+      queryFn: async (cred) => {
+        try {
+          const { user_id, road, town, county, postCode } = cred;
+          const { data, error } = await supabase
+            .from("address")
+            .select("*")
+            .match({ id: user_id });
+          if (error) throw error;
+          if (data && data.length > 0) {
+            const { data, error } = await supabase
+              .from("address")
+              .update({
+                road: road,
+                town: town,
+                county: county,
+                postCode: postCode,
+              })
+              .match({ id: user_id });
+            if (error) throw error;
+            return { data };
+          } else {
+            const { data, error } = await supabase.from("address").insert({
+              road: road,
+              town: town,
+              county: county,
+              postCode: postCode,
+              user_id: user_id,
+            });
+            if (error) throw error;
+            return { data };
+          }
+        } catch (error) {
+          console.error(error);
+          return { error };
+        }
+      },
+    }),
   }),
 });
 

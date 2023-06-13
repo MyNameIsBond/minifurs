@@ -3,6 +3,7 @@ import { api } from "./services/api";
 import { authSlice } from "./features/auth/auth";
 import { productSlice } from "./features/product/product";
 import { basketSlice } from "./features/basket";
+import { userDetails } from "./features/userDetails";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     product: productSlice.reducer,
     basket: basketSlice.reducer,
+    userDetails: userDetails.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
