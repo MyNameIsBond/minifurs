@@ -94,4 +94,5 @@ export const userDetails = api.injectEndpoints({
   }),
 });
 
-export const { useSetUserDetailsMutation } = userDetails;
+export const { useSetUserDetailsMutation, useSetUserAddressMutation } =
+  userDetails;

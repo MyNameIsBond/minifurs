@@ -6,13 +6,18 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { changeInput, editToggle } from "../../app/features/userDetails";
 import { useUser } from "../../lib/helpers/UserContext";
+import {
+  useSetUserAddressMutation,
+  useSetUserDetailsMutation,
+} from "../../app/services/userDetails";
 
 export default function MyDetails() {
-  const user = useUser();
+  const { id, email } = useUser();
   const { edit, phone, username, road, town, county, postCode } =
     useAppSelector((state: RootState) => state.userDetails);
   const dispatch = useAppDispatch();
-
+  const [setAddress] = useSetUserAddressMutation();
+  const [setUserDetail] = useSetUserDetailsMutation();
   const CheckIfUserDetailsExist = () => {
     supabase
       .channel("public:users")
@@ -68,7 +73,18 @@ export default function MyDetails() {
                 <Button title="cancel" onPress={() => dispatch(editToggle())} />
               </View>
               <View>
-                <MyButton title="Save" onPress={() => {}} />
+                <MyButton
+                  title="Save"
+                  onPress={() => {
+                    setUserDetail({
+                      name: username,
+                      email: email,
+                      phone_number: phone,
+                      user_id: id,
+                    });
+                    dispatch(editToggle());
+                  }}
+                />
               </View>
             </View>
           </View>
