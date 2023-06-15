@@ -1,7 +1,5 @@
 import { View, Text, TextInput, Button } from "react-native";
-import React, { useEffect } from "react";
 import MyButton from "../../components/reusables/MyButton";
-import { supabase } from "../../lib/supabase";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import {
@@ -138,7 +136,7 @@ export default function MyDetails() {
             County: {address.county ? address.county : "provide address"}
           </Text>
           <Text>
-            post code:{" "}
+            post code:
             {address.post_code ? address.post_code : "provide address"}
           </Text>
           <Button

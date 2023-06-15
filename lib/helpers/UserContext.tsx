@@ -26,11 +26,10 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUserAddress,
     refetch,
   } = useGetAddressQuery(user?.id as string);
-  console.log(userAddress);
 
   const CheckIfUserDetailsExist = () => {
     supabase
-      .channel("public:users")
+      .channel("public:address")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "address" },
@@ -41,6 +40,13 @@ export const MyUserContextProvider = (props: Props) => {
       .on(
         "postgres_changes",
         { event: "DELETE", schema: "public", table: "address" },
+        () => {
+          refetch();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "address" },
         () => {
           refetch();
         }
@@ -57,7 +63,7 @@ export const MyUserContextProvider = (props: Props) => {
     ...userDetails,
     email: user?.email,
     isLoading: isLoadingUser || isLoadingUserDetails || isLoadingUserAddress,
-    address: userAddress[0],
+    address: userAddress && userAddress.length > 0 ? userAddress[0] : null,
   };
 
   return <UserContext.Provider value={value} {...props} />;
