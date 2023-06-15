@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserDetails {
+  editAddress: boolean;
   edit: boolean;
   phone: number;
   username: string;
@@ -11,6 +12,7 @@ interface UserDetails {
 }
 
 const initialState: UserDetails = {
+  editAddress: false,
   edit: false,
   phone: 0,
   username: "",
@@ -36,7 +38,11 @@ export const userDetails = createSlice({
     editToggle: (state) => {
       state.edit = !state.edit;
     },
+    editAddressToggle: (state) => {
+      state.editAddress = !state.editAddress;
+    },
   },
 });
 
-export const { editToggle, changeInput } = userDetails.actions;
+export const { editToggle, changeInput, editAddressToggle } =
+  userDetails.actions;

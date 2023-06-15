@@ -4,7 +4,11 @@ import MyButton from "../../components/reusables/MyButton";
 import { supabase } from "../../lib/supabase";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import { changeInput, editToggle } from "../../app/features/userDetails";
+import {
+  changeInput,
+  editToggle,
+  editAddressToggle,
+} from "../../app/features/userDetails";
 import { useUser } from "../../lib/helpers/UserContext";
 import {
   useSetUserAddressMutation,
@@ -13,7 +17,7 @@ import {
 
 export default function MyDetails() {
   const { id, email } = useUser();
-  const { edit, phone, username, road, town, county, postCode } =
+  const { edit, phone, username, road, town, county, postCode, editAddress } =
     useAppSelector((state: RootState) => state.userDetails);
   const dispatch = useAppDispatch();
   const [setAddress] = useSetUserAddressMutation();
@@ -49,9 +53,7 @@ export default function MyDetails() {
   return (
     <View>
       <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-        <Text className="font-semibold uppercase text-xs">
-          Delivery Details
-        </Text>
+        <Text className="font-semibold uppercase text-xs">User Details</Text>
         {edit ? (
           <View className="flex gap-y-4">
             <TextInput
@@ -96,45 +98,60 @@ export default function MyDetails() {
           </View>
         )}
       </View>
-      <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-        <Text className="font-semibold uppercase text-xs">Address</Text>
-        <TextInput
-          className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={(text) => handleChange(text, "road")}
-          value={road}
-          placeholder="Road"
-          autoCapitalize={"none"}
-        />
-        <TextInput
-          className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={(text) => handleChange(text, "town")}
-          value={town}
-          placeholder="Town"
-          autoCapitalize={"none"}
-        />
-        <TextInput
-          className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-          onChangeText={(text) => handleChange(text, "county")}
-          value={county}
-          placeholder="County"
-          autoCapitalize={"none"}
-        />
-        <TextInput
-          className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50 mb-6"
-          onChangeText={(text) => handleChange(text, "postCode")}
-          value={postCode}
-          placeholder="Post code"
-          autoCapitalize={"none"}
-        />
-        <View className="flex-row justify-around w-full">
-          <View className="flex-col items-start">
-            <Button title="cancel" />
-          </View>
-          <View>
-            <MyButton title="Save" onPress={() => {}} />
+      {editAddress ? (
+        <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
+          <Text className="font-semibold uppercase text-xs">Address</Text>
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
+            onChangeText={(text) => handleChange(text, "road")}
+            value={road}
+            placeholder="Road"
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
+            onChangeText={(text) => handleChange(text, "town")}
+            value={town}
+            placeholder="Town"
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
+            onChangeText={(text) => handleChange(text, "county")}
+            value={county}
+            placeholder="County"
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50 mb-6"
+            onChangeText={(text) => handleChange(text, "postCode")}
+            value={postCode}
+            placeholder="Post code"
+            autoCapitalize={"none"}
+          />
+          <View className="flex-row justify-around w-full">
+            <View className="flex-col items-start">
+              <Button
+                title="cancel"
+                onPress={() => dispatch(editAddressToggle())}
+              />
+            </View>
+            <View>
+              <MyButton title="Save" onPress={() => {}} />
+            </View>
           </View>
         </View>
-      </View>
+      ) : (
+        <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
+          <Text>Elare</Text>
+          <Button
+            title="edit"
+            onPress={() => {
+              dispatch(editAddressToggle());
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
