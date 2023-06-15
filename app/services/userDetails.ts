@@ -57,21 +57,22 @@ export const userDetails = api.injectEndpoints({
       queryFn: async (cred) => {
         try {
           const { user_id, road, town, county, postCode } = cred;
+          console.log(user_id, road, town, county, postCode);
           const { data, error } = await supabase
             .from("address")
             .select("*")
-            .match({ id: user_id });
-          if (error) throw error;
+            .match({ user_id: user_id });
           if (data && data.length > 0) {
+            console.log("EXIST");
             const { data, error } = await supabase
               .from("address")
               .update({
                 road: road,
                 town: town,
                 county: county,
-                postCode: postCode,
+                post_code: postCode,
               })
-              .match({ id: user_id });
+              .match({ user_id: user_id });
             if (error) throw error;
             return { data };
           } else {
@@ -79,7 +80,7 @@ export const userDetails = api.injectEndpoints({
               road: road,
               town: town,
               county: county,
-              postCode: postCode,
+              post_code: postCode,
               user_id: user_id,
             });
             if (error) throw error;

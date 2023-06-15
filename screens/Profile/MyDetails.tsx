@@ -137,13 +137,27 @@ export default function MyDetails() {
               />
             </View>
             <View>
-              <MyButton title="Save" onPress={() => {}} />
+              <MyButton
+                title="Save"
+                onPress={() =>
+                  setAddress({
+                    user_id: id,
+                    road,
+                    county,
+                    postCode,
+                    town,
+                  })
+                }
+              />
             </View>
           </View>
         </View>
       ) : (
         <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-          <Text>Elare</Text>
+          <Text>Road: {road ? road : "provide address"}</Text>
+          <Text>Town: {town ? town : "provide address"}</Text>
+          <Text>County: {county ? county : "provide address"}</Text>
+          <Text>post code: {postCode ? postCode : "provide address"}</Text>
           <Button
             title="edit"
             onPress={() => {
