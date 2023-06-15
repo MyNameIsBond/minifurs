@@ -14,8 +14,8 @@ import {
 } from "../../app/services/userDetails";
 
 export default function MyDetails() {
-  const { id, email, address } = useUser();
-  console.log("ELARE:", address);
+  const { id, email, address, username: fullname, phone_number } = useUser();
+
   const { edit, phone, username, road, town, county, postCode, editAddress } =
     useAppSelector((state: RootState) => state.userDetails);
   const dispatch = useAppDispatch();
@@ -68,8 +68,10 @@ export default function MyDetails() {
           </View>
         ) : (
           <View className="flex flex-col gap-y-2">
-            <Text>Fullname: {username ? username : "no fullname"}</Text>
-            <Text>Phone: {phone ? phone : "no phone number"}</Text>
+            <Text>Fullname: {fullname ? fullname : "no fullname"}</Text>
+            <Text>
+              Phone: {phone_number ? phone_number : "no phone number"}
+            </Text>
             <Button title="edit" onPress={() => dispatch(editToggle())} />
           </View>
         )}
