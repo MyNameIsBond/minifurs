@@ -1,6 +1,8 @@
 import { User } from "@supabase/supabase-js";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useGetUserQuery } from "../../app/services/user";
+import { useGetAddressQuery } from "../../app/services/getAddress";
+import { supabase } from "../supabase";
 export type UserContextType = {
   accessToken: string | null;
   user: User | null;
@@ -19,11 +21,43 @@ export const MyUserContextProvider = (props: Props) => {
   const { data: userDetails, isLoading: isLoadingUserDetails } =
     useGetUserQuery(user?.id as string);
 
+  const {
+    data: userAddress,
+    isLoading: isLoadingUserAddress,
+    refetch,
+  } = useGetAddressQuery(user?.id as string);
+  console.log(userAddress);
+
+  const CheckIfUserDetailsExist = () => {
+    supabase
+      .channel("public:users")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "address" },
+        () => {
+          refetch();
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "address" },
+        () => {
+          refetch();
+        }
+      )
+      .subscribe();
+  };
+
+  useEffect(() => {
+    CheckIfUserDetailsExist();
+  }, []);
+
   const value = {
     ...user,
     ...userDetails,
     email: user?.email,
-    isLoading: isLoadingUser || isLoadingUserDetails,
+    isLoading: isLoadingUser || isLoadingUserDetails || isLoadingUserAddress,
+    address: userAddress[0],
   };
 
   return <UserContext.Provider value={value} {...props} />;

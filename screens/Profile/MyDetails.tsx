@@ -16,39 +16,17 @@ import {
 } from "../../app/services/userDetails";
 
 export default function MyDetails() {
-  const { id, email } = useUser();
+  const { id, email, address } = useUser();
+  console.log("ELARE:", address);
   const { edit, phone, username, road, town, county, postCode, editAddress } =
     useAppSelector((state: RootState) => state.userDetails);
   const dispatch = useAppDispatch();
   const [setAddress] = useSetUserAddressMutation();
   const [setUserDetail] = useSetUserDetailsMutation();
-  const CheckIfUserDetailsExist = () => {
-    supabase
-      .channel("public:users")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "users" },
-        () => {
-          console.log("ads");
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "DELETE", schema: "public", table: "users" },
-        () => {
-          console.log("ads");
-        }
-      )
-      .subscribe();
-  };
 
   const handleChange = (text: string, name: string) => {
     dispatch(changeInput({ name, text }));
   };
-
-  useEffect(() => {
-    CheckIfUserDetailsExist();
-  }, []);
 
   return (
     <View>
@@ -154,10 +132,15 @@ export default function MyDetails() {
         </View>
       ) : (
         <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-          <Text>Road: {road ? road : "provide address"}</Text>
-          <Text>Town: {town ? town : "provide address"}</Text>
-          <Text>County: {county ? county : "provide address"}</Text>
-          <Text>post code: {postCode ? postCode : "provide address"}</Text>
+          <Text>Road: {address.road ? address.road : "provide address"}</Text>
+          <Text>Town: {address.town ? address.town : "provide address"}</Text>
+          <Text>
+            County: {address.county ? address.county : "provide address"}
+          </Text>
+          <Text>
+            post code:{" "}
+            {address.post_code ? address.post_code : "provide address"}
+          </Text>
           <Button
             title="edit"
             onPress={() => {
