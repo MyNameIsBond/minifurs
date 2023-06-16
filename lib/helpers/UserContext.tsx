@@ -23,7 +23,6 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUserDetails,
     refetch: userRefetch,
   } = useGetUserQuery(user?.id as string);
-
   const {
     data: userAddress,
     isLoading: isLoadingUserAddress,
@@ -42,7 +41,6 @@ export const MyUserContextProvider = (props: Props) => {
           filter: `id=eq.${user?.id}`,
         },
         () => {
-          console.log("ekare ");
           userRefetch();
         }
       )
@@ -55,7 +53,6 @@ export const MyUserContextProvider = (props: Props) => {
           filter: `id=eq.${user?.id}`,
         },
         () => {
-          console.log("ekare ");
           userRefetch();
         }
       )

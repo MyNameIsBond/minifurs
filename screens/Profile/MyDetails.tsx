@@ -117,15 +117,16 @@ export default function MyDetails() {
             <View>
               <MyButton
                 title="Save"
-                onPress={() =>
+                onPress={() => {
                   setAddress({
                     user_id: id,
                     road,
                     county,
                     postCode,
                     town,
-                  })
-                }
+                  });
+                  dispatch(editAddressToggle());
+                }}
               />
             </View>
           </View>
