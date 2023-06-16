@@ -29,7 +29,7 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUserAddress,
     refetch: addressRefetch,
   } = useGetAddressQuery(user?.id as string);
-
+  console.log(user?.id);
   const getUserDetails = () => {
     supabase
       .channel("public:users")
@@ -42,6 +42,7 @@ export const MyUserContextProvider = (props: Props) => {
           filter: `id=eq.${user?.id}`,
         },
         () => {
+          console.log("ekare ");
           userRefetch();
         }
       )
@@ -54,6 +55,7 @@ export const MyUserContextProvider = (props: Props) => {
           filter: `id=eq.${user?.id}`,
         },
         () => {
+          console.log("ekare ");
           userRefetch();
         }
       )

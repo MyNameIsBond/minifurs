@@ -57,13 +57,11 @@ export const userDetails = api.injectEndpoints({
       queryFn: async (cred) => {
         try {
           const { user_id, road, town, county, postCode } = cred;
-          console.log(user_id, road, town, county, postCode);
           const { data, error } = await supabase
             .from("address")
             .select("*")
             .match({ user_id: user_id });
           if (data && data.length > 0) {
-            console.log("EXIST");
             const { data, error } = await supabase
               .from("address")
               .update({
