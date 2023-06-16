@@ -134,7 +134,7 @@ export default function MyDetails() {
             County: {address.county ? address.county : "provide address"}
           </Text>
           <Text>
-            post code:
+            Post Code:{" "}
             {address.post_code ? address.post_code : "provide address"}
           </Text>
           <Button
