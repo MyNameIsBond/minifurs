@@ -18,44 +18,81 @@ export const UserContext = createContext({} as UserContextType);
 export const MyUserContextProvider = (props: Props) => {
   const { session } = props;
   const { user, isLoading: isLoadingUser } = session;
-  const { data: userDetails, isLoading: isLoadingUserDetails } =
-    useGetUserQuery(user?.id as string);
+  const {
+    data: userDetails,
+    isLoading: isLoadingUserDetails,
+    refetch: userRefetch,
+  } = useGetUserQuery(user?.id as string);
 
   const {
     data: userAddress,
     isLoading: isLoadingUserAddress,
-    refetch,
+    refetch: addressRefetch,
   } = useGetAddressQuery(user?.id as string);
 
-  const CheckIfUserDetailsExist = () => {
+  const getUserDetails = () => {
+    supabase
+      .channel("public:users")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "users",
+          filter: `id=eq.${user?.id}`,
+        },
+        () => {
+          userRefetch();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "users",
+          filter: `id=eq.${user?.id}`,
+        },
+        () => {
+          userRefetch();
+        }
+      )
+      .subscribe();
+  };
+
+  const getUserAddress = () => {
     supabase
       .channel("public:address")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "address" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "address",
+          filter: `user_id=eq.${user?.id}`,
+        },
         () => {
-          refetch();
+          addressRefetch();
         }
       )
       .on(
         "postgres_changes",
-        { event: "DELETE", schema: "public", table: "address" },
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "address",
+          filter: `user_id=eq.${user?.id}`,
+        },
         () => {
-          refetch();
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "address" },
-        () => {
-          refetch();
+          addressRefetch();
         }
       )
       .subscribe();
   };
 
   useEffect(() => {
-    CheckIfUserDetailsExist();
+    getUserDetails();
+    getUserAddress();
   }, []);
 
   const value = {

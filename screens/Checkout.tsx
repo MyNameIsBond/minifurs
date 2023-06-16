@@ -53,14 +53,24 @@ export default function Checkout({}) {
       .channel("public:users")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "users" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "users",
+          filter: `id=eq.${user?.id}`,
+        },
         () => {
           ferchUserDetails();
         }
       )
       .on(
         "postgres_changes",
-        { event: "DELETE", schema: "public", table: "users" },
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "users",
+          filter: `id=eq.${user?.id}`,
+        },
         () => {
           ferchUserDetails();
         }

@@ -19,21 +19,36 @@ export default function Card({ navigation }: { navigation: any }) {
       .channel("public:basket")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "basket" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "basket",
+          filter: `user_id=eq.${id}`,
+        },
         () => {
           refetch();
         }
       )
       .on(
         "postgres_changes",
-        { event: "DELETE", schema: "public", table: "basket" },
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "basket",
+          filter: `user_id=eq.${id}`,
+        },
         () => {
           refetch();
         }
       )
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "basket" },
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "basket",
+          filter: `user_id=eq.${id}`,
+        },
         () => {
           refetch();
         }

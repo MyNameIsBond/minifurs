@@ -20,14 +20,24 @@ export default function Favourite({}) {
       .channel("public:favourites")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "favourites" },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "favourites",
+          filter: `user_id=eq.${id}`,
+        },
         () => {
           refetch();
         }
       )
       .on(
         "postgres_changes",
-        { event: "DELETE", schema: "public", table: "favourites" },
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "favourites",
+          filter: `user_id=eq.${id}`,
+        },
         () => {
           refetch();
         }
