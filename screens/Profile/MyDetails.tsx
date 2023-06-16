@@ -12,6 +12,7 @@ import {
   useSetUserAddressMutation,
   useSetUserDetailsMutation,
 } from "../../app/services/userDetails";
+import UserDetailsContainer from "../../components/profile/UserDetailsContainer";
 
 export default function MyDetails() {
   const { id, email, address, username: fullname, phone_number } = useUser();
@@ -28,57 +29,51 @@ export default function MyDetails() {
 
   return (
     <View>
-      <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-        <Text className="font-semibold uppercase text-xs">User Details</Text>
-        {edit ? (
-          <View className="flex gap-y-4">
-            <TextInput
-              className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
-              onChangeText={(text) => handleChange(text, "username")}
-              value={username}
-              placeholder="Full Name"
-              autoCapitalize={"none"}
-            />
-            <TextInput
-              className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 mb-5 bg-gray-50"
-              onChangeText={(text) => handleChange(text, "phone")}
-              value={phone}
-              placeholder="Phone Number"
-              autoCapitalize={"none"}
-            />
-            <View className="flex-row justify-around w-full">
-              <View className="flex-col items-start">
-                <Button title="cancel" onPress={() => dispatch(editToggle())} />
-              </View>
-              <View>
-                <MyButton
-                  title="Save"
-                  onPress={() => {
-                    setUserDetail({
-                      name: username,
-                      email: email,
-                      phone_number: phone,
-                      user_id: id,
-                    });
-                    dispatch(editToggle());
-                  }}
-                />
-              </View>
+      {edit ? (
+        <UserDetailsContainer title="User">
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
+            onChangeText={(text) => handleChange(text, "username")}
+            value={username}
+            placeholder="Full Name"
+            autoCapitalize={"none"}
+          />
+          <TextInput
+            className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 mb-5 bg-gray-50"
+            onChangeText={(text) => handleChange(text, "phone")}
+            value={phone}
+            placeholder="Phone Number"
+            autoCapitalize={"none"}
+          />
+          <View className="flex-row justify-around w-full">
+            <View className="flex-col items-start">
+              <Button title="cancel" onPress={() => dispatch(editToggle())} />
+            </View>
+            <View>
+              <MyButton
+                title="Save"
+                onPress={() => {
+                  setUserDetail({
+                    name: username,
+                    email: email,
+                    phone_number: phone,
+                    user_id: id,
+                  });
+                  dispatch(editToggle());
+                }}
+              />
             </View>
           </View>
-        ) : (
-          <View className="flex flex-col gap-y-2">
-            <Text>Fullname: {fullname ? fullname : "no fullname"}</Text>
-            <Text>
-              Phone: {phone_number ? phone_number : "no phone number"}
-            </Text>
-            <Button title="edit" onPress={() => dispatch(editToggle())} />
-          </View>
-        )}
-      </View>
+        </UserDetailsContainer>
+      ) : (
+        <UserDetailsContainer title="User">
+          <Text>Fullname: {fullname ? fullname : "no fullname"}</Text>
+          <Text>Phone: {phone_number ? phone_number : "no phone number"}</Text>
+          <Button title="edit" onPress={() => dispatch(editToggle())} />
+        </UserDetailsContainer>
+      )}
       {editAddress ? (
-        <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
-          <Text className="font-semibold uppercase text-xs">Address</Text>
+        <UserDetailsContainer title="Address">
           <TextInput
             className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 bg-gray-50"
             onChangeText={(text) => handleChange(text, "road")}
@@ -130,9 +125,9 @@ export default function MyDetails() {
               />
             </View>
           </View>
-        </View>
+        </UserDetailsContainer>
       ) : (
-        <View className="flex gap-y-4 px-3 mt-5 m-3 p-3 bg-gray-50 rounded-md shadow">
+        <UserDetailsContainer title="Address">
           <Text>Road: {address.road ? address.road : "provide address"}</Text>
           <Text>Town: {address.town ? address.town : "provide address"}</Text>
           <Text>
@@ -148,7 +143,7 @@ export default function MyDetails() {
               dispatch(editAddressToggle());
             }}
           />
-        </View>
+        </UserDetailsContainer>
       )}
     </View>
   );

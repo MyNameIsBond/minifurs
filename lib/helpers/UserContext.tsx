@@ -28,7 +28,6 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUserAddress,
     refetch: addressRefetch,
   } = useGetAddressQuery(user?.id as string);
-  console.log(user?.id);
   const getUserDetails = () => {
     supabase
       .channel("public:users")
