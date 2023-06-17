@@ -28,7 +28,8 @@ export default function MyDetails() {
   };
 
   return (
-    <View>
+    <View className="pt-10">
+      <Text className="text-3xl font-semibold pl-3">User Details</Text>
       {edit ? (
         <UserDetailsContainer title="User">
           <TextInput
