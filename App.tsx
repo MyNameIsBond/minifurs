@@ -14,7 +14,8 @@ import LoadingView from "./components/LoadingView";
 import Checkout from "./screens/Checkout";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-
+import { StripeProvider } from "@stripe/stripe-react-native";
+import { STRIPE_PK_TEST } from "@env";
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -40,43 +41,45 @@ export default function App() {
   return (
     <>
       <Provider store={store}>
-        {!session ? (
-          <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Group>
-                <Stack.Screen name="Landing" component={Landing} />
-                <Stack.Screen name="Auth" component={Auth} />
-                <Stack.Screen name="SignUp" component={SignUp} />
-              </Stack.Group>
-            </Stack.Navigator>
-          </NavigationContainer>
-        ) : (
-          <MyUserContextProvider session={session}>
+        <StripeProvider publishableKey={STRIPE_PK_TEST}>
+          {!session ? (
             <NavigationContainer>
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Group>
-                  <Stack.Screen name="Nav" component={NavTab} />
-                  <Stack.Screen name="Product" component={Product} />
-                  <Stack.Screen
-                    name="Checkout"
-                    component={Checkout}
-                    options={() => ({
-                      headerShown: true,
-                      headerTitle: "Checkout",
-                      headerBackTitleVisible: false,
-                      headerTransparent: true,
-                      headerBlurEffect: "systemMaterial",
-                      headerTitleStyle: {
-                        color: "#284F49",
-                        fontSize: 20,
-                      },
-                    })}
-                  />
+                  <Stack.Screen name="Landing" component={Landing} />
+                  <Stack.Screen name="Auth" component={Auth} />
+                  <Stack.Screen name="SignUp" component={SignUp} />
                 </Stack.Group>
               </Stack.Navigator>
             </NavigationContainer>
-          </MyUserContextProvider>
-        )}
+          ) : (
+            <MyUserContextProvider session={session}>
+              <NavigationContainer>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Group>
+                    <Stack.Screen name="Nav" component={NavTab} />
+                    <Stack.Screen name="Product" component={Product} />
+                    <Stack.Screen
+                      name="Checkout"
+                      component={Checkout}
+                      options={() => ({
+                        headerShown: true,
+                        headerTitle: "Checkout",
+                        headerBackTitleVisible: false,
+                        headerTransparent: true,
+                        headerBlurEffect: "systemMaterial",
+                        headerTitleStyle: {
+                          color: "#284F49",
+                          fontSize: 20,
+                        },
+                      })}
+                    />
+                  </Stack.Group>
+                </Stack.Navigator>
+              </NavigationContainer>
+            </MyUserContextProvider>
+          )}
+        </StripeProvider>
       </Provider>
     </>
   );

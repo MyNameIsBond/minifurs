@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { useEffect } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
@@ -7,13 +7,61 @@ import { ShoppingBagIcon } from "react-native-heroicons/outline";
 import BasketCard from "../components/BasketCard";
 import LoadingView from "../components/LoadingView";
 import { useFetchCardQuery } from "../app/services/basket";
+import { useStripe } from "@stripe/stripe-react-native";
+import { API_URL } from "@env";
 
 export default function Card({ navigation }: { navigation: any }) {
   const { id } = useUser();
   const { data, isLoading, refetch } = useFetchCardQuery({
     user_id: id,
   });
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
 
+  const fetchPaymentSheetParams = async () => {
+    const response = await fetch(`${API_URL}/payment-sheet`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { paymentIntent, ephemeralKey, customer } = await response.json();
+    console.log(response);
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const { paymentIntent, ephemeralKey, customer, publishableKey } =
+      await fetchPaymentSheetParams();
+
+    const { error } = await initPaymentSheet({
+      merchantDisplayName: "Example, Inc.",
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+      allowsDelayedPaymentMethods: true,
+      defaultBillingDetails: {
+        name: "Jane Doe",
+      },
+    });
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  const openPaymentSheet = async () => {
+    const { error } = await presentPaymentSheet();
+
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      Alert.alert("Success", "Your order is confirmed!");
+    }
+  };
   const realtimeTable = () => {
     supabase
       .channel("public:basket")
@@ -58,6 +106,7 @@ export default function Card({ navigation }: { navigation: any }) {
 
   useEffect(() => {
     realtimeTable();
+    initializePaymentSheet();
   }, []);
 
   if (isLoading) {
@@ -100,9 +149,7 @@ export default function Card({ navigation }: { navigation: any }) {
           </View>
           <View>
             <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Checkout");
-              }}
+              onPress={() => openPaymentSheet()}
               className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green"
             >
               <Text className="text-center text-gray-50 py-4 font-bold pl-3">
