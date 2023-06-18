@@ -35,7 +35,7 @@ export default function Card({ navigation }: { navigation: any }) {
   };
 
   const initializePaymentSheet = async () => {
-    const { paymentIntent, ephemeralKey, customer, publishableKey } =
+    const { paymentIntent, ephemeralKey, customer } =
       await fetchPaymentSheetParams();
 
     const { error } = await initPaymentSheet({
