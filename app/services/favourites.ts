@@ -1,6 +1,6 @@
 import { api } from "./api";
 import { supabase } from "../../lib/supabase";
-import { favouriteProduct } from "../features/product/product";
+import { favouriteProduct } from "../features/product";
 import { ProductInterface } from "./product";
 
 export const product = api.injectEndpoints({

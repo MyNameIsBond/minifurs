@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { RootState } from "../../app/store";
-import { favouriteProduct } from "../../app/features/product/product";
+import { favouriteProduct } from "../../app/features/product";
 import {
   useDeleteFavProductMutation,
   useGetFavProductQuery,

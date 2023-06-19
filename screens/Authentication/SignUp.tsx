@@ -6,7 +6,7 @@ import AuthSceleton from "../../components/authentication/AuthSceleton";
 import MyButton from "../../components/reusables/MyButton";
 import { useSignUpUserMutation } from "../../app/services/user";
 import { RootState } from "../../app/store";
-import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
+import { changeInput, showPasswordToggle } from "../../app/features/auth";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function MyAuth() {

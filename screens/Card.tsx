@@ -11,7 +11,7 @@ import { useStripe } from "@stripe/stripe-react-native";
 import { API_URL } from "@env";
 
 export default function Card({ navigation }: { navigation: any }) {
-  const { id } = useUser();
+  const { id, username } = useUser();
   const { data, isLoading, refetch } = useFetchCardQuery({
     user_id: id,
   });
@@ -38,17 +38,16 @@ export default function Card({ navigation }: { navigation: any }) {
   };
 
   const initializePaymentSheet = async () => {
-    console.log("first");
     const { paymentIntent, ephemeralKey, customer } =
       await fetchPaymentSheetParams();
     const { error } = await initPaymentSheet({
-      merchantDisplayName: "Example, Inc.",
+      merchantDisplayName: "Minifurs, Inc.",
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
       allowsDelayedPaymentMethods: true,
       defaultBillingDetails: {
-        name: "Jane Doe",
+        name: "Ela Re",
       },
     });
     if (!error) {

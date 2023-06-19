@@ -1,5 +1,5 @@
 import { View, Text, Button } from "react-native";
-import { decrement, increment } from "../../app/features/product/product";
+import { decrement, increment } from "../../app/features/product";
 import { useAppDispatch } from "../../app/hooks";
 
 export default function AmountBtn({

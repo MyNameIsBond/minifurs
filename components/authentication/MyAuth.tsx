@@ -4,7 +4,7 @@ import { Link } from "@react-navigation/native";
 import AuthSceleton from "./AuthSceleton";
 import MyButton from "../reusables/MyButton";
 import { RootState } from "../../app/store";
-import { changeInput, showPasswordToggle } from "../../app/features/auth/auth";
+import { changeInput, showPasswordToggle } from "../../app/features/auth";
 import { useLoginUserMutation } from "../../app/services/user";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";

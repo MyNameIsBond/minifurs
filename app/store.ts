@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./services/api";
-import { authSlice } from "./features/auth/auth";
-import { productSlice } from "./features/product/product";
+import { authSlice } from "./features/auth";
+import { productSlice } from "./features/product";
 import { basketSlice } from "./features/basket";
 import { userDetails } from "./features/userDetails";
 

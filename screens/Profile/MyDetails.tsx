@@ -129,14 +129,14 @@ export default function MyDetails() {
         </UserDetailsContainer>
       ) : (
         <UserDetailsContainer title="Address">
-          <Text>Road: {address.road ? address.road : "provide address"}</Text>
-          <Text>Town: {address.town ? address.town : "provide address"}</Text>
+          <Text>Road: {address?.road ? address.road : "provide address"}</Text>
+          <Text>Town: {address?.town ? address.town : "provide address"}</Text>
           <Text>
-            County: {address.county ? address.county : "provide address"}
+            County: {address?.county ? address.county : "provide address"}
           </Text>
           <Text>
             Post Code:{" "}
-            {address.post_code ? address.post_code : "provide address"}
+            {address?.post_code ? address.post_code : "provide address"}
           </Text>
           <Button
             title="edit"

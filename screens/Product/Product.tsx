@@ -17,10 +17,7 @@ import AddToBasket from "./AddToBasket";
 import LoadingView from "../../components/LoadingView";
 import { useGetProductQuery } from "../../app/services/product";
 import { RootState } from "../../app/store";
-import {
-  changeDisplayColour,
-  setProduct,
-} from "../../app/features/product/product";
+import { changeDisplayColour, setProduct } from "../../app/features/product";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function Product({ route }) {
