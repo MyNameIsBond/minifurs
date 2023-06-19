@@ -19,25 +19,28 @@ export default function Card({ navigation }: { navigation: any }) {
   const [loading, setLoading] = useState(false);
 
   const fetchPaymentSheetParams = async () => {
-    const response = await fetch(`${API_URL}/payment-sheet`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { paymentIntent, ephemeralKey, customer } = await response.json();
-    console.log(response);
-    return {
-      paymentIntent,
-      ephemeralKey,
-      customer,
-    };
+    try {
+      const response = await fetch(`${API_URL}/payment-sheet`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { paymentIntent, ephemeralKey, customer } = await response.json();
+      return {
+        paymentIntent,
+        ephemeralKey,
+        customer,
+      };
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const initializePaymentSheet = async () => {
+    console.log("first");
     const { paymentIntent, ephemeralKey, customer } =
       await fetchPaymentSheetParams();
-
     const { error } = await initPaymentSheet({
       merchantDisplayName: "Example, Inc.",
       customerId: customer,
