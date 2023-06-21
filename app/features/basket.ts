@@ -7,12 +7,14 @@ interface initialStateType {
   items: string[];
   numberOfFavItems: number;
   numberOfBasketItems: number;
+  price: number;
 }
 
 const initialState: initialStateType = {
   items: [],
   numberOfFavItems: 0,
   numberOfBasketItems: 0,
+  price: 0,
 };
 
 export const basketSlice = createSlice({
@@ -30,6 +32,10 @@ export const basketSlice = createSlice({
       fetchCard.matchFulfilled,
       (state, action: PayloadAction<ProductInterface[]>) => {
         state.numberOfBasketItems = action.payload.length;
+        state.price = action.payload?.reduce(
+          (a, b) => a + b.products.price * b.quantity,
+          0
+        );
       }
     );
   },

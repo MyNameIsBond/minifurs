@@ -8,56 +8,43 @@ import BasketCard from "../components/BasketCard";
 import LoadingView from "../components/LoadingView";
 import { useFetchCardQuery } from "../app/services/basket";
 import { useStripe } from "@stripe/stripe-react-native";
-import { API_URL } from "@env";
+import { useGetPaymentSheetParamsMutation } from "../app/services/paymentShhetParams";
+import { useAppSelector } from "../app/hooks";
+import { RootState } from "../app/store";
 
 export default function Card({ navigation }: { navigation: any }) {
-  const { id, username } = useUser();
+  const price = useAppSelector((state: RootState) => state.basket.price);
+  const { id, username, email } = useUser();
   const { data, isLoading, refetch } = useFetchCardQuery({
     user_id: id,
   });
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
-  const [loading, setLoading] = useState(false);
+  const [fetchPaymentSheetParams] = useGetPaymentSheetParamsMutation();
 
-  const fetchPaymentSheetParams = async () => {
+  const initializePaymentSheet = async () => {
     try {
-      const response = await fetch(`${API_URL}/payment-sheet`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const { data: paymentParams } = await fetchPaymentSheetParams({
+        price: price,
+      });
+      const { customer, ephemeralKey, paymentIntent } = paymentParams;
+      const { error } = await initPaymentSheet({
+        merchantDisplayName: "Minifurs, Inc.",
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+        paymentIntentClientSecret: paymentIntent,
+        allowsDelayedPaymentMethods: true,
+        defaultBillingDetails: {
+          name: username ? username : email,
         },
       });
-      const { paymentIntent, ephemeralKey, customer } = await response.json();
-      return {
-        paymentIntent,
-        ephemeralKey,
-        customer,
-      };
+      if (error) throw error;
     } catch (error) {
       console.error(error);
     }
   };
 
-  const initializePaymentSheet = async () => {
-    const { paymentIntent, ephemeralKey, customer } =
-      await fetchPaymentSheetParams();
-    const { error } = await initPaymentSheet({
-      merchantDisplayName: "Minifurs, Inc.",
-      customerId: customer,
-      customerEphemeralKeySecret: ephemeralKey,
-      paymentIntentClientSecret: paymentIntent,
-      allowsDelayedPaymentMethods: true,
-      defaultBillingDetails: {
-        name: "Ela Re",
-      },
-    });
-    if (!error) {
-      setLoading(true);
-    }
-  };
-
   const openPaymentSheet = async () => {
     const { error } = await presentPaymentSheet();
-
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
@@ -108,7 +95,6 @@ export default function Card({ navigation }: { navigation: any }) {
 
   useEffect(() => {
     realtimeTable();
-    initializePaymentSheet();
   }, []);
 
   if (isLoading) {
@@ -144,14 +130,17 @@ export default function Card({ navigation }: { navigation: any }) {
             <View className="flex-row items-end">
               <Text className="text-gray-600 text-base">Total: </Text>
               <Text className="text-center text-lg text-accent-orange font-bold">
-                £{data?.reduce((a, b) => a + b.products.price * b.quantity, 0)}
+                £{price}
               </Text>
             </View>
             <Text className="text-xs text-gray-600">DELIVERY EXCLUSIVE</Text>
           </View>
           <View>
             <TouchableOpacity
-              onPress={() => openPaymentSheet()}
+              onPress={async () => {
+                await initializePaymentSheet();
+                openPaymentSheet();
+              }}
               className="shadow flex-row justify-center items-center w-full rounded-xl bg-accent-green"
             >
               <Text className="text-center text-gray-50 py-4 font-bold pl-3">
