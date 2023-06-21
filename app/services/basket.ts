@@ -21,6 +21,7 @@ export const card = api.injectEndpoints({
             id,
           product_id,
           quantity,
+          colour,
           products (
             *
           )

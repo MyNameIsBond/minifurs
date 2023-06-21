@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Alert } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useUser } from "../lib/helpers/UserContext";
 import ListCards from "../components/ListCardsContainer";
@@ -21,6 +21,7 @@ export default function Card({ navigation }: { navigation: any }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [fetchPaymentSheetParams] = useGetPaymentSheetParamsMutation();
 
+  console.log("DATA:", data);
   const initializePaymentSheet = async () => {
     try {
       const { data: paymentParams } = await fetchPaymentSheetParams({
@@ -153,3 +154,25 @@ export default function Card({ navigation }: { navigation: any }) {
     </ListCards>
   );
 }
+
+const e = [
+  {
+    id: 98,
+    product_id: 5,
+    products: {
+      categories: [Object],
+      colours: [Array],
+      created_at: "2022-12-20T19:09:03.428559",
+      description: [Object],
+      id: 5,
+      images: [Object],
+      price: 540,
+      profile_pic:
+        "https://scashksznwiivlpgkftm.supabase.co/storage/v1/object/public/minifur/livingroom/livingroom-1-black-1",
+      quantity: 10,
+      reviews: [Array],
+      title: "Living Room TV storage",
+    },
+    quantity: 7,
+  },
+];
