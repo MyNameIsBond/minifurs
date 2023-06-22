@@ -11,6 +11,10 @@ import { useStripe } from "@stripe/stripe-react-native";
 import { useGetPaymentSheetParamsMutation } from "../app/services/paymentShhetParams";
 import { useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
+import {
+  useAddOrdersMutation,
+  useDeleteBasketItemsMutation,
+} from "../app/services/addOrder";
 
 export default function Card({ navigation }: { navigation: any }) {
   const price = useAppSelector((state: RootState) => state.basket.price);
@@ -20,8 +24,8 @@ export default function Card({ navigation }: { navigation: any }) {
   });
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [fetchPaymentSheetParams] = useGetPaymentSheetParamsMutation();
-
-  console.log("DATA:", data);
+  const [addOrder] = useAddOrdersMutation();
+  const [deleteOrdersFromBasket] = useDeleteBasketItemsMutation();
   const initializePaymentSheet = async () => {
     try {
       const { data: paymentParams } = await fetchPaymentSheetParams({
@@ -50,6 +54,8 @@ export default function Card({ navigation }: { navigation: any }) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert("Success", "Your order is confirmed!");
+      addOrder({ data, user_id: id });
+      deleteOrdersFromBasket({ data, user_id: id });
     }
   };
   const realtimeTable = () => {
@@ -154,25 +160,3 @@ export default function Card({ navigation }: { navigation: any }) {
     </ListCards>
   );
 }
-
-const e = [
-  {
-    id: 98,
-    product_id: 5,
-    products: {
-      categories: [Object],
-      colours: [Array],
-      created_at: "2022-12-20T19:09:03.428559",
-      description: [Object],
-      id: 5,
-      images: [Object],
-      price: 540,
-      profile_pic:
-        "https://scashksznwiivlpgkftm.supabase.co/storage/v1/object/public/minifur/livingroom/livingroom-1-black-1",
-      quantity: 10,
-      reviews: [Array],
-      title: "Living Room TV storage",
-    },
-    quantity: 7,
-  },
-];
