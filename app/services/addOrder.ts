@@ -8,7 +8,6 @@ export const orders = api.injectEndpoints({
     getOrders: builder.query<ProductInterface[], string>({
       queryFn: async (user_id) => {
         try {
-          console.log("ELA RE:", user_id);
           const { data, error } = await supabase
             .from("orders")
             .select(
@@ -19,7 +18,6 @@ export const orders = api.injectEndpoints({
               title
             )`
             )
-            .order("created_at", { ascending: false })
             .match({ user_id: user_id });
           if (error) throw error;
           return { data };

@@ -11,52 +11,6 @@ export default function Orders() {
   const { id, username, email } = useUser();
   const { data: orders, isLoading, refetch } = useGetOrdersQuery(id);
 
-  const realtimeTable = () => {
-    supabase
-      .channel("public:orders")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "orders",
-          filter: `user_id=eq.${id}`,
-        },
-        () => {
-          refetch();
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "orders",
-          filter: `user_id=eq.${id}`,
-        },
-        () => {
-          refetch();
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "orders",
-          filter: `user_id=eq.${id}`,
-        },
-        () => {
-          refetch();
-        }
-      )
-      .subscribe();
-  };
-
-  useEffect(() => {
-    realtimeTable();
-  }, []);
-
   if (isLoading) {
     return <LoadingView />;
   }
@@ -98,7 +52,7 @@ export default function Orders() {
             </Text>
             <Text className=" text-3xl font-bold p-2">Delivered</Text>
             {orders
-              .filter((e) => !e?.delivered)
+              .filter((e) => e?.delivered)
               .map((order) => (
                 <OrderCard
                   key={order.id}
