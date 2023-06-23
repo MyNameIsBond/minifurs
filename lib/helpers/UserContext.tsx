@@ -14,7 +14,7 @@ export interface Props {
   session: UserContextType;
 }
 
-export const UserContext = createContext({} as UserContextType);
+export const UserContext = createContext({} as User);
 export const MyUserContextProvider = (props: Props) => {
   const { session } = props;
   const { user, isLoading: isLoadingUser } = session;

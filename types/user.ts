@@ -15,4 +15,12 @@ export interface User {
     status: number;
     statusText: string;
   };
+  email: string;
+  username: string;
+  address: {
+    road: string;
+    town: string;
+    county: string;
+    post_code: string;
+  };
 }
