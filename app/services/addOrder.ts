@@ -8,6 +8,7 @@ export const orders = api.injectEndpoints({
     getOrders: builder.query<ProductInterface[], string>({
       queryFn: async (user_id) => {
         try {
+          console.log("ELA RE:", user_id);
           const { data, error } = await supabase
             .from("orders")
             .select(

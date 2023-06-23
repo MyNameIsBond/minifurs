@@ -13,7 +13,6 @@ import {
   NewspaperIcon,
   ShoppingBagIcon,
   PhoneIcon,
-  BellIcon,
 } from "react-native-heroicons/outline";
 import MyButton from "../../components/reusables/MyButton";
 import { useUser } from "../../lib/helpers/UserContext";
@@ -25,7 +24,6 @@ export default function Profile({ navigation }: {}): JSX.Element {
     { title: "orders", icon: ShoppingBagIcon, link: "Orders" },
     { title: "My Details", icon: NewspaperIcon, link: "MyDetails" },
     { title: "Delivery Address", icon: MapPinIcon, link: "DeliveryAddress" },
-    { title: "Notifications", icon: BellIcon, link: "Notifications" },
     { title: "Contact us", icon: PhoneIcon, link: "ContactUs" },
   ];
 

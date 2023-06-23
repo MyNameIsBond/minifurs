@@ -26,6 +26,7 @@ export default function Card({ navigation }: { navigation: any }) {
   const [fetchPaymentSheetParams] = useGetPaymentSheetParamsMutation();
   const [addOrder] = useAddOrdersMutation();
   const [deleteOrdersFromBasket] = useDeleteBasketItemsMutation();
+
   const initializePaymentSheet = async () => {
     try {
       const { data: paymentParams } = await fetchPaymentSheetParams({
