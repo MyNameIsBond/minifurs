@@ -42,7 +42,7 @@ export default function MyDetails() {
           <TextInput
             className="border py-4 pl-2 pr-10 rounded-md border-green-900 border-opacity-80 mb-5 bg-gray-50"
             onChangeText={(text) => handleChange(text, "phone")}
-            value={phone}
+            value={phone.toString()}
             placeholder="Phone Number"
             autoCapitalize={"none"}
           />

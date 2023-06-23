@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useGetUserQuery } from "../../app/services/user";
 import { useGetAddressQuery } from "../../app/services/getAddress";
 import { supabase } from "../supabase";
+import { myUser } from "../../types/user";
 export type UserContextType = {
   accessToken: string | null;
   user: User | null;
@@ -14,7 +15,7 @@ export interface Props {
   session: UserContextType;
 }
 
-export const UserContext = createContext({} as User);
+export const UserContext = createContext({} as myUser);
 export const MyUserContextProvider = (props: Props) => {
   const { session } = props;
   const { user, isLoading: isLoadingUser } = session;

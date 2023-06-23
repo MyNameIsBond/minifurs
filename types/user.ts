@@ -1,4 +1,4 @@
-export interface User {
+export interface myUser {
   status: string;
   value: {
     count: number;
@@ -15,8 +15,10 @@ export interface User {
     status: number;
     statusText: string;
   };
+  id: string;
   email: string;
   username: string;
+  phone_number: string;
   address: {
     road: string;
     town: string;
