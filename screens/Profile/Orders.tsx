@@ -1,15 +1,13 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useEffect } from "react";
 import { ShoppingBagIcon } from "react-native-heroicons/outline";
 import { useGetOrdersQuery } from "../../app/services/addOrder";
 import { useUser } from "../../lib/helpers/UserContext";
 import LoadingView from "../../components/LoadingView";
 import OrderCard from "../../components/OrderCard";
-import { supabase } from "../../lib/supabase";
 
 export default function Orders() {
-  const { id, username, email } = useUser();
-  const { data: orders, isLoading, refetch } = useGetOrdersQuery(id);
+  const { id } = useUser();
+  const { data: orders, isLoading } = useGetOrdersQuery(id);
 
   if (isLoading) {
     return <LoadingView />;

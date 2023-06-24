@@ -16,11 +16,16 @@ import {
 } from "react-native-heroicons/outline";
 import MyButton from "../../components/reusables/MyButton";
 import { useUser } from "../../lib/helpers/UserContext";
+import { ElementType } from "react";
 
-export default function Profile({ navigation }: {}): JSX.Element {
+export default function Profile({
+  navigation,
+}: {
+  navigation: any;
+}): JSX.Element {
   const { username, email } = useUser();
 
-  const list: { title: string; icon: Element; link: string }[] = [
+  const list: { title: string; icon: ElementType; link: string }[] = [
     { title: "orders", icon: ShoppingBagIcon, link: "Orders" },
     { title: "My Details", icon: NewspaperIcon, link: "MyDetails" },
     { title: "Delivery Address", icon: MapPinIcon, link: "DeliveryAddress" },

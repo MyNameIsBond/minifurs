@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import { ElementType } from "react";
 import {
   EnvelopeIcon,
   MapPinIcon,
@@ -8,7 +8,11 @@ import {
 } from "react-native-heroicons/outline";
 
 export default function ContactUs() {
-  const contactList: { title: string; icon: Element; subTitle: string }[] = [
+  const contactList: {
+    title: string;
+    icon: ElementType;
+    subTitle: string;
+  }[] = [
     {
       title: "Email Us",
       icon: EnvelopeIcon,
