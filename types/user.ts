@@ -1,6 +1,7 @@
 export interface myUser {
-  status: string;
   value: {
+    username: string;
+    phone_number: string;
     count: number;
     data: {
       Basket: [];
@@ -15,14 +16,28 @@ export interface myUser {
     status: number;
     statusText: string;
   };
-  id: string;
+  id: string | undefined;
   email: string;
+  address: UserAddress[];
+  isLoading: boolean;
+}
+
+export interface UserDetails {
+  Basket: null;
+  created_at: Date;
+  email: string;
+  favourites: [] | null;
+  id: string;
+  phone_number: number;
   username: string;
-  phone_number: string;
-  address: {
-    road: string;
-    town: string;
-    county: string;
-    post_code: string;
-  };
+}
+
+export interface UserAddress {
+  length: number;
+  user_id: string | undefined;
+  created_at: string;
+  town: string;
+  post_code: string;
+  county: string;
+  road: string;
 }

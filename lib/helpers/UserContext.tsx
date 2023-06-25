@@ -24,11 +24,13 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUserDetails,
     refetch: userRefetch,
   } = useGetUserQuery(user?.id as string);
+
   const {
     data: userAddress,
     isLoading: isLoadingUserAddress,
     refetch: addressRefetch,
-  } = useGetAddressQuery(user?.id as string);
+  } = useGetAddressQuery({ user_id: user?.id });
+
   const getUserDetails = () => {
     supabase
       .channel("public:users")
@@ -92,7 +94,7 @@ export const MyUserContextProvider = (props: Props) => {
   useEffect(() => {
     getUserDetails();
     getUserAddress();
-  }, []);
+  }, [user?.id]);
 
   const value = {
     ...user,
@@ -101,7 +103,7 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUser || isLoadingUserDetails || isLoadingUserAddress,
     address: userAddress && userAddress.length > 0 ? userAddress[0] : null,
   };
-
+  console.log(value);
   return <UserContext.Provider value={value} {...props} />;
 };
 
