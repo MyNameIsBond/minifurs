@@ -95,7 +95,6 @@ export const MyUserContextProvider = (props: Props) => {
     getUserDetails();
     getUserAddress();
   }, [user?.id]);
-
   const value = {
     ...user,
     ...userDetails,
@@ -103,7 +102,6 @@ export const MyUserContextProvider = (props: Props) => {
     isLoading: isLoadingUser || isLoadingUserDetails || isLoadingUserAddress,
     address: userAddress && userAddress.length > 0 ? userAddress[0] : null,
   };
-  console.log(value);
   return <UserContext.Provider value={value} {...props} />;
 };
 

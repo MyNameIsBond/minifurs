@@ -1,5 +1,5 @@
 export interface myUser {
-  value: {
+  value?: {
     username: string;
     phone_number: string;
     count: number;
@@ -16,9 +16,9 @@ export interface myUser {
     status: number;
     statusText: string;
   };
-  id: string | undefined;
-  email: string;
-  address: UserAddress[];
+  id?: string | undefined;
+  email: string | undefined;
+  address: UserAddress | null;
   isLoading: boolean;
 }
 
