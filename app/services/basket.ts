@@ -8,7 +8,7 @@ export const card = api.injectEndpoints({
     fetchCard: builder.query<
       ProductsInterface[],
       {
-        user_id: string;
+        user_id: string | undefined;
       }
     >({
       queryFn: async (cred) => {

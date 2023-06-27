@@ -1,10 +1,10 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, SerializedError, createSlice } from "@reduxjs/toolkit";
 import { getProduct } from "../services/product";
-import type { ProductInterface } from "../services/product";
+import type { Product, ProductsInterface } from "../../types/product";
 
 interface initialStateType {
-  product: ProductInterface | [];
-  error: string;
+  product: ProductsInterface | [];
+  error: SerializedError;
   loading: boolean;
   displayColour: string;
   colours: string[];
@@ -14,7 +14,7 @@ interface initialStateType {
 
 const initialState: initialStateType = {
   product: [],
-  error: "",
+  error: "" as SerializedError,
   loading: false,
   displayColour: "",
   colours: [],
@@ -41,9 +41,10 @@ export const productSlice = createSlice({
     favouriteProduct: (state, action: PayloadAction<boolean>) => {
       state.favourite = action.payload;
     },
-    setProduct: (state, action: PayloadAction<ProductInterface[]>) => {
+    setProduct: (state, action: PayloadAction<Product[]>) => {
       if (action.payload !== undefined) {
         const [{ colours }] = action.payload;
+        console.log("ELARE:", action.payload);
         state.product = action.payload[0];
         state.colours = colours;
         state.loading = false;
@@ -58,7 +59,7 @@ export const productSlice = createSlice({
     });
     builder.addMatcher(
       getProduct.matchFulfilled,
-      (state, action: PayloadAction<ProductInterface[]>) => {
+      (state, action: PayloadAction<Product[]>) => {
         const [{ colours }] = action.payload;
         state.product = action.payload[0];
         state.colours = colours;
