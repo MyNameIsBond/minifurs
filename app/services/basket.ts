@@ -38,7 +38,7 @@ export const card = api.injectEndpoints({
       },
     }),
     deleteCardFromBasket: builder.mutation<
-      ProductsInterface[],
+      null,
       {
         user_id: string;
         basket_id: string;
