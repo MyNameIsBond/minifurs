@@ -1,12 +1,11 @@
 import { supabase } from "../../lib/supabase";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const userDetails = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     setUserDetails: builder.mutation<
-      ProductInterface[],
+      null,
       { name: string; email: string; phone_number: number; user_id: string }
     >({
       queryFn: async (user) => {
@@ -45,7 +44,7 @@ export const userDetails = api.injectEndpoints({
       },
     }),
     setUserAddress: builder.mutation<
-      ProductInterface[],
+      null,
       {
         user_id: string;
         road: string;

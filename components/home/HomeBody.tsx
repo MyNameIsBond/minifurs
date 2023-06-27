@@ -1,3 +1,4 @@
+import type { Product } from "../../types/product";
 import AdBanner from "../AdBanner";
 import CardDisplaySceleton from "./CardDisplaySceleton";
 import HomeCard from "./HomeCard";
@@ -5,7 +6,7 @@ import HomeCard from "./HomeCard";
 export default function HomeBody({
   products,
 }: {
-  products: any[] | null;
+  products: Product[];
 }): JSX.Element {
   return (
     <>

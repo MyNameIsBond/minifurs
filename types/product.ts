@@ -1,10 +1,16 @@
-interface Product {
-  categories: object;
-  colours: Array<any>;
+export interface Product {
+  categories: {
+    [key: string]: boolean;
+  };
+  colours: Array<string>;
   created_at: string;
-  description: object;
+  description: {
+    description: string;
+  };
   id: number;
-  images: object;
+  images: {
+    [key: string]: any[];
+  };
   price: number;
   profile_pic: string;
   quantity: number;

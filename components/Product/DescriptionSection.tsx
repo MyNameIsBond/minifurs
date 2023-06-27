@@ -1,13 +1,20 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { Fragment, useCallback, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import { useCallback, useState } from "react";
 import Reviews from "./Reviews";
+import type { Product } from "../../types/product";
 
 export default function DescriptionSection({
   reviews,
   description,
 }: {
-  reviews: any[] | null;
-  description: any[] | null;
+  reviews: Product["reviews"];
+  description: Product["description"];
 }) {
   const [showreview, setShowReview] = useState<boolean>(true);
   const showReviews = useCallback(
@@ -22,10 +29,12 @@ export default function DescriptionSection({
         <View className="flex-row gap-x-3 py-5">
           <TouchableOpacity
             className="p-4 rounded-xl"
-            onPress={(e) => showReviews(true)}
-            style={{
-              backgroundColor: showreview ? "rgba(230, 131, 20, 0.5)" : null,
-            }}
+            onPress={() => showReviews(true)}
+            style={
+              {
+                backgroundColor: showreview ? "rgba(230, 131, 20, 0.5)" : null,
+              } as StyleProp<ViewStyle>
+            }
           >
             <Text
               style={{
@@ -38,10 +47,12 @@ export default function DescriptionSection({
           </TouchableOpacity>
           <TouchableOpacity
             className="p-4 rounded-xl"
-            onPress={(e) => showReviews(false)}
-            style={{
-              backgroundColor: !showreview ? "rgba(230, 131, 20, 0.5)" : null,
-            }}
+            onPress={() => showReviews(false)}
+            style={
+              {
+                backgroundColor: !showreview ? "rgba(230, 131, 20, 0.5)" : null,
+              } as StyleProp<ViewStyle>
+            }
           >
             <Text
               style={{

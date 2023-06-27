@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import type { Product } from "../../types/product";
 
 export default function HomeCard({
   product,
 }: {
-  product: any[] | null;
+  product: Product;
 }): JSX.Element {
   const { title, price, images, id } = product;
   const keys = Object.keys(images);

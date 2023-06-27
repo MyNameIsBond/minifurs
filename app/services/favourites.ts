@@ -33,7 +33,7 @@ export const product = api.injectEndpoints({
     ),
     getFavProduct: builder.query<
       ProductsInterface[],
-      { product_id: string; user_id: string }
+      { product_id: string; user_id: string | undefined }
     >({
       queryFn: async (cred, dis) => {
         try {
@@ -62,7 +62,7 @@ export const product = api.injectEndpoints({
     }),
     deleteFavProduct: builder.mutation<
       null,
-      { product_id: string; user_id: string }
+      { product_id: string; user_id: string | undefined }
     >({
       queryFn: async (cred, dis) => {
         try {
@@ -86,7 +86,7 @@ export const product = api.injectEndpoints({
     }),
     insertFavProduct: builder.mutation<
       null,
-      { product_id: string; user_id: string }
+      { product_id: string; user_id: string | undefined }
     >({
       queryFn: async (cred, dis) => {
         try {
