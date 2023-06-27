@@ -1,8 +1,13 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import ReviewStars from "./ReviewStars";
+import type { Product } from "../../types/product";
 
-export default function Reviews({ reviews }: { reviews: any[] | null }) {
+export default function Reviews({
+  reviews,
+}: {
+  reviews: Product["reviews"] | null;
+}) {
   return (
     <View className="p-4">
       {reviews && reviews.length > 0 ? (

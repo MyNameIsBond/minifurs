@@ -16,6 +16,7 @@ export interface myUser {
     status: number;
     statusText: string;
   };
+  username?: string;
   id?: string | undefined;
   email: string | undefined;
   address: UserAddress | null;

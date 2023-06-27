@@ -1,11 +1,11 @@
 import { supabase } from "../../lib/supabase";
-import { ProductsInterface } from "../../types/product";
+import type { Product } from "../../types/product";
 import { api } from "./api";
 
 export const allProducts = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getAllProducts: builder.query<ProductsInterface[], void>({
+    getAllProducts: builder.query<Product[], void>({
       queryFn: async () => {
         try {
           const { data, error } = await supabase
@@ -20,7 +20,7 @@ export const allProducts = api.injectEndpoints({
         }
       },
     }),
-    getProductsByLimit: builder.query<ProductsInterface[], { limit: number }>({
+    getProductsByLimit: builder.query<Product[], { limit: number }>({
       queryFn: async (cred) => {
         try {
           const { data, error } = await supabase

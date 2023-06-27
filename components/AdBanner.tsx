@@ -5,11 +5,9 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function AdBanner({
   title,
   subtitle,
-  image,
 }: {
   title: string;
   subtitle: string;
-  image: string;
 }) {
   return (
     <View className="px-4">

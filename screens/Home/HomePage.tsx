@@ -8,7 +8,7 @@ import LoadingView from "../../components/LoadingView";
 
 export default function Home({}) {
   const [search, setSearch] = useState("");
-  const { data, isLoading } = useGetProductsByLimitQuery(4);
+  const { data, isLoading } = useGetProductsByLimitQuery({ limit: 4 });
 
   if (isLoading) {
     return <LoadingView />;

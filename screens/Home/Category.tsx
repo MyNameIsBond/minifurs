@@ -15,7 +15,7 @@ export default function Category({ route }): JSX.Element {
   return (
     <SafeAreaView>
       <ScrollView className="h-screen bg-gray-100">
-        {data.length === 0 && (
+        {data?.length === 0 && (
           <View className="flex-col px-4 items-center h-full pt-[30%]">
             <ClockIcon color="#284F49" size={30} />
             <Text className="text-lg font-bold pt-4">Coming Soon!</Text>
@@ -26,7 +26,7 @@ export default function Category({ route }): JSX.Element {
           </View>
         )}
         <View className="p-3 bg-gray-100" style={styles.container}>
-          {data.map((product) => (
+          {data?.map((product) => (
             <HomeCard key={product.id} product={product} />
           ))}
         </View>

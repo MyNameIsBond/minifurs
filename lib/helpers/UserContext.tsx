@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useGetUserQuery } from "../../app/services/user";
 import { useGetAddressQuery } from "../../app/services/getAddress";
 import { supabase } from "../supabase";
-import { myUser } from "../../types/user";
+import type { myUser } from "../../types/user";
 export type UserContextType = {
   accessToken: string | null;
   user: User | null;
