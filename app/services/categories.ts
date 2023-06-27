@@ -13,7 +13,6 @@ export const getCategory = api.injectEndpoints({
             .select("*")
             .contains("categories", { [category]: true });
           if (error) throw error;
-          console.log("ELAR E:", data);
           return { data };
         } catch (error) {
           console.error(error);

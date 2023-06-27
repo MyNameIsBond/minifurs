@@ -34,7 +34,6 @@ export const addToBasket = api.injectEndpoints({
                 colour: colour,
               });
             if (error) throw error;
-            console.log(data);
             return { data };
           } else {
             const { data, error } = await supabase.from("basket").insert({
@@ -44,7 +43,6 @@ export const addToBasket = api.injectEndpoints({
               colour: colour,
             });
             if (error) throw error;
-            console.log(data);
             return { data };
           }
         } catch (error) {
