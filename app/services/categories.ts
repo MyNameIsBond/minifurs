@@ -1,11 +1,11 @@
 import { supabase } from "../../lib/supabase";
+import { ProductsInterface } from "../../types/product";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const getCategory = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getProductsByCategory: builder.query<ProductInterface[], string>({
+    getProductsByCategory: builder.query<ProductsInterface[], string>({
       queryFn: async (category) => {
         try {
           const { data, error } = await supabase

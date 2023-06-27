@@ -1,11 +1,11 @@
 import { supabase } from "../../lib/supabase";
+import { ProductsInterface } from "../../types/product";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const search = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    searchProducts: builder.query<ProductInterface[], string>({
+    searchProducts: builder.query<ProductsInterface[], string>({
       queryFn: async (search) => {
         try {
           const { data, error } = await supabase

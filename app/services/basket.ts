@@ -1,17 +1,17 @@
 import { supabase } from "../../lib/supabase";
+import { ProductsInterface } from "../../types/product";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const card = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     fetchCard: builder.query<
-      ProductInterface,
+      ProductsInterface[],
       {
         user_id: string;
       }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { user_id } = cred;
           const { data, error } = await supabase
@@ -38,13 +38,13 @@ export const card = api.injectEndpoints({
       },
     }),
     deleteCardFromBasket: builder.mutation<
-      ProductInterface,
+      ProductsInterface[],
       {
         user_id: string;
         basket_id: string;
       }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { user_id, basket_id } = cred;
           const { data, error } = await supabase

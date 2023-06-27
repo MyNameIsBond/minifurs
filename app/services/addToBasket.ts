@@ -1,11 +1,11 @@
 import { supabase } from "../../lib/supabase";
+import { ProductsInterface } from "../../types/product";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const addToBasket = api.injectEndpoints({
   endpoints: (builder) => ({
     addTobasket: builder.mutation<
-      ProductInterface,
+      ProductsInterface,
       {
         user_id: string;
         product_id: string;
@@ -13,7 +13,7 @@ export const addToBasket = api.injectEndpoints({
         quantity: number;
       }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { user_id, product_id, colour, quantity } = cred;
           const { data: exist, error } = await supabase
@@ -35,7 +35,7 @@ export const addToBasket = api.injectEndpoints({
                 colour: colour,
               });
             if (error) throw error;
-            return { data };
+            return { data: data ?? [] };
           } else {
             const { data, error } = await supabase.from("basket").insert({
               user_id: user_id,

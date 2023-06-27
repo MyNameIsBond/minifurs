@@ -55,6 +55,7 @@ export default function Card({ navigation }) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert("Success", "Your order is confirmed!");
+      console.log("ELA RE:", data);
       addOrder({ data, user_id: id });
       deleteOrdersFromBasket({ data, user_id: id });
     }

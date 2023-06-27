@@ -1,11 +1,11 @@
 import { supabase } from "../../lib/supabase";
+import { ProductsInterface } from "../../types/product";
 import { api } from "./api";
-import { ProductInterface } from "./product";
 
 export const orders = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getOrders: builder.query<ProductInterface[], string>({
+    getOrders: builder.query<ProductsInterface[], string>({
       queryFn: async (user_id) => {
         try {
           const { data, error } = await supabase
@@ -28,8 +28,8 @@ export const orders = api.injectEndpoints({
       },
     }),
     addOrders: builder.mutation<
-      ProductInterface[],
-      { data: ProductInterface[]; user_id: string }
+      ProductsInterface[],
+      { data: ProductsInterface[]; user_id: string }
     >({
       queryFn: async (cred) => {
         try {
@@ -43,7 +43,7 @@ export const orders = api.injectEndpoints({
           }));
           const { data, error } = await supabase.from("orders").insert(newCred);
           if (error) throw error;
-          return { data };
+          return { data: data ?? [] };
         } catch (error) {
           console.error(error);
           return { error };
@@ -51,8 +51,8 @@ export const orders = api.injectEndpoints({
       },
     }),
     deleteBasketItems: builder.mutation<
-      ProductInterface[],
-      { data: ProductInterface[]; user_id: string }
+      ProductsInterface[],
+      { data: ProductsInterface[]; user_id: string }
     >({
       queryFn: async (cred) => {
         try {
@@ -65,7 +65,7 @@ export const orders = api.injectEndpoints({
             .in("product_id", productIds);
 
           if (error) throw error;
-          return { data };
+          return { data: data ?? [] };
         } catch (error) {
           console.error(error);
           return { error };

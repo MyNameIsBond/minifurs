@@ -1,42 +1,11 @@
 import { api } from "./api";
 import { supabase } from "../../lib/supabase";
-import { favouriteProduct } from "../features/product";
-
-interface Review {
-  img_avatar: string;
-  stars: number;
-  text: string;
-  user: string;
-}
-
-interface Description {
-  description: string;
-}
-
-interface Images {
-  [color: string]: string[];
-}
-
-export interface ProductInterface {
-  id: number;
-  title: string;
-  description: Description;
-  price: number;
-  quantity: number;
-  created_at: string;
-  profile_pic: string;
-  colours: string[];
-  categories: {
-    [category: string]: boolean;
-  };
-  images: Images;
-  reviews: Review[];
-}
+import { ProductsInterface } from "../../types/product";
 
 export const product = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getProduct: builder.query<ProductInterface, string>({
+    getProduct: builder.query<ProductsInterface[], string>({
       queryFn: async (id) => {
         try {
           const { data, error } = await supabase
@@ -46,7 +15,7 @@ export const product = api.injectEndpoints({
           if (error) {
             throw error;
           }
-          return { data };
+          return { data: data ?? [] };
         } catch (error) {
           return { error };
         }
