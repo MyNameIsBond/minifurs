@@ -59,9 +59,8 @@ export const productSlice = createSlice({
     });
     builder.addMatcher(
       getProduct.matchFulfilled,
-      (state, action: PayloadAction<Product[]>) => {
+      (state, action: PayloadAction<Product[], string>) => {
         const [{ colours }] = action.payload;
-        console.log("ACTION PAYLOAD", action.payload);
         state.product = action.payload[0];
         state.colours = colours;
         state.loading = false;
