@@ -3,7 +3,7 @@ import { getProduct } from "../services/product";
 import type { Product, ProductsInterface } from "../../types/product";
 
 interface initialStateType {
-  product: ProductsInterface | [];
+  product: ProductsInterface | {};
   error: SerializedError;
   loading: boolean;
   displayColour: string;
@@ -13,7 +13,7 @@ interface initialStateType {
 }
 
 const initialState: initialStateType = {
-  product: [],
+  product: {},
   error: "" as SerializedError,
   loading: false,
   displayColour: "",
@@ -61,6 +61,7 @@ export const productSlice = createSlice({
       getProduct.matchFulfilled,
       (state, action: PayloadAction<Product[]>) => {
         const [{ colours }] = action.payload;
+        console.log("ACTION PAYLOAD", action.payload);
         state.product = action.payload[0];
         state.colours = colours;
         state.loading = false;

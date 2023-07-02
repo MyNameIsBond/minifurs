@@ -14,7 +14,7 @@ export interface Product {
   price: number;
   profile_pic: string;
   quantity: number;
-  reviews: Array<any>;
+  reviews: [][];
   title: string;
 }
 
