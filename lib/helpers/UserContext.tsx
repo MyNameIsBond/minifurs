@@ -5,7 +5,6 @@ import { useGetAddressQuery } from "../../app/services/getAddress";
 import { supabase } from "../supabase";
 import type { myUser } from "../../types/user";
 export type UserContextType = {
-  accessToken: string | null;
   user: User | null;
   isLoading: boolean;
 };

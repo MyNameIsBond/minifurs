@@ -2,6 +2,7 @@ import HomeCard from "../../components/home/HomeCard";
 import ListCards from "../../components/ListCardsContainer";
 import { useSearchProductsQuery } from "../../app/services/search";
 import LoadingView from "../../components/LoadingView";
+import { Product } from "../../types/product";
 
 export default function Search({ route }: {}): JSX.Element {
   const { search } = route.params;
@@ -14,7 +15,7 @@ export default function Search({ route }: {}): JSX.Element {
   return (
     <ListCards classNames="h-full">
       {data?.map((product) => (
-        <HomeCard key={product.id} product={product} />
+        <HomeCard key={product.id} product={product.products as Product} />
       ))}
     </ListCards>
   );
