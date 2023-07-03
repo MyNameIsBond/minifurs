@@ -6,7 +6,7 @@ export const card = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     fetchCard: builder.query<
-      ProductsInterface,
+      ProductsInterface[],
       {
         user_id: string | undefined;
       }
