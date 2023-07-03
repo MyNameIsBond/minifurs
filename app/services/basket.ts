@@ -30,8 +30,6 @@ export const card = api.injectEndpoints({
             .match({ user_id: user_id });
 
           if (error) throw error;
-          console.log("DATA FROM FETCH CARD", data);
-          console.log(typeof data[0].id);
           return { data };
         } catch (error) {
           console.error(error);
