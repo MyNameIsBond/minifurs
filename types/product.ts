@@ -1,3 +1,10 @@
+export interface Review {
+  img_avatar: string;
+  stars: number;
+  text: string;
+  user: string;
+}
+
 export interface Product {
   categories: {
     [key: string]: boolean;
@@ -7,14 +14,14 @@ export interface Product {
   description: {
     description: string;
   };
-  id: number;
+  id: string;
   images: {
     [key: string]: any[];
   };
   price: number;
   profile_pic: string;
   quantity: number;
-  reviews: [][];
+  reviews: Review[];
   title: string;
 }
 

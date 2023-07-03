@@ -1,9 +1,9 @@
 import { PayloadAction, SerializedError, createSlice } from "@reduxjs/toolkit";
 import { getProduct } from "../services/product";
-import type { Product, ProductsInterface } from "../../types/product";
+import type { Product } from "../../types/product";
 
 interface initialStateType {
-  product: ProductsInterface | {};
+  product: Product;
   error: SerializedError;
   loading: boolean;
   displayColour: string;
@@ -13,7 +13,7 @@ interface initialStateType {
 }
 
 const initialState: initialStateType = {
-  product: {},
+  product: {} as Product,
   error: "" as SerializedError,
   loading: false,
   displayColour: "",

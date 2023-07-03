@@ -8,6 +8,7 @@ export default function AdBanner({
 }: {
   title: string;
   subtitle: string;
+  image: string;
 }) {
   return (
     <View className="px-4">

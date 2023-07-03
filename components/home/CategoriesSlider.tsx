@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { ElementType } from "react";
 import PopularSvg from "./svg/PopularSvg";
 import ChairSvg from "./svg/ChairSvg";
 import WorkstationSvg from "./svg/WorkstationSvg";
@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function CategoriesSlider({}): JSX.Element {
   const navigation = useNavigation();
-  const categories = [
+  const categories: { title: string; icon: ElementType }[] = [
     { title: "Popular", icon: PopularSvg },
     { title: "Chair", icon: ChairSvg },
     { title: "Workstation", icon: WorkstationSvg },
@@ -19,7 +19,12 @@ export default function CategoriesSlider({}): JSX.Element {
     { title: "Office", icon: OfficeSvg },
   ];
 
-  const renderItem = ({ item }: { title: string; icon: Element }) => {
+  const renderItem = ({
+    item,
+  }: {
+    item: { title: string; icon: ElementType };
+  }) => {
+    console.log("ITEM:", item);
     const Icon = item.icon;
     return (
       <View className="flex-col mr-3 items-center gap-y-2 w-20">
