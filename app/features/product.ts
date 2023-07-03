@@ -44,7 +44,6 @@ export const productSlice = createSlice({
     setProduct: (state, action: PayloadAction<Product[]>) => {
       if (action.payload !== undefined) {
         const [{ colours }] = action.payload;
-        console.log("ELARE:", action.payload);
         state.product = action.payload[0];
         state.colours = colours;
         state.loading = false;
