@@ -6,7 +6,7 @@ import { supabase } from "../supabase";
 import type { myUser } from "../../types/user";
 export type UserContextType = {
   user: User | null;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 export interface Props {
