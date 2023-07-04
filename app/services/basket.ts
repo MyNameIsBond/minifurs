@@ -1,5 +1,6 @@
+import { QueryReturnValue } from "@reduxjs/toolkit/dist/query/baseQueryTypes";
 import { supabase } from "../../lib/supabase";
-import { ProductsInterface } from "../../types/product";
+import type { ProductsInterface } from "../../types/product";
 import { api } from "./api";
 
 export const card = api.injectEndpoints({

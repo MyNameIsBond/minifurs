@@ -46,7 +46,6 @@ export default function Product({ route }) {
       <ScrollView className="h-full">
         <ProductSlider
           images={state.product?.images}
-          colours={state.product?.colours}
           displayColour={state.displayColour}
         />
         <TouchableOpacity

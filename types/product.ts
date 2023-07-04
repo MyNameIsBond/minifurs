@@ -29,7 +29,7 @@ export interface ProductsInterface {
   colour: string;
   id: number;
   product_id: number;
-  products: Product | Product[];
+  products: Product;
   quantity: number;
 }
 
