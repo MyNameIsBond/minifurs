@@ -5,7 +5,7 @@ import { useGetAddressQuery } from "../../app/services/getAddress";
 import { supabase } from "../supabase";
 import type { myUser } from "../../types/user";
 export type UserContextType = {
-  user: User & myUser;
+  user: myUser | User | null;
   isLoading?: boolean;
 };
 
@@ -18,6 +18,7 @@ export const UserContext = createContext({} as myUser);
 export const MyUserContextProvider = (props: Props) => {
   const { session } = props;
   const { user, isLoading: isLoadingUser } = session;
+
   const {
     data: userDetails,
     isLoading: isLoadingUserDetails,
@@ -101,7 +102,7 @@ export const MyUserContextProvider = (props: Props) => {
     email: user?.email,
     isLoading: isLoadingUser || isLoadingUserDetails || isLoadingUserAddress,
     address: userAddress && userAddress.length > 0 ? userAddress[0] : null,
-  };
+  } as myUser;
 
   return <UserContext.Provider value={value} {...props} />;
 };

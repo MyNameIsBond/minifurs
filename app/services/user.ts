@@ -1,10 +1,11 @@
 import { api } from "./api";
 import { supabase } from "../../lib/supabase";
 import { Session, User } from "@supabase/supabase-js";
+import { myUser } from "../../types/user";
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query<User, string>({
+    getUser: builder.query<myUser, string>({
       queryFn: async (id) => {
         try {
           const { data } = await supabase
