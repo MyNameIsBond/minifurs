@@ -41,7 +41,7 @@ export default function HomeCard({
         ))}
       </ScrollView>
       <TouchableOpacity
-        onPress={(e) => {
+        onPress={() => {
           navigation.navigate("Product", { id });
         }}
       >

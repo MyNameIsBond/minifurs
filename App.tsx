@@ -16,7 +16,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { STRIPE_PK_TEST } from "@env";
-const Stack = createNativeStackNavigator();
+import type { AppStackProps } from "./types/navigation";
+const Stack = createNativeStackNavigator<AppStackProps>();
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
