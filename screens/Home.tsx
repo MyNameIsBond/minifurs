@@ -3,8 +3,9 @@ import Category from "./Home/Category";
 import HomePage from "./Home/HomePage";
 import Search from "./Home/Search";
 import SeeAll from "./SeeAll";
+import { RootStackParamList } from "../types/navigation";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function Profile({}) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
