@@ -41,7 +41,7 @@ export const productSlice = createSlice({
     favouriteProduct: (state, action: PayloadAction<boolean>) => {
       state.favourite = action.payload;
     },
-    setProduct: (state, action: PayloadAction<Product[]>) => {
+    setProduct: (state, action: PayloadAction<Product[] | undefined>) => {
       if (action.payload !== undefined) {
         const [{ colours }] = action.payload;
         state.product = action.payload[0];

@@ -8,7 +8,7 @@ export default function AddToBasket({
   quantity,
   colour,
 }: {
-  user_id: string;
+  user_id: string | undefined;
   product_id: string;
   quantity: number;
   colour: string;

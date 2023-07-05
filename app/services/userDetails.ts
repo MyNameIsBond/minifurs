@@ -6,7 +6,12 @@ export const userDetails = api.injectEndpoints({
   endpoints: (builder) => ({
     setUserDetails: builder.mutation<
       null,
-      { name: string; email: string; phone_number: number; user_id: string }
+      {
+        name: string;
+        email: string | undefined;
+        phone_number: number;
+        user_id: string | undefined;
+      }
     >({
       queryFn: async (user) => {
         const { name, email, phone_number, user_id } = user;
