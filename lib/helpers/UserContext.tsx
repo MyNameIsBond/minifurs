@@ -95,7 +95,6 @@ export const MyUserContextProvider = (props: Props) => {
     getUserDetails();
     getUserAddress();
   }, [user?.id]);
-  console.log("USER DETAILS:", userDetails);
   const value = {
     ...user,
     ...userDetails,

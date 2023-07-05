@@ -4,7 +4,6 @@ import ReviewStars from "./ReviewStars";
 import type { Review } from "../../types/product";
 
 export default function Reviews({ reviews }: { reviews: Review[] | null }) {
-  console.log(reviews);
   return (
     <View className="p-4">
       {reviews && reviews.length > 0 ? (

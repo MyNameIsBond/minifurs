@@ -24,7 +24,6 @@ export default function CategoriesSlider({}): JSX.Element {
   }: {
     item: { title: string; icon: ElementType };
   }) => {
-    console.log("ITEM:", item);
     const Icon = item.icon;
     return (
       <View className="flex-col mr-3 items-center gap-y-2 w-20">

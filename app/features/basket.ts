@@ -36,7 +36,6 @@ export const basketSlice = createSlice({
       fetchCard.matchFulfilled,
       (state, action: PayloadAction<ProductsInterface[]>) => {
         state.numberOfBasketItems = action.payload.length;
-        console.log("fetchCard", action.payload);
         state.price = action.payload?.reduce(
           (a, b) => a + b.products.price * b.quantity,
           0
