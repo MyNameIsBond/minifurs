@@ -21,6 +21,7 @@ export interface myUser {
   email: string | undefined;
   address: UserAddress | null;
   isLoading: boolean;
+  phone_number: number;
 }
 
 export interface UserDetails {

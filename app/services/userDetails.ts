@@ -51,7 +51,7 @@ export const userDetails = api.injectEndpoints({
     setUserAddress: builder.mutation<
       null,
       {
-        user_id: string;
+        user_id: string | undefined;
         road: string;
         town: string;
         county: string;

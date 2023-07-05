@@ -19,7 +19,6 @@ import { useGetProductQuery } from "../../app/services/product";
 import { RootState } from "../../app/store";
 import { changeDisplayColour, setProduct } from "../../app/features/product";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Product } from "../../types/product";
 
 export default function Product({ route }) {
   const navigation = useNavigation();
