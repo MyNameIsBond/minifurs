@@ -5,7 +5,7 @@ import { useGetAddressQuery } from "../../app/services/getAddress";
 import { supabase } from "../supabase";
 import type { myUser } from "../../types/user";
 export type UserContextType = {
-  user: User | null;
+  user: User & myUser;
   isLoading?: boolean;
 };
 
@@ -94,7 +94,7 @@ export const MyUserContextProvider = (props: Props) => {
     getUserDetails();
     getUserAddress();
   }, [user?.id]);
-
+  console.log("USER DETAILS:", userDetails);
   const value = {
     ...user,
     ...userDetails,
