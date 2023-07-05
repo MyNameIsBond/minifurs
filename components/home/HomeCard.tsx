@@ -7,8 +7,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import {
+  CompositeNavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
 import type { Product } from "../../types/product";
+import type { AppStackProps } from "../../types/navigation";
+
+type ProductScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<AppStackProps, "Product">,
+  StackNavigationProp<AppStackProps>
+>;
 
 export default function HomeCard({
   product,
@@ -22,7 +31,7 @@ export default function HomeCard({
   const height = width * 0.3;
   const mywidth = width * 0.4;
   const midwidth = width * 0.4;
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProductScreenNavigationProp>();
   return (
     <View className="bg-gray-50 shadow p-2 my-1 rounded-2xl">
       <ScrollView
