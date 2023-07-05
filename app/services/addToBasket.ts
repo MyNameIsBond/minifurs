@@ -6,7 +6,7 @@ export const addToBasket = api.injectEndpoints({
     addTobasket: builder.mutation<
       null,
       {
-        user_id: string;
+        user_id: string | undefined;
         product_id: string;
         colour: string;
         quantity: number;
