@@ -3,11 +3,9 @@ import HomeCard from "../../components/home/HomeCard";
 import { ClockIcon } from "react-native-heroicons/outline";
 import LoadingView from "../../components/LoadingView";
 import { useGetProductsByCategoryQuery } from "../../app/services/categories";
-import type { RootStackParamList } from "../../types/navigation";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-type Props = NativeStackScreenProps<RootStackParamList, "Category">;
+import type { CategoryProps } from "../../types/navigation";
 
-export default function Category({ route }: Props): JSX.Element {
+export default function Category({ route }: CategoryProps): JSX.Element {
   const category = route.params.category.toLowerCase();
   const { data, isLoading } = useGetProductsByCategoryQuery(category);
 

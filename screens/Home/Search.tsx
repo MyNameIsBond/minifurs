@@ -3,8 +3,9 @@ import ListCards from "../../components/ListCardsContainer";
 import { useSearchProductsQuery } from "../../app/services/search";
 import LoadingView from "../../components/LoadingView";
 import { Product } from "../../types/product";
+import type { SearchProps } from "../../types/navigation";
 
-export default function Search({ route }: {}): JSX.Element {
+export default function Search({ route }: SearchProps): JSX.Element {
   const { search } = route.params;
   const { data, isLoading } = useSearchProductsQuery(search);
 

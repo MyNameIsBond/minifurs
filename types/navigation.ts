@@ -13,7 +13,13 @@ export type AppStackProps = {
   SignUp: undefined;
   Nav: undefined;
   Product: { id: string };
-  Checkout: undefined;
 };
 
 export type ProductionProps = NativeStackScreenProps<AppStackProps, "Product">;
+
+export type CategoryProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Category"
+>;
+
+export type SearchProps = NativeStackScreenProps<RootStackParamList, "Search">;

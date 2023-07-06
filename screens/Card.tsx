@@ -16,7 +16,7 @@ import {
   useDeleteBasketItemsMutation,
 } from "../app/services/addOrder";
 
-export default function Card({ navigation }) {
+export default function Card() {
   const price = useAppSelector((state: RootState) => state.basket.price);
   const { id, username, email } = useUser();
   const { data, isLoading, refetch } = useFetchCardQuery({

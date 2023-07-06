@@ -11,13 +11,14 @@ import Landing from "./screens/Authentication/Landing";
 import Product from "./screens/Product/Product";
 import { MyUserContextProvider } from "./lib/helpers/UserContext";
 import LoadingView from "./components/LoadingView";
-import Checkout from "./screens/Checkout";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { STRIPE_PK_TEST } from "@env";
 import type { AppStackProps } from "./types/navigation";
+
 const Stack = createNativeStackNavigator<AppStackProps>();
+
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -60,21 +61,6 @@ export default function App() {
                   <Stack.Group>
                     <Stack.Screen name="Nav" component={NavTab} />
                     <Stack.Screen name="Product" component={Product} />
-                    <Stack.Screen
-                      name="Checkout"
-                      component={Checkout}
-                      options={() => ({
-                        headerShown: true,
-                        headerTitle: "Checkout",
-                        headerBackTitleVisible: false,
-                        headerTransparent: true,
-                        headerBlurEffect: "systemMaterial",
-                        headerTitleStyle: {
-                          color: "#284F49",
-                          fontSize: 20,
-                        },
-                      })}
-                    />
                   </Stack.Group>
                 </Stack.Navigator>
               </NavigationContainer>
