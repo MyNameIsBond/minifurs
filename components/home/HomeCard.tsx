@@ -7,18 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import {
-  CompositeNavigationProp,
-  NavigationProp,
-  useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import type { Product } from "../../types/product";
-import type { AppStackProps } from "../../types/navigation";
-
-type ProductScreenNavigationProp = CompositeNavigationProp<
-  NavigationProp<AppStackProps, "Product">,
-  NavigationProp<AppStackProps>
->;
+import { ProductScreenNavigationProp } from "../../types/navigation";
 
 export default function HomeCard({
   product,

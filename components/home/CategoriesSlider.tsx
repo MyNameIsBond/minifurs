@@ -7,9 +7,10 @@ import OfficeSvg from "./svg/OfficeSvg";
 import SofaSvg from "./svg/SofaSvg";
 import BedSvg from "./svg/BedSvg";
 import { useNavigation } from "@react-navigation/native";
+import type { CategoryNavigationProp } from "../../types/navigation";
 
 export default function CategoriesSlider({}): JSX.Element {
-  const navigation = useNavigation();
+  const navigation = useNavigation<CategoryNavigationProp>();
   const categories: { title: string; icon: ElementType }[] = [
     { title: "Popular", icon: PopularSvg },
     { title: "Chair", icon: ChairSvg },

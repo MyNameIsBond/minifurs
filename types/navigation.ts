@@ -1,3 +1,7 @@
+import {
+  CompositeNavigationProp,
+  NavigationProp,
+} from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type RootStackParamList = {
@@ -23,3 +27,23 @@ export type CategoryProps = NativeStackScreenProps<
 >;
 
 export type SearchProps = NativeStackScreenProps<RootStackParamList, "Search">;
+
+export type ProductScreenNavigationProp = CompositeNavigationProp<
+  NavigationProp<AppStackProps, "Product">,
+  NavigationProp<AppStackProps>
+>;
+
+export type CardDisplayNavigationProp = CompositeNavigationProp<
+  NavigationProp<RootStackParamList, "SeeAll">,
+  NavigationProp<AppStackProps>
+>;
+
+export type SearchNavigationProp = CompositeNavigationProp<
+  NavigationProp<RootStackParamList, "Search">,
+  NavigationProp<AppStackProps>
+>;
+
+export type CategoryNavigationProp = CompositeNavigationProp<
+  NavigationProp<RootStackParamList, "Category">,
+  NavigationProp<AppStackProps>
+>;

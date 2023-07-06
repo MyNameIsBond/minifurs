@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
+import type { SearchNavigationProp } from "../../types/navigation";
 
 export default function HomeSceleton({
   children,
@@ -18,7 +19,7 @@ export default function HomeSceleton({
   search: string;
   setSearch: (text: string) => void;
 }): JSX.Element {
-  const navigation = useNavigation();
+  const navigation = useNavigation<SearchNavigationProp>();
   return (
     <>
       <View className="bg-accent-green">

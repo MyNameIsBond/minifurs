@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { ArrowLongRightIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import ListCards from "../ListCardsContainer";
+import type { CardDisplayNavigationProp } from "../../types/navigation";
 
 export default function CardDisplaySceleton({
   title,
@@ -11,7 +12,7 @@ export default function CardDisplaySceleton({
   title?: string;
   children: ReactNode;
 }) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<CardDisplayNavigationProp>();
 
   return (
     <View className="bg-gray-100">
