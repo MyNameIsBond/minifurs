@@ -1,3 +1,5 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 export type RootStackParamList = {
   HomePage: undefined;
   Search: { search: string };
@@ -13,3 +15,5 @@ export type AppStackProps = {
   Product: { id: string };
   Checkout: undefined;
 };
+
+export type ProductionProps = NativeStackScreenProps<AppStackProps, "Product">;

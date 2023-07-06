@@ -19,12 +19,9 @@ import { useGetProductQuery } from "../../app/services/product";
 import { RootState } from "../../app/store";
 import { changeDisplayColour, setProduct } from "../../app/features/product";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { AppStackProps } from "../../types/navigation";
+import type { ProductionProps } from "../../types/navigation";
 
-type Props = NativeStackScreenProps<AppStackProps, "Product">;
-
-export default function Product({ route }: Props) {
+export default function Product({ route }: ProductionProps) {
   const navigation = useNavigation();
   const state = useAppSelector((state: RootState) => state.product);
   const { id } = route.params;

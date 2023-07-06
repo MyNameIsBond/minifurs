@@ -9,14 +9,15 @@ import {
 import React from "react";
 import {
   CompositeNavigationProp,
+  NavigationProp,
   useNavigation,
 } from "@react-navigation/native";
 import type { Product } from "../../types/product";
 import type { AppStackProps } from "../../types/navigation";
 
 type ProductScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<AppStackProps, "Product">,
-  StackNavigationProp<AppStackProps>
+  NavigationProp<AppStackProps, "Product">,
+  NavigationProp<AppStackProps>
 >;
 
 export default function HomeCard({
