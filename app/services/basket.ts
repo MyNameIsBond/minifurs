@@ -30,7 +30,7 @@ export const card = api.injectEndpoints({
             .match({ user_id: user_id });
 
           if (error) throw error;
-          return { data };
+          return { data: data as unknown as ProductsInterface[] };
         } catch (error) {
           console.error(error);
           return { error };

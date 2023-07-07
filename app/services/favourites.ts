@@ -26,7 +26,7 @@ export const product = api.injectEndpoints({
             )
             .match({ user_id: user_id });
           if (error) throw error;
-          return { data };
+          return { data: data as unknown as FavouritesInterface[] };
         } catch (error) {
           return { error };
         }
