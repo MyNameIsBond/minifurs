@@ -40,8 +40,8 @@ export const card = api.injectEndpoints({
     deleteCardFromBasket: builder.mutation<
       null,
       {
-        user_id: string;
-        basket_id: string;
+        user_id: string | undefined;
+        basket_id: number | undefined;
       }
     >({
       queryFn: async (cred) => {

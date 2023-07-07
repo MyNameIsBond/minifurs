@@ -8,8 +8,8 @@ export default function BasketCard({
   quantity,
 }: {
   product: any;
-  basketid: string;
-  user_id: string;
+  basketid: number | undefined;
+  user_id: string | undefined;
   quantity: number;
 }): JSX.Element {
   const [deleteCard] = useDeleteCardFromBasketMutation();

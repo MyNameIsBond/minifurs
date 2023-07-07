@@ -15,6 +15,7 @@ import {
   useAddOrdersMutation,
   useDeleteBasketItemsMutation,
 } from "../app/services/addOrder";
+import { PaymentInfo } from "../types/paymentInfo";
 
 export default function Card() {
   const price = useAppSelector((state: RootState) => state.basket.price);
@@ -29,9 +30,9 @@ export default function Card() {
 
   const initializePaymentSheet = async () => {
     try {
-      const { data: paymentParams } = await fetchPaymentSheetParams({
-        price: price,
-      });
+      const { data: paymentParams } = (await fetchPaymentSheetParams({
+        price,
+      })) as { data: PaymentInfo };
       const { customer, ephemeralKey, paymentIntent } = paymentParams;
       const { error } = await initPaymentSheet({
         merchantDisplayName: "Minifurs, Inc.",

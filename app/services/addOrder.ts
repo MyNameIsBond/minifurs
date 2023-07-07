@@ -19,7 +19,6 @@ export const orders = api.injectEndpoints({
               )`
             )
             .match({ user_id: cred.id });
-          console.log("I WILL BE THE WINNEr", data);
           if (error) throw error;
           return { data };
         } catch (error) {
@@ -30,12 +29,12 @@ export const orders = api.injectEndpoints({
     }),
     addOrders: builder.mutation<
       ProductsInterface[],
-      { data: ProductsInterface[]; user_id: string }
+      { data: ProductsInterface[] | undefined; user_id: string | undefined }
     >({
       queryFn: async (cred) => {
         try {
           const { data: myData, user_id } = cred;
-          const newCred = myData.map((c) => ({
+          const newCred = myData?.map((c) => ({
             user_id: user_id,
             product_id: c.product_id,
             paid: true,
@@ -53,17 +52,17 @@ export const orders = api.injectEndpoints({
     }),
     deleteBasketItems: builder.mutation<
       ProductsInterface[],
-      { data: ProductsInterface[]; user_id: string }
+      { data: ProductsInterface[] | undefined; user_id: string | undefined }
     >({
       queryFn: async (cred) => {
         try {
           const { data: myData, user_id } = cred;
-          const productIds = myData.map((c) => c.product_id);
+          const productIds = myData?.map((c) => c.product_id);
           const { data, error } = await supabase
             .from("basket")
             .delete()
             .eq("user_id", user_id)
-            .in("product_id", productIds);
+            .in("product_id", productIds as number[]);
 
           if (error) throw error;
           return { data: data ?? [] };
