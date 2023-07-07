@@ -36,5 +36,20 @@ export interface ProductsInterface {
 export interface FavouritesInterface {
   id: number;
   product_id: number;
-  products: Product[];
+  products: Product;
+}
+export interface OrderInterface {
+  created_at: string;
+  delivered: boolean;
+  id: string;
+  order_details: null;
+  paid: boolean;
+  product_colour: null;
+  product_id: number;
+  products: Product;
+  quantity: number;
+  refund: null;
+  user_id: string;
+  when_paid: string;
+  when_refund: null;
 }

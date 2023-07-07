@@ -7,7 +7,7 @@ import OrderCard from "../../components/OrderCard";
 
 export default function Orders() {
   const { id } = useUser();
-  const { data: orders, isLoading } = useGetOrdersQuery(id);
+  const { data: orders, isLoading } = useGetOrdersQuery({ id: id });
 
   if (isLoading) {
     return <LoadingView />;
@@ -33,29 +33,29 @@ export default function Orders() {
         </Text>
         <Text className=" text-3xl font-bold p-2">On The Way</Text>
         {orders
-          .filter((e) => !e?.delivered)
+          ?.filter((e) => !e?.delivered)
           .map((order) => (
             <OrderCard
               key={order.id}
               profile_pic={order?.products?.profile_pic}
-              title={order?.product?.title}
+              title={order?.products?.title}
               quantity={order?.quantity}
               price={order?.products?.price}
             />
           ))}
-        {orders.filter((e) => e?.delivered).length !== 0 && (
+        {orders?.filter((e) => e?.delivered).length !== 0 && (
           <View className="py-10">
             <Text className="text-xs text-gray-600 font-bold pl-2 pt-2 uppercase">
               orders
             </Text>
             <Text className=" text-3xl font-bold p-2">Delivered</Text>
             {orders
-              .filter((e) => e?.delivered)
+              ?.filter((e) => e?.delivered)
               .map((order) => (
                 <OrderCard
                   key={order.id}
                   profile_pic={order?.products?.profile_pic}
-                  title={order?.product?.title}
+                  title={order?.products?.title}
                   quantity={order?.quantity}
                   price={order?.products?.price}
                 />

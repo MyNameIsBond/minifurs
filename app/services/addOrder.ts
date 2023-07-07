@@ -1,24 +1,25 @@
 import { supabase } from "../../lib/supabase";
-import { ProductsInterface } from "../../types/product";
+import { OrderInterface, ProductsInterface } from "../../types/product";
 import { api } from "./api";
 
 export const orders = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getOrders: builder.query<ProductsInterface[], string>({
-      queryFn: async (user_id) => {
+    getOrders: builder.query<OrderInterface[], { id: string | undefined }>({
+      queryFn: async (cred) => {
         try {
           const { data, error } = await supabase
             .from("orders")
             .select(
               `*,
-              products (
+            products (
               profile_pic,
               price,
               title
-            )`
+              )`
             )
-            .match({ user_id: user_id });
+            .match({ user_id: cred.id });
+          console.log("I WILL BE THE WINNEr", data);
           if (error) throw error;
           return { data };
         } catch (error) {

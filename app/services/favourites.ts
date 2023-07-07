@@ -6,31 +6,32 @@ import { FavouritesInterface, ProductsInterface } from "../../types/product";
 export const product = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getAllFavProduct: builder.query<FavouritesInterface[], { user_id: string }>(
-      {
-        queryFn: async (cred) => {
-          const { user_id } = cred;
-          try {
-            const { data, error } = await supabase
-              .from("favourites")
-              .select(
-                `
+    getAllFavProduct: builder.query<
+      FavouritesInterface[],
+      { user_id: string | undefined }
+    >({
+      queryFn: async (cred) => {
+        const { user_id } = cred;
+        try {
+          const { data, error } = await supabase
+            .from("favourites")
+            .select(
+              `
                 id,
                 product_id,
                 products (
                   *
                 )
               `
-              )
-              .match({ user_id: user_id });
-            if (error) throw error;
-            return { data };
-          } catch (error) {
-            return { error };
-          }
-        },
-      }
-    ),
+            )
+            .match({ user_id: user_id });
+          if (error) throw error;
+          return { data };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
     getFavProduct: builder.query<
       ProductsInterface[],
       { product_id: string; user_id: string | undefined }
