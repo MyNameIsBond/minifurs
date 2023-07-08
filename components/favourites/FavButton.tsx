@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { ActivityIndicator, TouchableOpacity } from "react-native";
 import { HeartIcon } from "react-native-heroicons/outline";
 import { HeartIcon as HeartIconSolid } from "react-native-heroicons/solid";
 import { RootState } from "../../app/store";
@@ -10,6 +10,7 @@ import {
   useInsertFavProductMutation,
 } from "../../app/services/favourites";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { supabase } from "../../lib/supabase";
 
 export default function FavButton({
   user,
@@ -18,12 +19,42 @@ export default function FavButton({
 }): JSX.Element {
   const state = useAppSelector((state: RootState) => state.product);
   const dispatch = useAppDispatch();
-  const { data, refetch } = useGetFavProductQuery({
+  const { data, refetch, isLoading } = useGetFavProductQuery({
     product_id: state.product.id,
     user_id: user,
   });
   const [deleteFav] = useDeleteFavProductMutation();
   const [insert] = useInsertFavProductMutation();
+
+  const realtimeTable = () => {
+    supabase
+      .channel("public:favourites")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "favourites",
+          filter: `product_id=eq.${state.product.id}`,
+        },
+        () => {
+          refetch();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "favourites",
+          filter: `product_id=eq.${state.product.id}`,
+        },
+        () => {
+          refetch();
+        }
+      )
+      .subscribe();
+  };
 
   const favourite = async () => {
     if (state.favourite) {
@@ -34,13 +65,24 @@ export default function FavButton({
   };
 
   useEffect(() => {
-    refetch();
+    realtimeTable();
     if (data && data.length > 0) {
       dispatch(favouriteProduct(true));
     } else {
       dispatch(favouriteProduct(false));
     }
   }, [data]);
+
+  if (isLoading) {
+    return (
+      <TouchableOpacity
+        onPress={favourite}
+        className="p-3 bg-gray-200 rounded-full"
+      >
+        <ActivityIndicator />
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <TouchableOpacity

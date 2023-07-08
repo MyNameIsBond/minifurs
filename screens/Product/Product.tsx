@@ -35,40 +35,9 @@ export default function Product({ route }: ProductionProps) {
   const dispatch = useAppDispatch();
   const user = useUser();
 
-  const realtimeTable = () => {
-    supabase
-      .channel("public:favourites")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "favourites",
-          filter: `product_id=eq.${id}`,
-        },
-        () => {
-          refetch();
-        }
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "favourites",
-          filter: `product_id=eq.${id}`,
-        },
-        () => {
-          refetch();
-        }
-      )
-      .subscribe();
-  };
-
   useEffect(() => {
     dispatch(setProduct(data));
-    realtimeTable();
-  }, []);
+  }, [id]);
 
   if (state.loading || isLoading) {
     return <LoadingView />;

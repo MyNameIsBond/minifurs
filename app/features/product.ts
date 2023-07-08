@@ -59,7 +59,6 @@ export const productSlice = createSlice({
     builder.addMatcher(
       getProduct.matchFulfilled,
       (state, action: PayloadAction<Product[], string>) => {
-        console.log("ELARE:", action.payload[0].id);
         const [{ colours }] = action.payload;
         state.product = action.payload[0];
         state.colours = colours;
