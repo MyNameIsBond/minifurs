@@ -37,14 +37,14 @@ export default function Product({ route }: ProductionProps) {
 
   const realtimeTable = () => {
     supabase
-      .channel("public:products")
+      .channel("public:favourites")
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
-          table: "products",
-          filter: `user_id=eq.${id}`,
+          table: "favourites",
+          filter: `product_id=eq.${id}`,
         },
         () => {
           refetch();
@@ -53,10 +53,10 @@ export default function Product({ route }: ProductionProps) {
       .on(
         "postgres_changes",
         {
-          event: "UPDATE",
+          event: "DELETE",
           schema: "public",
-          table: "products",
-          filter: `id=eq.${id}`,
+          table: "favourites",
+          filter: `product_id=eq.${id}`,
         },
         () => {
           refetch();
@@ -66,6 +66,7 @@ export default function Product({ route }: ProductionProps) {
   };
 
   useEffect(() => {
+    dispatch(setProduct(data));
     realtimeTable();
   }, []);
 

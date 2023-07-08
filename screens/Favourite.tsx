@@ -27,6 +27,7 @@ export default function Favourite({}) {
           filter: `user_id=eq.${id}`,
         },
         () => {
+          console.log("from favs INSERT");
           refetch();
         }
       )
@@ -39,6 +40,7 @@ export default function Favourite({}) {
           filter: `user_id=eq.${id}`,
         },
         () => {
+          console.log("from favs delete");
           refetch();
         }
       )
@@ -47,7 +49,7 @@ export default function Favourite({}) {
 
   useEffect(() => {
     realtimeTable();
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return <LoadingView />;
