@@ -89,7 +89,6 @@ export const product = api.injectEndpoints({
           if (error) {
             throw error;
           } else {
-            dis.dispatch(favouriteProduct(true));
             return { data };
           }
         } catch (error) {
