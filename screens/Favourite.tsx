@@ -17,7 +17,7 @@ export default function Favourite({}) {
 
   const realtimeTable = () => {
     supabase
-      .channel("public:favourites")
+      .channel("public:favourites:list")
       .on(
         "postgres_changes",
         {
@@ -27,7 +27,6 @@ export default function Favourite({}) {
           filter: `user_id=eq.${id}`,
         },
         () => {
-          console.log("from favs INSERT");
           refetch();
         }
       )
@@ -40,7 +39,6 @@ export default function Favourite({}) {
           filter: `user_id=eq.${id}`,
         },
         () => {
-          console.log("from favs delete");
           refetch();
         }
       )
