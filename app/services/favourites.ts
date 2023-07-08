@@ -36,7 +36,7 @@ export const product = api.injectEndpoints({
       ProductsInterface[],
       { product_id: string; user_id: string | undefined }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { data, error } = await supabase
             .from("favourites")
@@ -48,13 +48,6 @@ export const product = api.injectEndpoints({
           if (error) {
             throw error;
           }
-
-          if (data && data.length > 0) {
-            dis.dispatch(favouriteProduct(true));
-          } else {
-            dis.dispatch(favouriteProduct(false));
-          }
-
           return { data };
         } catch (error) {
           return { error };
@@ -65,7 +58,7 @@ export const product = api.injectEndpoints({
       null,
       { product_id: string; user_id: string | undefined }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { data, error } = await supabase
             .from("favourites")
@@ -76,8 +69,6 @@ export const product = api.injectEndpoints({
             });
           if (error) {
             throw error;
-          } else {
-            dis.dispatch(favouriteProduct(false));
           }
           return { data };
         } catch (error) {
