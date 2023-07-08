@@ -20,12 +20,13 @@ import { RootState } from "../../app/store";
 import { changeDisplayColour, setProduct } from "../../app/features/product";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { ProductionProps } from "../../types/navigation";
+import { supabase } from "../../lib/supabase";
 
 export default function Product({ route }: ProductionProps) {
   const navigation = useNavigation();
   const state = useAppSelector((state: RootState) => state.product);
   const { id } = route.params;
-  const { error, isLoading, data } = useGetProductQuery(id);
+  const { error, isLoading, data, refetch } = useGetProductQuery(id);
 
   if (error) {
     console.error({ error });
@@ -34,9 +35,39 @@ export default function Product({ route }: ProductionProps) {
   const dispatch = useAppDispatch();
   const user = useUser();
 
+  const realtimeTable = () => {
+    supabase
+      .channel("public:products")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "products",
+          filter: `user_id=eq.${id}`,
+        },
+        () => {
+          refetch();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "products",
+          filter: `id=eq.${id}`,
+        },
+        () => {
+          refetch();
+        }
+      )
+      .subscribe();
+  };
+
   useEffect(() => {
-    dispatch(setProduct(data));
-  }, [id, data]);
+    realtimeTable();
+  }, []);
 
   if (state.loading || isLoading) {
     return <LoadingView />;
