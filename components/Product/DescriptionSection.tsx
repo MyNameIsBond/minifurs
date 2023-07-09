@@ -10,11 +10,11 @@ import Reviews from "./Reviews";
 import type { Product } from "../../types/product";
 
 export default function DescriptionSection({
-  reviews,
   description,
+  product_id,
 }: {
-  reviews: Product["reviews"];
   description: Product["description"];
+  product_id: string;
 }) {
   const [showreview, setShowReview] = useState<boolean>(true);
   const showReviews = useCallback(
@@ -67,7 +67,7 @@ export default function DescriptionSection({
         {showreview ? (
           <Text className="text-gray-600">{description?.description}</Text>
         ) : (
-          <Reviews reviews={reviews} />
+          <Reviews product_id={product_id} />
         )}
       </View>
     </>

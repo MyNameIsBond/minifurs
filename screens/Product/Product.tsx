@@ -20,13 +20,12 @@ import { RootState } from "../../app/store";
 import { changeDisplayColour, setProduct } from "../../app/features/product";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { ProductionProps } from "../../types/navigation";
-import { supabase } from "../../lib/supabase";
 
 export default function Product({ route }: ProductionProps) {
   const navigation = useNavigation();
   const state = useAppSelector((state: RootState) => state.product);
   const { id } = route.params;
-  const { error, isLoading, data, refetch } = useGetProductQuery(id);
+  const { error, isLoading, data } = useGetProductQuery(id);
 
   if (error) {
     console.error({ error });
@@ -90,7 +89,7 @@ export default function Product({ route }: ProductionProps) {
           ))}
         </View>
         <DescriptionSection
-          reviews={state.product?.reviews}
+          product_id={id}
           description={state.product?.description}
         />
       </ScrollView>

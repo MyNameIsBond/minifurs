@@ -1,13 +1,28 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TextInput, Button } from "react-native";
 import React from "react";
 import ReviewStars from "./ReviewStars";
-import type { Review } from "../../types/product";
+import {
+  useGetReviewsQuery,
+  useReviewRightCheckQuery,
+} from "../../app/services/reviews";
+import { useUser } from "../../lib/helpers/UserContext";
 
-export default function Reviews({ reviews }: { reviews: Review[] | null }) {
+export default function Reviews({ product_id }: { product_id: string }) {
+  const { id } = useUser();
+  const { data, isLoading } = useGetReviewsQuery({ product_id: product_id });
+  const { data: reviewCheck } = useReviewRightCheckQuery({
+    product_id: product_id,
+    user_id: id,
+    review: data,
+  });
+  const sendReview = () => {
+    console.log("SEND REVIEW");
+  };
+
   return (
     <View className="p-4">
-      {reviews && reviews.length > 0 ? (
-        reviews.map((review, key) => (
+      {data && data.length > 0 ? (
+        data.map((review, key) => (
           <View key={key}>
             <View className="flex-row items-center gap-x-3 pb-1">
               <Image
@@ -21,8 +36,28 @@ export default function Reviews({ reviews }: { reviews: Review[] | null }) {
           </View>
         ))
       ) : (
-        <Text>No Reviews</Text>
+        <>
+          <Text className="mb-10">No Reviews</Text>
+        </>
       )}
+      {reviewCheck?.length ? (
+        <View className="flex gap-y-4 mt-5 p-3 bg-gray-50 rounded-md shadow">
+          <Text className="mb-10">Give us your review</Text>
+          <ReviewStars stars={1} />
+          <TextInput
+            multiline={true}
+            numberOfLines={10}
+            className="border-gray-400 h-32 border p-3 my-4 rounded-lg"
+          />
+          <Button
+            title="Send Review"
+            color="darkgreen"
+            onPress={() => {
+              console.log("first");
+            }}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }
