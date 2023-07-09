@@ -40,6 +40,7 @@ export const orders = api.injectEndpoints({
             paid: true,
             when_paid: new Date(),
             quantity: c.quantity,
+            product_colour: c.colour,
           }));
           const { data, error } = await supabase.from("orders").insert(newCred);
           if (error) throw error;
