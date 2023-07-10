@@ -21,11 +21,11 @@ export const reviews = api.injectEndpoints({
     }),
     reviewRightCheck: builder.query<
       { data: boolean },
-      { product_id: string; user_id: string; review: [] }
+      { product_id: string; user_id: string | undefined }
     >({
       queryFn: async (cred) => {
         try {
-          const { user_id, product_id, review } = cred;
+          const { user_id, product_id } = cred;
           const { data, error } = await supabase
             .from("orders")
             .select("*")
@@ -35,10 +35,14 @@ export const reviews = api.injectEndpoints({
               delivered: true,
             });
 
-          if (error) throw error;
-          // const newData = review.some((rev) => user_id === rev.user_id);
-          console.log("Old DATA", data);
-          return { data: true };
+          if (data.length > 0) {
+            const { data: isReviewd } = await supabase
+              .from("reviews")
+              .select("*")
+              .match({ user_id, product_id });
+            return { data: isReviewd?.length > 0 ? false : true };
+          }
+          return { data: false };
         } catch (error) {
           console.error(error);
           return { error };
