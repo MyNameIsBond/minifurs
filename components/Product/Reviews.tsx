@@ -1,5 +1,5 @@
 import { View, Text, Image, TextInput, Button, Alert } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import ReviewStars from "./ReviewStars";
 import {
   useAddReviewMutation,
@@ -10,6 +10,7 @@ import { useUser } from "../../lib/helpers/UserContext";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { changeInput } from "../../app/features/review";
+import { supabase } from "../../lib/supabase";
 
 export default function Reviews({ product_id }: { product_id: string }) {
   const { id, username } = useUser();
@@ -38,7 +39,41 @@ export default function Reviews({ product_id }: { product_id: string }) {
     dispatch(changeInput(""));
     Alert.alert("Thank you for your feedback");
   };
+  const realtimeTable = () => {
+    supabase
+      .channel("public:reviews")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "reviews",
+          filter: `user_id=eq.${id}`,
+        },
+        () => {
+          refetch();
+          refetchCheck();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "reviews",
+          filter: `user_id=eq.${id}`,
+        },
+        () => {
+          refetch();
+          refetchCheck();
+        }
+      )
+      .subscribe();
+  };
 
+  useEffect(() => {
+    realtimeTable();
+  }, []);
   return (
     <View className="p-4 flex-col gap-y-5">
       {data && data.length > 0 ? (
