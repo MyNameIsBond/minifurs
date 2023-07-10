@@ -2,8 +2,11 @@ import { Text, TouchableOpacity, View } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
 import React from "react";
 import { StarIcon } from "react-native-heroicons/solid";
+import { setStars } from "../../app/features/review";
+import { useAppDispatch } from "../../app/hooks";
 
-export default function ReviewStars({ stars }: { stars: 1 | 2 | 3 | 4 | 5 }) {
+export default function ReviewStars({ stars }: { stars: number }) {
+  const dispatch = useAppDispatch();
   var myStars = Array.from({ length: 5 }, (_, index) => index + 1);
   return (
     <View className="flex-row">
@@ -11,7 +14,7 @@ export default function ReviewStars({ stars }: { stars: 1 | 2 | 3 | 4 | 5 }) {
         <TouchableOpacity
           key={n}
           onPress={() => {
-            console.log(n);
+            dispatch(setStars(n));
           }}
         >
           <StarIcon
@@ -26,7 +29,7 @@ export default function ReviewStars({ stars }: { stars: 1 | 2 | 3 | 4 | 5 }) {
           <TouchableOpacity
             key={n}
             onPress={() => {
-              console.log(n);
+              dispatch(setStars(n));
             }}
           >
             <StarIcon

@@ -5,6 +5,7 @@ import { productSlice } from "./features/product";
 import { basketSlice } from "./features/basket";
 import { userDetails } from "./features/userDetails";
 import { paymentApi } from "./services/paymentShhetParams";
+import { reviewSlice } from "./features/review";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     product: productSlice.reducer,
     basket: basketSlice.reducer,
     userDetails: userDetails.reducer,
+    review: reviewSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware, paymentApi.middleware),

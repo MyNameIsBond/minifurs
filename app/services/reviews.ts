@@ -42,6 +42,28 @@ export const reviews = api.injectEndpoints({
         }
       },
     }),
+    addReview: builder.mutation({
+      queryFn: async (cred) => {
+        const { product_id, user_id, review, stars } = cred;
+        try {
+          const { data, error } = await supabase.from("reviews").insert({
+            product_id,
+            user_id,
+            review,
+            stars,
+          });
+          if (error) throw error;
+          return { data };
+        } catch (error) {
+          console.error(error);
+          return { error };
+        }
+      },
+    }),
   }),
 });
-export const { useGetReviewsQuery, useReviewRightCheckQuery } = reviews;
+export const {
+  useGetReviewsQuery,
+  useReviewRightCheckQuery,
+  useAddReviewMutation,
+} = reviews;
