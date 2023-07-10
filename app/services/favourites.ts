@@ -79,7 +79,7 @@ export const product = api.injectEndpoints({
       null,
       { product_id: string; user_id: string | undefined }
     >({
-      queryFn: async (cred, dis) => {
+      queryFn: async (cred) => {
         try {
           const { data, error } = await supabase.from("favourites").insert({
             user_id: cred.user_id,

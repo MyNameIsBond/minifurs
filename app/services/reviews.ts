@@ -20,22 +20,25 @@ export const reviews = api.injectEndpoints({
       },
     }),
     reviewRightCheck: builder.query<
-      { delivered: boolean }[] | undefined,
-      { product_id: string; user_id: string | undefined; review: [] }
+      { data: boolean },
+      { product_id: string; user_id: string; review: [] }
     >({
       queryFn: async (cred) => {
         try {
-          console.log(cred.review);
+          const { user_id, product_id, review } = cred;
           const { data, error } = await supabase
             .from("orders")
-            .select("delivered")
+            .select("*")
             .match({
               user_id: cred.user_id,
               product_id: cred.product_id,
               delivered: true,
             });
+
           if (error) throw error;
-          return { data };
+          // const newData = review.some((rev) => user_id === rev.user_id);
+          console.log("Old DATA", data);
+          return { data: true };
         } catch (error) {
           console.error(error);
           return { error };

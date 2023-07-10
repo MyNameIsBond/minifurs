@@ -13,18 +13,17 @@ import { changeInput } from "../../app/features/review";
 
 export default function Reviews({ product_id }: { product_id: string }) {
   const { id, username } = useUser();
-  const { data, isLoading } = useGetReviewsQuery({ product_id: product_id });
+  const { data } = useGetReviewsQuery({ product_id: product_id });
   const { stars, reviewRating } = useAppSelector(
     (state: RootState) => state.review
   );
   const dispatch = useAppDispatch();
   const [addReview] = useAddReviewMutation();
-  const { data: reviewCheck } = useReviewRightCheckQuery({
+  const { data: reviewCheck, isLoading } = useReviewRightCheckQuery({
     product_id,
     user_id: id,
     review: data,
   });
-
   const sendReview = () => {
     addReview({
       product_id,
@@ -49,9 +48,12 @@ export default function Reviews({ product_id }: { product_id: string }) {
               />
               <Text className="text-gray-900 font-semibold">
                 {review.username ? review.username : "user name"}
+                {review.username === username ? (
+                  <Text className="text-gray-500 pt-3"> • (you)</Text>
+                ) : null}
               </Text>
             </View>
-            <ReviewStars stars={review.stars} />
+            <ReviewStars stars={review.stars} display={false} />
             <Text className="text-gray-800 pt-3">{review.review}</Text>
           </View>
         ))
@@ -60,10 +62,10 @@ export default function Reviews({ product_id }: { product_id: string }) {
           <Text className="mb-10">No Reviews</Text>
         </>
       )}
-      {reviewCheck?.length ? (
+      {!reviewCheck ? (
         <View className="flex gap-y-4 mt-5 p-3 bg-gray-50 rounded-md shadow">
           <Text className="mb-8 font-semibold">Give us your review</Text>
-          <ReviewStars stars={stars} />
+          <ReviewStars stars={stars} display={true} />
           <TextInput
             multiline={true}
             numberOfLines={10}
