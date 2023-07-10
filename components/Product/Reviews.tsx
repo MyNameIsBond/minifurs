@@ -24,9 +24,19 @@ export default function Reviews({ product_id }: { product_id: string }) {
     user_id: id,
     review: data,
   });
+
   const sendReview = () => {
-    console.log("SEND REVIEW");
+    addReview({
+      product_id,
+      user_id: id,
+      review: reviewRating,
+      stars,
+      username,
+    });
+    dispatch(changeInput(""));
+    Alert.alert("Thank you for your feedback");
   };
+
   return (
     <View className="p-4 flex-col gap-y-5">
       {data && data.length > 0 ? (
@@ -35,10 +45,10 @@ export default function Reviews({ product_id }: { product_id: string }) {
             <View className="flex-row items-center gap-x-3 pb-1">
               <Image
                 className="h-8 w-8 border-2 border-gray-600 rounded-full"
-                source={{ uri: review.img_avatar }}
+                source={require("../../assets/user-pic.png")}
               />
               <Text className="text-gray-900 font-semibold">
-                {review.user ? review.user : "user name"}
+                {review.username ? review.username : "user name"}
               </Text>
             </View>
             <ReviewStars stars={review.stars} />
@@ -66,17 +76,7 @@ export default function Reviews({ product_id }: { product_id: string }) {
           <Button
             title="Send Review"
             color="darkgreen"
-            onPress={() => {
-              addReview({
-                product_id,
-                user_id: id,
-                review: reviewRating,
-                stars,
-                username,
-              });
-              dispatch(changeInput(""));
-              Alert.alert("Thank you for your feedback");
-            }}
+            onPress={() => sendReview()}
           />
         </View>
       ) : null}

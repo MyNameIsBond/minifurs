@@ -44,13 +44,14 @@ export const reviews = api.injectEndpoints({
     }),
     addReview: builder.mutation({
       queryFn: async (cred) => {
-        const { product_id, user_id, review, stars } = cred;
+        const { product_id, user_id, review, stars, username } = cred;
         try {
           const { data, error } = await supabase.from("reviews").insert({
             product_id,
             user_id,
             review,
             stars,
+            username,
           });
           if (error) throw error;
           return { data };
