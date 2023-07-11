@@ -1,10 +1,11 @@
 import { supabase } from "../../lib/supabase";
+import { Reviews } from "../../types/review";
 import { api } from "./api";
 
 export const reviews = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getReviews: builder.query<unknown, { product_id: string }>({
+    getReviews: builder.query<Reviews[], { product_id: string }>({
       queryFn: async (cred) => {
         try {
           const { data, error } = await supabase
@@ -12,6 +13,7 @@ export const reviews = api.injectEndpoints({
             .select("*")
             .match({ product_id: cred.product_id });
           if (error) throw error;
+          console.log("FROM REVIEWS", data);
           return { data };
         } catch (error) {
           console.error(error);
@@ -35,12 +37,14 @@ export const reviews = api.injectEndpoints({
               delivered: true,
             });
 
+          if (error) throw error;
+
           if (data.length > 0) {
             const { data: isReviewd } = await supabase
               .from("reviews")
               .select("*")
               .match({ user_id, product_id });
-            return { data: isReviewd?.length > 0 ? false : true };
+            return { data: isReviewd?.length ?? 0 > 0 ? false : true };
           }
           return { data: false };
         } catch (error) {
