@@ -53,7 +53,16 @@ export const reviews = api.injectEndpoints({
         }
       },
     }),
-    addReview: builder.mutation({
+    addReview: builder.mutation<
+      unknown,
+      {
+        product_id: string;
+        user_id: string;
+        review: string;
+        stars: number;
+        username: string;
+      }
+    >({
       queryFn: async (cred) => {
         const { product_id, user_id, review, stars, username } = cred;
         try {
