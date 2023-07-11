@@ -39,6 +39,7 @@ export default function Reviews({ product_id }: { product_id: string }) {
     dispatch(changeInput(""));
     Alert.alert("Thank you for your feedback");
   };
+
   const realtimeTable = () => {
     supabase
       .channel("public:reviews")
