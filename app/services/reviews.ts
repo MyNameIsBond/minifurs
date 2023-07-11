@@ -6,14 +6,13 @@ export const reviews = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getReviews: builder.query<Reviews[], { product_id: string }>({
-      queryFn: async (cred) => {
+      queryFn: async (arg) => {
         try {
           const { data, error } = await supabase
             .from("reviews")
             .select("*")
-            .match({ product_id: cred.product_id });
+            .match({ product_id: arg.product_id });
           if (error) throw error;
-          console.log("FROM REVIEWS", data);
           return { data };
         } catch (error) {
           console.error(error);
@@ -22,18 +21,18 @@ export const reviews = api.injectEndpoints({
       },
     }),
     reviewRightCheck: builder.query<
-      { data: boolean },
-      { product_id: string; user_id: string | undefined }
+      { data: boolean } | unknown,
+      { user_id: string | undefined; product_id: string }
     >({
-      queryFn: async (cred) => {
+      queryFn: async (arg) => {
         try {
-          const { user_id, product_id } = cred;
+          const { user_id, product_id } = arg;
           const { data, error } = await supabase
             .from("orders")
             .select("*")
             .match({
-              user_id: cred.user_id,
-              product_id: cred.product_id,
+              user_id: user_id,
+              product_id: product_id,
               delivered: true,
             });
 
@@ -54,17 +53,17 @@ export const reviews = api.injectEndpoints({
       },
     }),
     addReview: builder.mutation<
-      unknown,
+      null,
       {
         product_id: string;
-        user_id: string;
+        user_id: string | undefined;
         review: string;
         stars: number;
-        username: string;
+        username: string | undefined;
       }
     >({
-      queryFn: async (cred) => {
-        const { product_id, user_id, review, stars, username } = cred;
+      queryFn: async (arg) => {
+        const { product_id, user_id, review, stars, username } = arg;
         try {
           const { data, error } = await supabase.from("reviews").insert({
             product_id,
