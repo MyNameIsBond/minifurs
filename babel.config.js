@@ -12,8 +12,8 @@ module.exports = function (api) {
           path: ".env",
           blocklist: null,
           allowlist: null,
-          blacklist: null, // DEPRECATED
-          whitelist: null, // DEPRECATED
+          blacklist: null,
+          whitelist: null,
           safe: false,
           allowUndefined: true,
           verbose: false,
